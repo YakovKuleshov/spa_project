@@ -195,7 +195,11 @@ export default {
 
             this.fixList(this.folders, res);
             this.selectedItem = { id: null };
-         });                 
+         });          
+         console.clear()
+
+         // let number = 3000500
+         // console.log(new Intl.NumberFormat().format(number))
    }
 };
 </script>
