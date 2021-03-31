@@ -21,10 +21,7 @@
 						</div>
 					</div>
 				</template>
-			</div>
-			<div v-if="list.length" class="filters">
-				<div class="label" :class="{ active: this.ratingFilter }" @click="rateFilter">По рейтингу</div>
-			</div>
+			</div>		
 			<div v-if="preloader" class="loading">
 				<div class="preloader"></div>
 				<div class="loading__text">Загрузка...</div>
@@ -211,32 +208,31 @@
 export default {
 	data() {
 		return {
-			preloader: false,
-			ratingFilter: false,
+			preloader: false,			
 			list: [],
 			page: 0,
 			hasItems(arr) {
 				return arr && arr.length ? true : false
-			},
-			getRate(rate) {
-				return rate ? rate.toFixed(1) : ''
-			},
+			},			
 			getImageUrl(arr) {
 				return arr[1] && arr[1].__ob__.value.url ? arr[1].__ob__.value.url : arr[0].__ob__.value.url
 			},
-			getRateColor(rate) {				
-				if(!rate) return
-				if(rate <= 4) {
-					return 'red_star.svg'
-				}else if(rate > 4 && rate <= 7) {
-					return 'yellow_star.svg'
-				}else {
-					return 'green_star.svg'
-				}
-			},
-			getRateWidth(rate) {
-				return 100 / 10 * rate
-			},
+			// getRate(rate) {
+			// 	return rate ? rate.toFixed(1) : ''
+			// },
+			// getRateColor(rate) {				
+			// 	if(!rate) return
+			// 	if(rate <= 4) {
+			// 		return 'red_star.svg'
+			// 	}else if(rate > 4 && rate <= 7) {
+			// 		return 'yellow_star.svg'
+			// 	}else {
+			// 		return 'green_star.svg'
+			// 	}
+			// },
+			// getRateWidth(rate) {
+			// 	return 100 / 10 * rate
+			// },
 			getItemInfo(item) {				
 				fetch(`https://ctx.playfamily.ru/screenapi/v1/noauth/moviecard/web/1?elementAlias=${item.element.alias}&elementType=MOVIE`, {					
 				}).then((response) => {
@@ -274,19 +270,7 @@ export default {
 			}
 		}
 	},
-	watch: {
-		ratingFilter(value) {
-			if(value) {
-				let list = this.list.slice(0)
-				list.sort((a, b) => {
-					if(a.element.kinopoiskRating > b.element.kinopoiskRating) return -1
-				})
-				this.list = list
-			}else {
-					this.list = this.clone
-			}
-		}
-	},
+	watch: {},
 	methods: {
 		scrollContent(e) {
 			let container = e.target
@@ -300,14 +284,7 @@ export default {
 		},
 		showInfo(item) {			
 			this.getItemInfo(item);
-		},
-		rateFilter() {
-			this.ratingFilter = !this.ratingFilter
-
-			if(this.ratingFilter) {
-				this.$refs.container.scrollTop = 0
-			}
-		}
+		}		
 	},
 	mounted() {
 		this.load(this.page)
