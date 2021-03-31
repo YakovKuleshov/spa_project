@@ -1,0 +1,52 @@
+[
+   {
+      "id": 120,
+      "name": "xxx-2",
+      "parent_id": 1
+   },
+   {
+      "id": 118,
+      "name": "xxx",
+      "parent_id": 112
+   },
+   {
+      "id": 110,
+      "name": "Новая папка",
+      "parent_id": null
+   },
+   {
+      "id": 111,
+      "name": "ccc",
+      "parent_id": null
+   },
+   {
+      "id": 115,
+      "name": "Новая папка",
+      "parent_id": null
+   },   
+   {
+      "id": 112,
+      "name": "Папка",
+      "parent_id": 111
+   },   
+   {
+      "id": 116,
+      "name": "Новая папка",
+      "parent_id": 112
+   },  
+   {
+      "id": 117,
+      "name": "Новая папка",
+      "parent_id": 112
+   },  
+   {
+      "id": 113,
+      "name": "Новая папка",
+      "parent_id": 111
+   },   
+   {
+      "id": 114,
+      "name": "Новая папка",
+      "parent_id": 113
+   }  
+]

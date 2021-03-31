@@ -1,0 +1,278 @@
+/* @font-face {
+	font-family: Roboto;
+	src: url('../fonts/Roboto.woff');
+} */
+
+body {
+	margin: 0;
+	user-select: none;
+	font-family: sans-serif;
+}
+
+html::-webkit-scrollbar {
+	width: 10px;
+}
+
+html::-webkit-scrollbar-thumb {
+	background: #ccc;
+	border-radius: 5px;
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+	margin: 0;
+	text-align: center;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+	color: #333;
+	font-size: 30px;
+}
+
+.title {
+	padding: 20px 0 0;
+	margin: 0 0 50px;
+	text-align: center;
+	color: aquamarine;
+	font-size: 80px;
+	text-shadow: 4px 0 4px rgba(0, 0, 0, 0.8);
+}
+
+.logo {
+	perspective: 600px;
+	position: fixed;
+	top: 25px;
+	left: 0;
+	width: 240px;
+	height: 160px;
+}
+
+.logo__icon {
+	height: 100%;
+	background: url('/src/img/logo.png') no-repeat center;
+	background-size: contain;
+	animation: rotateLogo 10s linear infinite;
+}
+
+@keyframes rotateLogo {
+	100% {
+		transform: rotateY(360deg);
+	}
+}
+
+.ultra {
+	position: fixed;
+	right: 50px;
+	top: 40px;
+}
+
+.ultra audio {
+	box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.5);
+	display: block;
+	border-radius: 30px;
+	outline: none;
+}
+
+.ultra__logo {
+	position: absolute;
+	top: -40%;
+	left: 18px;
+	z-index: 1;
+	width: 50px;
+	height: 23px;
+	background: url('/src/img/ultra_logo.png') no-repeat center;
+	background-size: contain;
+}
+
+.wallpaper {
+	perspective: 800px;
+	position: fixed;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: -1;
+	background-size: cover !important;
+}
+
+.import__components {
+	margin-bottom: 100px;
+	display: block;
+}
+
+.menu {
+	max-width: 1000px;
+	position: relative;
+	display: flex;
+	align-items: center;
+	margin: 0 auto 50px;
+}
+
+.shadow__line {
+	transition: .2s;
+	position: absolute;
+	height: 2px;
+	bottom: -20px;
+	background: aquamarine;
+}
+
+.menu__item {
+	position: relative;
+	cursor: pointer;
+	font-size: 20px;
+	color: #333;
+	letter-spacing: .5px;
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+	margin-right: 25px;
+}
+
+.menu__item:after {
+	content: '';
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	right: -15px;
+	width: 1px;
+	height: 110%;
+	background: linear-gradient(to top, transparent 0%, aquamarine 50%, transparent 100%);
+}
+
+.menu__item:last-of-type {
+	margin-right: 0;
+}
+
+.menu__item:last-of-type:after {
+	display: none;
+}
+
+.menu__item__active {
+	color: aquamarine;
+}
+
+.horizontal__line {
+	position: relative;
+	height: 10px;
+	background: #ccc;
+	box-shadow: 1px -5px 12px rgba(0, 0, 0, .8);
+}
+
+.range {
+	position: fixed;
+	top: 80px;
+	right: 450px;
+	width: 350px;
+}
+
+/* .up__down_buttons {
+	position: fixed;
+	bottom: 20px;
+	left: 50px;
+	display: flex;
+} */
+
+.scroll__buttons {
+	position: fixed;
+	cursor: pointer;
+	transition: .3s;
+	width: 50px;
+	height: 50px;
+	border-radius: 5px;
+}
+
+.up__button {
+	margin-right: 5px;
+	background: url('/src/img/arrow.png') no-repeat center -.1px;
+	background-size: 90% 90%;
+	transform: rotate(90deg);
+	box-shadow: -2px -2px 5px rgba(0, 0, 0, .6) inset;
+	left: 50px;
+	bottom: 20px;
+}
+
+.down__button {
+	background: url('/src/img/arrow.png') no-repeat center;
+	background-size: 90% 90%;
+	transform: rotate(-90deg);
+	box-shadow: 2px 2px 5px rgba(0, 0, 0, .6) inset;
+	left: 105px;
+	bottom: 20px;
+}
+
+.button {
+	position: fixed;
+	width: 150px;
+	height: 40px;
+	box-shadow: -2px 5px 10px rgba(0, 0, 0, 0.5);
+	background: #07f;
+	top: 350px;
+	right: 58px;
+	border-radius: 5px;
+	text-align: center;
+	line-height: 40px;
+	color: #fff;
+	letter-spacing: 1px;
+	cursor: pointer;
+}
+
+.color__picker {
+	position: fixed;
+	transition: .2s;
+	width: 340px;
+	transform: scale(0);
+	transform-origin: top right;
+	top: 405px;
+	right: 58px;
+	background: #fff;
+	padding: 5px;
+	box-shadow: 5px 5px 15px rgba(0, 0, 0, .7);
+	border-radius: 5px;
+}
+
+.color__picker__active {
+	transform: scale(1);
+}
+
+.stars__rating {
+	position: fixed;
+	left: 100px;
+	top: 200px;
+	font-size: 50px;
+	text-shadow: 1px 1px 2px #333;
+}
+
+.stars__rating::before {
+	content: '★★★★★';
+	color:#afafaf;
+}
+
+.empty {
+	position: absolute;
+   width: 20px;
+   top: 18px;
+   left: -20px;
+   height: 40px;
+}
+
+.stars__rating__active {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	overflow: hidden;
+}
+
+.stars__rating__active::before {
+	content: '★★★★★';
+	color: orange;
+}
+
+.stars__rating__value {
+	position: absolute;
+   font-size: 40px;
+   top: 60%;
+   right: -63px;
+   color: #333;
+   padding-left: 10px;
+	transform: translateY(-50%);
+}
