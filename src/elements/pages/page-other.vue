@@ -193,7 +193,7 @@ export default {
          .then((res) => {
             res.forEach((el) => (el.opened = false));
 
-               this.fixList(this.folders, res);
+            this.fixList(this.folders, res);
             this.selectedItem = { id: null };
          });                 
    }

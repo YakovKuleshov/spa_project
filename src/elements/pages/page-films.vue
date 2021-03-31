@@ -9,7 +9,7 @@
 						<div class="text__container">
 							<div class="title__text">{{ item.element.name }}</div>
 							<div class="public__date">{{ item.Year }}</div>
-							<div class="rating__wrapper">
+							<!-- <div class="rating__wrapper">
 								<div class="year">{{ item.element.worldReleaseDate ? new Date(item.element.worldReleaseDate).toLocaleString([], {year: 'numeric'}) : '' }}</div>
 								<div class="rate__wrapper">
 									<div class="rating">
@@ -17,7 +17,7 @@
 									</div>
 									<div class="value">{{ getRate(item.element.kinopoiskRating) }}</div>
 								</div>
-							</div>
+							</div> -->
 						</div>
 					</div>
 				</template>
@@ -163,8 +163,8 @@
 		text-shadow: -2px 3px 5px rgba(0, 0, 0, 0.4);
 	}
 
-	.rating__wrapper {
-			display: flex;
+	/* .rating__wrapper {
+		display: flex;
 		align-items: center;
 		justify-content: space-between;
 	}
@@ -200,7 +200,7 @@
 		font-weight: bold;
 		margin-left: 10px;
 		font-size: 16px;
-	}
+	} */
 
 	.active {
 		color: #07f;
