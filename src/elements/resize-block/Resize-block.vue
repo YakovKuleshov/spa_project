@@ -1,5 +1,5 @@
 <template>
-   <div class="resiz__block" :style="{ width: block_width + 'px', height: block_height + 'px', top: block_top + 'px', left: block_left + 'px', background: bgColor}" ref="resizeBlock" @mousedown="moveBlock">
+   <div class="resiz__block" :style="{ width: block_width + 'px', height: block_height + 'px', top: block_top + 'px', left: block_left + 'px', background: bgColor}" ref="resizeBlock" @mousedown="moveBlock" @dblclick="defaultCoords">
       <span class="touched top_side top_line" @mousedown="changeHeightTop"></span>
       <span class="touched top_side bottom_line" @mousedown="changeHeight" ref="bottomLine"></span>
       <span class="touched left__side left_line" @mousedown="changeLeft"></span>
@@ -153,6 +153,12 @@
          }
       },
       methods: {
+         defaultCoords() {
+            this.block_top = 136
+				this.block_left = 1650
+				this.block_width = 200
+				this.block_height = 120
+         },
          moveBlock(e) {
 				this.xOffset = e.offsetX
 				this.yOffset = e.offsetY
