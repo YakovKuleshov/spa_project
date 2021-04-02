@@ -104,9 +104,7 @@ export default {
     }
   },
   mounted() {
-    fetch(
-      "http://api.openweathermap.org/data/2.5/weather?q=Moscow&APPID=12594a2144aa9c83dfdc5b5b4f7c3b93"
-    )
+    fetch("http://api.openweathermap.org/data/2.5/weather?q=Moscow&APPID=12594a2144aa9c83dfdc5b5b4f7c3b93")
       .then(response => response.json())
       .then(res => {
         this.weather = res;
