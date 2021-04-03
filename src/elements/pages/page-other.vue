@@ -4,26 +4,32 @@
       <div class="section slider">
          <Slider />
       </div>
-      <div class="section infinite__slider">
-         <InfiniteSlider />
+      <div class="section infinite__slider" ref="infinContainer">         
+         <component :is="componentsList[0].instance"></component>
+         <!-- <InfiniteSlider /> -->
+      </div>
+      <div class="section" ref="header">
+         <component :is="componentsList[1].instance"></component>
+         <!-- <Header /> -->
+      </div>
+      <div class="section" ref="tabMenu">
+         <component :is="componentsList[2].instance"></component>
+         <!-- <TabMenu /> -->
       </div>
       <div class="section">
-         <Header />
-      </div>
-      <div class="section">
-         <TabMenu />
-      </div>
-      <div class="section">
-         <div class="folders__container">
+         <div v-if="componentsList[3].instance" class="folders__container" ref="folders">
             {{ name }}
-            <FolderList :selected="selectedItem" :list="fixedList" />
+            <component :is="componentsList[3].instance" :selected="selectedItem" :list="fixedList"></component>
+            <!-- <FolderList :selected="selectedItem" :list="fixedList" /> -->
          </div>
       </div>
-      <div class="section">
-         <DragDrop />
+      <div class="section" ref="dragDrop">
+         <component :is="componentsList[4].instance"></component>
+         <!-- <DragDrop /> -->
       </div>
-      <div class="section">
-         <Volume />
+      <div class="section" ref="volume">
+         <component :is="componentsList[5].instance"></component>
+         <!-- <Volume /> -->
       </div>
       <div class="button" @click="updateSection">Send</div>
    </div>
@@ -79,25 +85,53 @@
 
 <script>
 import Slider from "../slider/Slider";
-import InfiniteSlider from "../slider/InfiniteSlider";
-import Header from "../header/Header";
-import TabMenu from "../tab-menu/TabMenu";
-import FolderList from "./other-elements/FolderList";
-import DragDrop from "./other-elements/DragDrop";
-import Volume from "./other-elements/Volume";
+// import InfiniteSlider from "../slider/InfiniteSlider";
+// import Header from "../header/Header";
+// import TabMenu from "../tab-menu/TabMenu";
+// import FolderList from "./other-elements/FolderList";
+// import DragDrop from "./other-elements/DragDrop";
+// import Volume from "./other-elements/Volume";
 
 export default {
    components: {
       Slider,
-      InfiniteSlider,
-      Header,
-      TabMenu,
-      FolderList,
-      DragDrop,
-      Volume,
+      // InfiniteSlider,
+      // Header,
+      // TabMenu,
+      // FolderList,
+      // DragDrop,
+      // Volume,
    },
    data() {
       return {
+         scrollFlag: true,
+         counter: -1,       
+         componentsList: [
+            {
+               instance: '',
+               component: () => import('../slider/InfiniteSlider'),
+            },
+            {
+               instance: '',
+               component: () => import('../header/Header'),
+            },
+            {
+               instance: '',
+               component: () => import('../tab-menu/TabMenu'),
+            },
+            {
+               instance: '',
+               component: () => import('./other-elements/FolderList'),
+            },
+            {
+               instance: '',
+               component: () => import('./other-elements/DragDrop'),
+            },
+            {
+               instance: '',
+               component: () => import('./other-elements/Volume')
+            }           
+         ],         
          name: "",
          selectedItem: {
             id: null,
@@ -136,7 +170,7 @@ export default {
                   this.getName(el.sub_list, id);
                }
             });
-         }
+         }        
       };
    },
    watch: {
@@ -147,6 +181,7 @@ export default {
          deep: true,
       },
    },
+   computed: {},
 	methods: {
 		updateSection() {
 			// ("https://api.wantenger.com/api/wantenger/work/update");
@@ -185,7 +220,22 @@ export default {
          });			
 		}
 	},
-   mounted() {            
+   mounted() { 
+
+      window.addEventListener('scroll', e => {
+      if(this.counter < this.componentsList.length - 1) {
+         if(!this.scrollFlag) return false
+            if(window.scrollY > document.body.scrollHeight - window.innerHeight) {
+               this.counter++            
+               this.componentsList[this.counter].instance = this.componentsList[this.counter].component;
+               this.scrollFlag = false            
+               if(this.componentsList[this.counter].instance) {
+                  this.scrollFlag = true
+               }
+            }      
+         }
+      })      
+      
       fetch("src/elements/pages/other-elements/data.json")
          .then((response) => {
             return response.json();

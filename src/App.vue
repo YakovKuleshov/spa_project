@@ -18,7 +18,9 @@
          </div>
          <div class="import__components">
             <div class="content">
-               <router-view @onImageClick="imageClick" @onFilmClick="filmClick"></router-view>
+               <!-- <keep-alive> -->
+                  <router-view @onImageClick="imageClick" @onFilmClick="filmClick"></router-view>
+               <!-- </keep-alive> -->
             </div>
          </div>
       </div> 

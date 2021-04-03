@@ -1,110 +1,96 @@
-var path = require('path')
-var webpack = require('webpack')
+const { VueLoaderPlugin } = require("vue-loader");
+const htmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const autoprefixer = require("autoprefixer");
+const path = require("path");
 
 module.exports = {
-	entry: './src/main.js',
+	entry: {
+		main: "./src/main.js",
+	},
 	output: {
-		path: path.resolve(__dirname, './dist'),
-		publicPath: 'dist/',
-		filename: 'build.js'
+		filename: "[name].[contenthash:8].js",
+		path: path.resolve(__dirname, "dist"),
+		chunkFilename: "[name].[contenthash:8].js",
 	},
 	module: {
 		rules: [
 			{
-				test: /\.css$/,
-				use: [
-					'vue-style-loader',
-					'css-loader'
-				],
+				test: /\.js$/,
+				exclude: /node_modules/,
+				use: {
+					loader: "babel-loader",
+				},
 			},
 			{
 				test: /\.vue$/,
-				loader: 'vue-loader',
-				options: {
-					loaders: {
-					}
-					// other vue-loader options go here
-				}
+				loader: "vue-loader",
 			},
 			{
-				test: /\.js$/,
-				loader: 'babel-loader',
-				exclude: /node_modules/
-			},
-			{
-				test: /\.(png|jpg|gif|svg|ttf|woff|woff2)$/,
-				use:
-					[
-						{
-							loader: 'file-loader',
-							options: {
-								name: '[name].[ext]',
-								outputPath: './',
-								useRelativePath: true
-							}
+				test: /\.s?css$/,
+				use: [
+					"style-loader",
+					MiniCssExtractPlugin.loader,
+					"css-loader",
+					{
+						loader: "postcss-loader",
+						options: {
+							plugins: () => [autoprefixer()],
 						},
-						{
-							loader: 'image-webpack-loader',
-							options: {
-								mozjpeg: {
-									progressive: true,
-									quality: 70
-								},
-								// optipng.enabled: false will disable optipng
-								optipng: {
-									enabled: false,
-								},
-								pngquant: {
-									quality: [1, 1],
-									speed: 4
-								},
-								gifsicle: {
-									interlaced: false,
-								},
-								// the webp option will enable WEBP
-								webp: {
-									quality: 75
-								}
-							}
-						}
-					]
-			}
-		]
+					},
+					"sass-loader",
+				],
+			},
+			{
+				test: /\.(eot|ttf|woff|woff2)(\?\S*)?$/,
+				loader: "file-loader",
+			},
+			{
+				test: /\.(png|jpe?g|gif|webm|mp4|svg)$/,
+				loader: "file-loader",
+				options: {
+					name: "[name][contenthash:8].[ext]",
+					outputPath: "assets/img",
+					esModule: false,
+				},
+			},
+		],
 	},
+	plugins: [
+		new VueLoaderPlugin(),
+		new CleanWebpackPlugin(),
+		new MiniCssExtractPlugin({
+			filename: "[name].[contenthash:8].css",
+			chunkFilename: "[name].[contenthash:8].css",
+		}),
+		new htmlWebpackPlugin({
+			template: path.resolve(__dirname, "public", "index.html"),
+			// favicon: "./public/favicon.ico",
+		}),
+	],
 	resolve: {
 		alias: {
-			'vue$': 'vue/dist/vue.esm.js'
+			vue$: "vue/dist/vue.runtime.esm.js",
 		},
-		extensions: ['*', '.js', '.vue', '.json']
+		extensions: ["*", ".js", ".vue", ".json"],
+	},
+	optimization: {
+		moduleIds: "hashed",
+		runtimeChunk: "single",
+		splitChunks: {
+			cacheGroups: {
+				vendor: {
+					test: /[\\/]node_modules[\\/]/,
+					name: "vendors",
+					priority: -10,
+					chunks: "all",
+				},
+			},
+		},
 	},
 	devServer: {
-		historyApiFallback: true,
-		noInfo: true,
+		historyApiFallback: true,		
 		overlay: true
 	},
-	performance: {
-		hints: false
-	},
-	devtool: '#eval-source-map'
-}
-
-if (process.env.NODE_ENV === 'production') {
-	module.exports.devtool = '#source-map'
-	// http://vue-loader.vuejs.org/en/workflow/production.html
-	module.exports.plugins = (module.exports.plugins || []).concat([
-		new webpack.DefinePlugin({
-			'process.env': {
-				NODE_ENV: '"production"'
-			}
-		}),
-		new webpack.optimize.UglifyJsPlugin({
-			sourceMap: true,
-			compress: {
-				warnings: false
-			}
-		}),
-		new webpack.LoaderOptionsPlugin({
-			minimize: true
-		})
-	])
-}
+};

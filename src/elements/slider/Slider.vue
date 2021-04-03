@@ -205,8 +205,6 @@ export default {
          this.flag = true;
       }
    },
-   mounted() {
-      this.current = 7
-   }
+   mounted() {}
 };
 </script>
