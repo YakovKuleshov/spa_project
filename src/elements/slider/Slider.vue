@@ -1,13 +1,13 @@
 <template>
    <div id="slider">
-      <div class="image" :style="{ backgroundImage: `url(/src/img/${wallpapers[current].image}.jpg)`}" @transitionend="onTransitionEnd">
+      <div class="image" :style="{ backgroundImage: `url(img/${wallpapers[current].image}.jpg)`}" @transitionend="onTransitionEnd">
          <div class="buttons next" @click="toNextSlide"></div>
          <div class="buttons prev" @click="toPrevSlide"></div>
       </div>
       <div class="dots__container" ref="dotsContainer">
          <div class="dots">
             <div v-for="(item, index) in wallpapers" class="dot__item" :key="index" :class="{ active: index === current }" ref="dotItem" @click="chooseSlide(index)">
-               <div class="dot__image" :style="{ background: `url(/src/img/${item.image}.jpg) no-repeat center`, backgroundSize: 'cover' }"></div>
+               <div class="dot__image" :style="{ background: `url(img/${item.image}.jpg) no-repeat center`, backgroundSize: 'cover' }"></div>
             </div>
          </div>
       </div>

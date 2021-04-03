@@ -25,7 +25,7 @@
          </div>
          <div class="rating__wrapper">
             <div class="rating">
-               <div class="rating__width" :style="{ background: 'url(src/img/' + getRateColor(filmData.rating) + ') repeat-x',width: getRateWidth(filmData.rating) + '%' }"></div>
+               <div class="rating__width" :style="{ background: 'url(img/' + getRateColor(filmData.rating) + ') repeat-x',width: getRateWidth(filmData.rating) + '%' }"></div>
             </div>
             <div class="rating__value">{{ getRate(filmData.rating) }}<span class="rate__from">Кино Поиск</span></div>
          </div>
@@ -116,7 +116,7 @@
       width: 140px;
       height: 28px;
       margin-right: 20px;
-      background: url('img/grey_star.svg') repeat-x;
+      background: url('/img/grey_star.svg') repeat-x;
    }
 
    .rating__width {

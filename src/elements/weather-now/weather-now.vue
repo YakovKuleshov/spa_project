@@ -2,7 +2,7 @@
   <div v-if="weather" class="main">
     <div class="wrapper__row">
       <div class="value">{{ getWeatherVal }}</div>
-      <div class="icon" :style="{ background: 'url(/src/elements/weather-now/img/' + getIcon + '.png) no-repeat center', backgroundSize: 'contain' }"></div>
+      <div class="icon" :style="{ background: 'url(img/' + getIcon + '.png) no-repeat center', backgroundSize: 'contain' }"></div>
     </div>
     <div class="desciption">{{ getDescription }}</div>
   </div>

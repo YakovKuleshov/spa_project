@@ -34,7 +34,7 @@
       position: relative;
       height: 300px;
       border-radius: 0 10px 0 10px;
-      background: fixed url('/src/img/blue_wallpaper.jpg') no-repeat center;
+      background: fixed url('/img/blue_wallpaper.jpg') no-repeat center;
       background-size: cover;
       padding: 70px 50px 80px;    
       box-sizing: border-box;
@@ -47,7 +47,7 @@
       height: 50px;
       top: -50px;
       left: 0;
-      background: fixed url('/src/img/blue_wallpaper.jpg') no-repeat center;
+      background: fixed url('/img/blue_wallpaper.jpg') no-repeat center;
       background-size: cover;
       border-radius: 10px 10px 0 0;
       box-shadow: 4px -3px 3px rgba(0,0,0,.4);
@@ -60,7 +60,7 @@
       width: 50px;
       top: 0;
       right: -21px;      
-      background: fixed url('/src/img/blue_wallpaper.jpg') no-repeat center;
+      background: fixed url('/img/blue_wallpaper.jpg') no-repeat center;
       background-size: cover;
       border-radius: 0 6px 0 0;
       transform: skewX(40deg);
@@ -87,7 +87,7 @@
       right: 0;
       bottom: -40px;
       border-radius: 0 0 10px 0;
-      background: fixed url('/src/img/blue_wallpaper.jpg') no-repeat center;
+      background: fixed url('/img/blue_wallpaper.jpg') no-repeat center;
       background-size: cover;
       box-shadow: 4px 8px 10px rgba(0,0,0,.6);
    }
@@ -99,7 +99,7 @@
       width: 40px;
       top: 0;
       left: -21px;      
-      background: fixed url('/src/img/blue_wallpaper.jpg') no-repeat center;
+      background: fixed url('/img/blue_wallpaper.jpg') no-repeat center;
       background-size: cover;
       border-radius: 0 0 0 6px;
       transform: skewX(40deg);

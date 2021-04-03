@@ -3,7 +3,7 @@
       <div class="wrapper" ref="wrap">
          <div class="container" :style="{ left: `${left}%`, transition: `${transition}s` }" ref="container" @transitionend="resetLeft">
             <div class="slide__container" v-for="(item, index) in wallpapers" :key="index" :style="{ width: `${100 / toShow}%` }" ref="items">
-               <div  class="slide__item" :style="{ backgroundImage: `url(/src/img/${item.image}.jpg)` }"></div>
+               <div  class="slide__item" :style="{ backgroundImage: `url(img/${item.image}.jpg)` }"></div>
             </div>
          </div>
          <div class="dots">

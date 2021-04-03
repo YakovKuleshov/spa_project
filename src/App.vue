@@ -81,7 +81,7 @@ export default {
          starsRate: 3.6,
          rateFlag: true,
          mainBg: {
-            url: "/src/img/wallpaper_6.jpg",
+            url: "img/wallpaper_6.jpg",
          },
          galleryImgUrl: "",
          colorpicker: false,
