@@ -49,12 +49,7 @@
       <div class="ultra">
          <div class="ultra__logo"></div>
          <audio autoplay controls src="https://nashe1.hostingradio.ru:18000/ultra-128.mp3" ref="audio"></audio>
-      </div>
-      <div class="stars__rating" @mousemove="moveStarsRating" @click="rateFlag = !rateFlag">
-         <div class="empty"></div>
-         <div class="stars__rating__active" :style="{width: `${getStarsWidth}%`}"></div>
-         <div class="stars__rating__value">{{ starsRate }}</div>
-      </div>
+      </div>     
    </div>
 </template>
 
@@ -79,9 +74,7 @@ export default {
       ImagePopup      
    },
    data() {
-      return {
-         starsRate: 3.6,
-         rateFlag: true,
+      return {                
          mainBg: {
             url: "img/wallpaper_6.jpg",
          },
@@ -96,19 +89,7 @@ export default {
          lineLeft: "",
       };
    },
-   methods: {
-      moveStarsRating(e) {
-         if(!this.rateFlag) return false
-         this.starsRate =  (5 / e.currentTarget.offsetWidth * e.offsetX).toFixed(1)
-
-         if(e.target.classList.contains('empty')) {
-            this.starsRate = '0.0'
-         }
-
-         if(e.target.classList.contains('stars__rating__value')) {
-            this.starsRate = '5.0'
-         }   
-      },
+   methods: {     
       switchPage() {
          let activeItem = document.querySelector(".menu__item__active");
          this.lineWidth = activeItem.offsetWidth;
@@ -157,10 +138,7 @@ export default {
       },
    },
    computed: {
-      ...mapGetters(["menuList"]),
-      getStarsWidth() {
-         return 100 / 5 * this.starsRate
-      }
+      ...mapGetters(["menuList"])    
    },
    beforeCreate() {},
    created() {},

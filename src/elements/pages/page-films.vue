@@ -2,7 +2,7 @@
 	<div class="main">
 		<h2 class="page__title">Фильмы</h2>
 		<div class="wrapper">
-			<div class="container" @scroll="scrollContent" ref="container">
+			<div class="container">
 				<template v-for="(item, index) in list">
 					<div class="list__item" :key="index" @click="showInfo(item)">
 						<div class="item__image" :style="{ backgroundImage: `url('${getImageUrl(item.element.basicCovers.items)}')`}"></div>
@@ -95,26 +95,14 @@
 	}
 
 	.container {
-		display: flex;
-		height: 556px;
-		overflow-y: auto;
+		display: flex;				
 		flex-wrap: wrap;
 		padding-bottom: 5px;
 		align-content: flex-start;
-		scroll-behavior: smooth;
-		max-width: 1000px;
+		scroll-behavior: smooth;		
 		margin: 0 auto;
 	}
-
-	.container::-webkit-scrollbar {
-		width: 5px;
-	}
-
-	.container::-webkit-scrollbar-thumb {
-		background: grey;
-		border-radius: 5px;
-	}
-
+	
 	.list__item {
 		cursor: pointer;
 		overflow: hidden;
@@ -208,6 +196,14 @@
 export default {
 	data() {
 		return {
+			scrollContent(e) {			
+				if(!this.flag) return false
+				if(window.scrollY >= (document.body.scrollHeight - window.innerHeight) - 200) {
+					this.page += 20
+					this.load(this.page)
+					this.flag = false
+				}
+			},
 			preloader: false,			
 			list: [],
 			page: 0,
@@ -252,7 +248,7 @@ export default {
 			},
 			load(page) {
 				this.preloader = true
-				fetch('https://ctx.playfamily.ru/screenapi/v1/noauth/collection/web/1?elementAlias=novelty_web&elementType=COLLECTION&limit=10&offset='+ page +'&withInnerCollections=false')
+				fetch('https://ctx.playfamily.ru/screenapi/v1/noauth/collection/web/1?elementAlias=novelty_web&elementType=COLLECTION&limit=20&offset='+ page +'&withInnerCollections=false')
 					.then(response => response.json())
 					.then(res => {
 
@@ -271,23 +267,18 @@ export default {
 		}
 	},
 	watch: {},
-	methods: {
-		scrollContent(e) {
-			let container = e.target
-
-			if(!this.flag) return false
-			if(container.scrollTop >= (container.scrollHeight - container.offsetHeight) - 200) {
-				this.page += 10
-				this.load(this.page)
-				this.flag = false
-			}
-		},
+	methods: {		
 		showInfo(item) {			
 			this.getItemInfo(item);
 		}		
+	},	
+	mounted() {				
+		this.scrollContent = this.scrollContent.bind(this)
+		window.addEventListener('scroll', this.scrollContent);
+		this.load(this.page)		
 	},
-	mounted() {
-		this.load(this.page)
+	destroyed() {
+		window.removeEventListener('scroll', this.scrollContent);
 	}
 }
 </script>

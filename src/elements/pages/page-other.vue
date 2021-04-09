@@ -31,6 +31,9 @@
          <component :is="componentsList[5].instance"></component>
          <!-- <Volume /> -->
       </div>
+      <div class="section">
+         <StarsRating />
+      </div>
       <div class="button" @click="updateSection">Send</div>
    </div>
 </template>
@@ -85,6 +88,7 @@
 
 <script>
 import Slider from "../slider/Slider";
+import StarsRating from './other-elements/starsRating';
 // import InfiniteSlider from "../slider/InfiniteSlider";
 // import Header from "../header/Header";
 // import TabMenu from "../tab-menu/TabMenu";
@@ -95,6 +99,7 @@ import Slider from "../slider/Slider";
 export default {
    components: {
       Slider,
+      StarsRating
       // InfiniteSlider,
       // Header,
       // TabMenu,
@@ -182,7 +187,7 @@ export default {
       },
    },
    computed: {},
-	methods: {
+	methods: {       
 		updateSection() {
 			// ("https://api.wantenger.com/api/wantenger/work/update");
       	// id: '1572446048261'  
@@ -220,8 +225,7 @@ export default {
          });			
 		}
 	},
-   mounted() { 
-
+   mounted() {       
       window.addEventListener('scroll', e => {
       if(this.counter < this.componentsList.length - 1) {
          if(!this.scrollFlag) return false

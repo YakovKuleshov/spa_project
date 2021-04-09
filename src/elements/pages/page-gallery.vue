@@ -169,6 +169,18 @@ export default {
 					this.count = res.total
 					this.flag = true
 				}).catch(err => console.log(err));
+			},
+			gallertScroll() {
+				if(!this.flag) return false
+				if(this.gallery.length < this.count) {
+					
+					if(window.scrollY + 200 > document.body.scrollHeight - window.innerHeight) {
+						this.page++
+
+						this.loadGallery(this.page, this.search)	
+						this.flag = false 
+					}
+				}
 			}
 		}
 	},
@@ -183,20 +195,13 @@ export default {
 		}
 	},
 	mounted() {
+		this.gallertScroll = this.gallertScroll.bind(this);
 		this.loadGallery(this.page, this.search)
 
-		window.addEventListener('scroll', () => {
-			if(!this.flag) return false
-			if(this.gallery.length < this.count) {
-				
-				if(window.scrollY + 200 > document.body.scrollHeight - window.innerHeight) {
-					this.page++
-
-					this.loadGallery(this.page, this.search)	
-					this.flag = false 
-				}
-			}
-		})
+		window.addEventListener('scroll', this.gallertScroll);
+	},
+	destroyed() {
+		window.removeEventListener('scroll', this.gallertScroll);
 	}
 }
 </script>
