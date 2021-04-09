@@ -250,7 +250,7 @@ export default {
             this.fixList(this.folders, res);
             this.selectedItem = { id: null };
          });                  
-
+// https://webdevblog.ru/15-obyazatelnyh-direktiv-vue-kotorye-znachitelno-uvelichat-vashu-proizvoditelnost/
          // let number = 3000500
          // console.log(new Intl.NumberFormat().format(number))
    }
