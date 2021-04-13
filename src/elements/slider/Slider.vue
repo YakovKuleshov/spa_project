@@ -206,7 +206,7 @@ export default {
             this.flag = true;
          }, 400)
       },
-      
+
       chooseSlide(index) {
          if (!this.flag) return false;
          this.flag = false;

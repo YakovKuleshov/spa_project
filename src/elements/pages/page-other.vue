@@ -1,44 +1,45 @@
 <template>
-   <div class="other">
+   <div class="other" ref="container">
       <h2 class="page__title">Разное</h2>
-      <div class="section slider">
-         <Slider />
-      </div>	
-      <div class="section infinite__slider" ref="infinContainer">         
-         <component :is="componentsList[0].instance"></component>
-         <!-- <InfiniteSlider /> -->
-      </div>
-      <div class="section" ref="header">
-         <component :is="componentsList[1].instance"></component>
-         <!-- <Header /> -->
-      </div>
-      <div class="section" ref="tabMenu">
-         <component :is="componentsList[2].instance"></component>
-         <!-- <TabMenu /> -->
-      </div>
-      <div class="section">
-         <div v-if="componentsList[3].instance" class="folders__container" ref="folders">
-            {{ name }}
-            <component :is="componentsList[3].instance" :selected="selectedItem" :list="fixedList"></component>
-            <!-- <FolderList :selected="selectedItem" :list="fixedList" /> -->
+      <div class="other__content">
+         <div class="section slider">
+            <Slider />
+         </div>	
+         <div class="section infinite__slider" ref="infinContainer">         
+            <component :is="componentsList[0].instance"></component>
+            <!-- <InfiniteSlider /> -->
          </div>
+         <div class="section" ref="header">
+            <component :is="componentsList[1].instance"></component>
+            <!-- <Header /> -->
+         </div>
+         <div class="section" ref="tabMenu">
+            <component :is="componentsList[2].instance"></component>
+            <!-- <TabMenu /> -->
+         </div>
+         <div class="section">
+            <div v-if="componentsList[3].instance" class="folders__container" ref="folders">
+               {{ name }}
+               <component :is="componentsList[3].instance" :selected="selectedItem" :list="fixedList"></component>
+               <!-- <FolderList :selected="selectedItem" :list="fixedList" /> -->
+            </div>
+         </div>
+         <div class="section" ref="dragDrop">
+            <component :is="componentsList[4].instance"></component>
+            <!-- <DragDrop /> -->
+         </div>
+         <div class="section" ref="volume">
+            <component :is="componentsList[5].instance"></component>
+            <!-- <Volume /> -->
+         </div> 
       </div>
-      <div class="section" ref="dragDrop">
-         <component :is="componentsList[4].instance"></component>
-         <!-- <DragDrop /> -->
-      </div>
-      <div class="section" ref="volume">
-         <component :is="componentsList[5].instance"></component>
-         <!-- <Volume /> -->
-      </div>
-      <div class="section">
-         <StarsRating />
-      </div>
+      <StarsRating />      
       <div class="button" @click="updateSection">Send</div>
    </div>
 </template>
 
-<style scoped>
+<style scoped> 
+
 	.button {
 		position: fixed;
 		width: 150px;
@@ -74,6 +75,10 @@
 		margin-bottom: 100px;
 		z-index: 0;
 	}
+
+   .section:last-of-type {
+      margin-bottom: 0;
+   }
 
 	.infinite__slider {
 		max-width: 1300px;
@@ -175,6 +180,29 @@ export default {
                   this.getName(el.sub_list, id);
                }
             });
+         },
+         loadContent(first_load) {
+            const container = this.$refs.container;
+            if(this.counter < this.componentsList.length - 1) {
+               if(!this.scrollFlag) return false
+               if(window.scrollY >= document.body.scrollHeight - window.innerHeight - 200) {
+                  this.counter++            
+                  this.componentsList[this.counter].instance = this.componentsList[this.counter].component;
+                  this.scrollFlag = false            
+                  if(this.componentsList[this.counter].instance) {
+                     this.scrollFlag = true                     
+                     if(first_load) {                        
+                        this.componentsList[this.counter].instance().then(x => {                        
+                           setTimeout(() => {
+                              if(container.getBoundingClientRect().bottom < window.innerHeight) {
+                                 this.loadContent(first_load);
+                              }                           
+                           }, 10)                
+                        })              
+                     }                                
+                  }
+               }              
+            }
          }        
       };
    },
@@ -225,19 +253,11 @@ export default {
          });			
 		}
 	},
+      
    mounted() {       
+      this.loadContent(true);   
       window.addEventListener('scroll', e => {
-      if(this.counter < this.componentsList.length - 1) {
-         if(!this.scrollFlag) return false
-            if(window.scrollY > document.body.scrollHeight - window.innerHeight) {
-               this.counter++            
-               this.componentsList[this.counter].instance = this.componentsList[this.counter].component;
-               this.scrollFlag = false            
-               if(this.componentsList[this.counter].instance) {
-                  this.scrollFlag = true
-               }
-            }      
-         }
+         this.loadContent();
       })      
       
       fetch("src/elements/pages/other-elements/data.json")
