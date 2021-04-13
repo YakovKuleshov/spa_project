@@ -1,11 +1,11 @@
 <template>
    <div id="slider">
-      <div class="image" :style="{ backgroundImage: `url(img/${wallpapers[current].image}.jpg)`}" @transitionend="onTransitionEnd">
+      <div class="image" :style="{ backgroundImage: `url(img/${wallpapers[current].image}.jpg)`}">
          <div class="buttons next" @click="toNextSlide"></div>
          <div class="buttons prev" @click="toPrevSlide"></div>
       </div>
       <div class="dots__container" ref="dotsContainer">
-         <div class="dots">
+         <div class="dots" ref="dots">
             <div v-for="(item, index) in wallpapers" class="dot__item" :key="index" :class="{ active: index === current }" ref="dotItem" @click="chooseSlide(index)">
                <div class="dot__image" :style="{ background: `url(img/${item.image}.jpg) no-repeat center`, backgroundSize: 'cover' }"></div>
             </div>
@@ -57,17 +57,17 @@
    transform: rotate(45deg);
 }
 
-.dots__container {
-   overflow-x: auto;
+.dots__container {   
    width: 1300px;
-   padding: 30px 0;
-   scroll-behavior: smooth;
+   padding: 30px 0;   
    margin-left: -250px;
+   overflow: hidden;
+   scroll-behavior: smooth;
 }
 
-.dots__container::-webkit-scrollbar {
+/* .dots__container::-webkit-scrollbar {
    display: none;
-}
+} */
 
 .dots {
    display: flex;
@@ -173,12 +173,11 @@ export default {
          this.centeringActive(val)
       }
    },
-   methods: {
+   methods: {      
       centeringActive(current) {
          const container = this.$refs.dotsContainer
-         const active = this.$refs.dotItem.find(el => el.classList.contains('active'));
-         
-         container.scrollLeft = active.offsetWidth * current - (container.offsetWidth - active.offsetWidth) / 2
+         const active = this.$refs.dotItem.find(el => el.classList.contains('active'));         
+         container.scrollLeft = active.offsetWidth * current - container.offsetWidth / 2 + active.offsetWidth / 2;         
       },
       toNextSlide() {
          if (!this.flag) return false;
@@ -187,6 +186,9 @@ export default {
          if (this.current > this.wallpapers.length - 1) {
             this.current = 0;
          }
+         setTimeout(() => {
+            this.flag = true
+         }, 400)
       },
       toPrevSlide() {
          if (!this.flag) return false;
@@ -195,15 +197,18 @@ export default {
          if (this.current < 0) {
             this.current = this.wallpapers.length - 1;
          }
+         setTimeout(() => {
+            this.flag = true
+         }, 400)
       },
       chooseSlide(index) {
          if (!this.flag) return false;
          this.flag = false;
          this.current = index;
-      },
-      onTransitionEnd() {
-         this.flag = true;
-      }
+         setTimeout(() => {
+            this.flag = true
+         }, 400)
+      }     
    },
    mounted() {}
 };

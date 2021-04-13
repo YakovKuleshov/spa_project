@@ -165,17 +165,15 @@ export default {
       let flagDown = true;
 
       window.addEventListener("scroll", () => {
-         let elems = this.$el.querySelectorAll(".block");
-         elems.forEach((el) => {
-            if (window.scrollY - el.offsetTop >= -100) {
-               el.style.transform =
-                  "translateY(" +
-                  (window.scrollY - el.offsetTop + 100) / 1.5 +
-                  "px)";
-            } else {
-               el.style.transform = "translateY(0)";
-            }
-         });
+         //PARALAX
+         // let elems = this.$el.querySelectorAll(".block");
+         // elems.forEach((el) => {
+         //    if (window.scrollY - el.offsetTop >= -100) {
+         //       el.style.transform = "translateY(" +(window.scrollY - el.offsetTop + 100) / 1.5 + "px)";
+         //    } else {
+         //       el.style.transform = "translateY(0)";
+         //    }
+         // });
 
          if (!flagUp) return false;
          flagUp = false;
