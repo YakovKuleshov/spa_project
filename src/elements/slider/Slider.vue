@@ -180,6 +180,7 @@ export default {
          
          container.scrollLeft = active.offsetWidth * current - container.offsetWidth / 2 + active.offsetWidth / 2
       },
+
       toNextSlide() {
          if (!this.flag) return false;
          this.current++;
@@ -192,6 +193,7 @@ export default {
             this.flag = true;
          }, 400)
       },
+
       toPrevSlide() {
          if (!this.flag) return false;
          this.current--;
@@ -204,6 +206,7 @@ export default {
             this.flag = true;
          }, 400)
       },
+      
       chooseSlide(index) {
          if (!this.flag) return false;
          this.flag = false;

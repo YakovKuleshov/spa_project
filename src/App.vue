@@ -95,28 +95,36 @@ export default {
          this.lineWidth = activeItem.offsetWidth;
          this.lineLeft = activeItem.offsetLeft;
       },
+
       stopProp(e) {
          e.stopPropagation();
       },
+
       colorpickerToggle(e) {
          this.colorpicker = !this.colorpicker;
          e.stopPropagation();
       },
+
       getRangeValue(value) {
          this.rangeValue = value;
       },
+
       filmClick(film_data) {
          this.filmData = film_data;
       },
+
       imageClick(url) {
          this.galleryImgUrl = url;
       },
+
       clearData() {
          this.filmData = "";
       },
+
       clearImgUrl() {
          this.galleryImgUrl = "";
       },
+
       scrollPage(e) {
          if (e.target.id === "up") {
             window.scrollTo({
@@ -130,19 +138,25 @@ export default {
             });
          }
       },
+
       setRgba(value) {
          this.blockColor = value;
       },
+
       setHexColor(value) {
          // this.hexColor = value[0] == '#' ? value : '#' + value
-      },
+      }
    },
    computed: {
       ...mapGetters(["menuList"])    
    },
+
    beforeCreate() {},
+
    created() {},
+
    beforeMount() {},
+   
    mounted() {
       this.switchPage();
       
