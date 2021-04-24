@@ -1,37 +1,37 @@
 <template>
    <div class="other" ref="container">
       <h2 class="page__title">Разное</h2>
-      <div class="other__content">
+      <div class="other__content">         
          <div class="section slider">
             <Slider />
-         </div>	
-         <div class="section infinite__slider" ref="infinContainer">         
+         </div>
+         <div class="section infinite__slider">         
             <component :is="componentsList[0].instance"></component>
             <!-- <InfiniteSlider /> -->
          </div>
-         <div class="section" ref="header">
+         <div class="section">
             <component :is="componentsList[1].instance"></component>
             <!-- <Header /> -->
          </div>
-         <div class="section" ref="tabMenu">
+         <div class="section">
             <component :is="componentsList[2].instance"></component>
             <!-- <TabMenu /> -->
          </div>
          <div class="section">
-            <div v-if="componentsList[3].instance" class="folders__container" ref="folders">
+            <div v-if="componentsList[3].instance" class="folders__container">
                {{ name }}
                <component :is="componentsList[3].instance" :selected="selectedItem" :list="fixedList"></component>
                <!-- <FolderList :selected="selectedItem" :list="fixedList" /> -->
             </div>
          </div>
-         <div class="section" ref="dragDrop">
+         <div class="section">
             <component :is="componentsList[4].instance"></component>
             <!-- <DragDrop /> -->
          </div>
-         <div class="section" ref="volume">
+         <div class="section">
             <component :is="componentsList[5].instance"></component>
             <!-- <Volume /> -->
-         </div> 
+         </div>         
       </div>
       <StarsRating />      
       <div class="button" @click="updateSection">Send</div>
@@ -94,6 +94,7 @@
 <script>
 import Slider from "../slider/Slider";
 import StarsRating from './other-elements/starsRating';
+
 // import InfiniteSlider from "../slider/InfiniteSlider";
 // import Header from "../header/Header";
 // import TabMenu from "../tab-menu/TabMenu";
@@ -104,7 +105,7 @@ import StarsRating from './other-elements/starsRating';
 export default {
    components: {
       Slider,
-      StarsRating
+      StarsRating      
       // InfiniteSlider,
       // Header,
       // TabMenu,
@@ -140,7 +141,7 @@ export default {
             {
                instance: '',
                component: () => import('./other-elements/Volume')
-            }           
+            }                     
          ],         
          name: "",
          selectedItem: {
