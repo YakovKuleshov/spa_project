@@ -4,7 +4,7 @@
       <div class="other__content">         
          <div class="section slider">
             <Slider />
-         </div>
+         </div>         
          <div class="section infinite__slider">         
             <component :is="componentsList[0].instance"></component>
             <!-- <InfiniteSlider /> -->
@@ -32,6 +32,9 @@
             <component :is="componentsList[5].instance"></component>
             <!-- <Volume /> -->
          </div>         
+         <div class="section">
+            <component :is="componentsList[6].instance"></component>
+         </div>
       </div>
       <StarsRating />      
       <div class="button" @click="updateSection">Send</div>
@@ -141,6 +144,10 @@ export default {
             {
                instance: '',
                component: () => import('./other-elements/Volume')
+            },
+            {
+               instance: '',
+               component: () => import('./other-elements/Сalendar')
             }                     
          ],         
          name: "",
