@@ -2,7 +2,7 @@
 	<div class="main">
 		<h2 class="page__title">Фильмы</h2>
 		<div class="wrapper">
-			<div class="container">
+			<div class="container" ref="filmsContainer">
 				<template v-for="(item, index) in list">
 					<div class="list__item" :key="index" @click="showInfo(item)">
 						<div class="item__image" :style="{ backgroundImage: `url('${getImageUrl(item.element.basicCovers.items)}')`}"></div>
@@ -42,10 +42,11 @@
 	}
 
 	.loading {
-		position: absolute;
-		bottom: -18px;
+		position: fixed;
+		top: 50%;
 		left: 50%;
-		transform: translateX(-50%);
+		transform: translate(-50%, -50%);	
+		z-index: 1;		
 	}
 
 	.loading__text {
@@ -100,6 +101,7 @@
 		padding-bottom: 5px;
 		align-content: flex-start;
 		scroll-behavior: smooth;		
+		max-width: 1920px;
 		margin: 0 auto;
 	}
 	
@@ -195,8 +197,8 @@
 <script>
 export default {
 	data() {
-		return {
-			scrollContent(e) {			
+		return {			
+			scrollContent() {				
 				if(!this.flag) return false
 				if(window.scrollY >= (document.body.scrollHeight - window.innerHeight) - 200) {
 					this.page += 20
@@ -246,21 +248,30 @@ export default {
 					this.$emit('onFilmClick', filmData)
 				});
 			},
-			load(page) {
+			load(page, first_load) {
 				this.preloader = true
 				fetch('https://ctx.playfamily.ru/screenapi/v1/noauth/collection/web/1?elementAlias=novelty_web&elementType=COLLECTION&limit=20&offset='+ page +'&withInnerCollections=false')
 					.then(response => response.json())
 					.then(res => {
 
 						if(this.hasItems(res.element.collectionItems.items)) {
+							if(first_load) {								
+								setTimeout(() => {							
+									if(this.$refs.filmsContainer.getBoundingClientRect().bottom < window.innerHeight) {
+										this.page += 20
+										this.load(this.page, first_load);
+									}		
+								})								
+							}
+
 							if(this.page == 0) {
-								this.list = res.element.collectionItems.items
+								this.list = res.element.collectionItems.items								
 							}else {
 								this.list = this.list.concat(res.element.collectionItems.items)
 							}
 							this.flag = true
 						}
-						this.clone = this.list.slice(0)
+						
 						this.preloader = false
 					}).catch(err => console.log(err));
 			}
@@ -275,7 +286,7 @@ export default {
 	mounted() {				
 		this.scrollContent = this.scrollContent.bind(this)
 		window.addEventListener('scroll', this.scrollContent);
-		this.load(this.page)		
+		this.load(this.page, true);
 	},
 	destroyed() {
 		window.removeEventListener('scroll', this.scrollContent);

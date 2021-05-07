@@ -4,10 +4,10 @@
 			<input type="text" placeholder="Поиск" @input="searchWallpapers">
 			<div class="total__count">Всего:&nbsp&nbsp{{ count }}</div>
 		</h2>
-		<div class="content">
+		<div class="content" ref="galleryContainer">
 			<div class="container" ref="container">
 				<div v-for="(item, index) in gallery" class="card__container" :key="index">
-					<div class="image__item" :style="{ background: `url('${item.largeImageURL}') no-repeat center`, backgroundSize: 'cover' }" @click="imgClick(item)"></div>
+					<div class="image__item" :style="{ background: `url('${item.largeImageURL}') no-repeat center`, backgroundSize: 'cover' }" ref="galleryItem" @click="imgClick(item)"></div>
 				</div>
 				<div v-if="!gallery.length" class="preloader"></div>
 			</div>
@@ -163,11 +163,18 @@ export default {
 					// console.log(res)
 					if(page === 1) {
 						this.gallery = res.hits
+						setTimeout(() => {							
+							if(this.$refs.galleryContainer.getBoundingClientRect().bottom < window.innerHeight) {
+								this.page++
+								this.loadGallery(this.page, this.search);
+							}							
+						})
 					}else {
 						this.gallery = this.gallery.concat(res.hits)
 					}
 					this.count = res.total
 					this.flag = true
+					
 				}).catch(err => console.log(err));
 			},
 			gallertScroll() {
@@ -196,8 +203,8 @@ export default {
 	},
 	mounted() {
 		this.gallertScroll = this.gallertScroll.bind(this);
-		this.loadGallery(this.page, this.search)
-
+		this.loadGallery(this.page, this.search);
+		
 		window.addEventListener('scroll', this.gallertScroll);
 	},
 	destroyed() {

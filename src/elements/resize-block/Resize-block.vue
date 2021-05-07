@@ -107,7 +107,7 @@
       data() {
          return {
             block_top: 136,
-				block_left: 1650,
+				block_left: 0,
 				block_width: 200,
 				block_height: 120,
             mooveBlock(e) {
@@ -155,8 +155,8 @@
       methods: {
          defaultCoords() {
             this.block_top = 136
-				this.block_left = 1650
-				this.block_width = 200
+            this.block_width = 200
+				this.block_left = window.innerWidth - this.block_width - 58				
 				this.block_height = 120
          },
          moveBlock(e) {
@@ -209,6 +209,7 @@
 			this.bottomRight = this.bottomRight.bind(this);		
       },
       mounted() {
+         this.block_left = window.innerWidth - this.block_width - 58
          window.addEventListener('mouseup', e => {
 				window.removeEventListener('mousemove', this.height);
 				window.removeEventListener('mousemove', this.heightTop);
@@ -220,6 +221,10 @@
 				window.removeEventListener('mousemove', this.bottomRight);
 				window.removeEventListener('mousemove', this.mooveBlock);
 			})
+
+         window.addEventListener('resize', () => {
+            this.block_left = window.innerWidth - this.block_width - 58;
+         })
       }
    }
 </script>

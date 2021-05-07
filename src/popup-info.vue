@@ -46,6 +46,7 @@
       bottom: 0;
       background: rgba(0,0,0,.5);
       backdrop-filter: blur(10px);
+      padding: 10px;
       z-index: 1;
    }
 
@@ -53,8 +54,10 @@
       display: flex;
       flex-direction: column;
       position: relative;
-      width: 40%;
-      height: 60%;
+      width: 100%;
+      height: 100%;
+      max-width: 1000px;      
+      max-height: 700px;
       padding: 15px;
       box-sizing: border-box;
       background: #fff;
