@@ -109,7 +109,7 @@
       top: 10px;
       left: 50%;
       font-size: 40px;
-      color: #0eeeb6;
+      color: #a2f8fc;
       font-weight: bold;
       text-shadow: 1px 1px 2px rgba(0,0,0,.5);
       transform: translateX(-50%);
