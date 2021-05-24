@@ -65,17 +65,8 @@
 				},	
 				moveVolume(e) {							
 					const container = this.$refs.volumeContainer;
-					const dist = -(100 / container.offsetHeight * (e.clientY - container.getBoundingClientRect().top) - 100);
-					
-					if(dist <= 100) {
-						this.volume.value = dist
-					}else {
-						this.volume.value = 100
-					}
-					
-					if(dist <= 0){
-						this.volume.value = 0
-					}								
+					const dist = -(100 / container.offsetHeight * (e.clientY - container.getBoundingClientRect().top) - 100);					
+					this.volume.value = Math.min(Math.max(0, dist), 100);								
 				}
 			}
 		},
