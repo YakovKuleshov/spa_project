@@ -13,7 +13,6 @@
 			<div class="side__small side__small_4"></div>
 			<div class="side__small side__small_5"></div>
 			<div class="side__small side__small_6"></div>
-
 			<div class="side side_1"></div>
 			<div class="side side_2"></div>
 			<div class="side side_3"></div>
@@ -26,7 +25,7 @@
 <style scoped>
 
 	.shapes {
-		perspective: 800px;
+		perspective: 1000px;
 		display: flex;
 		justify-content: space-between;
 		max-width: 900px;

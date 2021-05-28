@@ -268,6 +268,7 @@ export default {
 	},
 		
 	mounted() {		
+		// console.log(this.$options)
 		this.loadContent(true);   
 		window.addEventListener('scroll', e => {
 			this.loadContent();
