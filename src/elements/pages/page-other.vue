@@ -4,7 +4,7 @@
 		<div class="other__content">         
 			<div class="section slider">
 				<Slider />
-			</div>         
+			</div>    			   
 			<div class="section">
 				<AnimatedShapes />
 			</div>
@@ -113,7 +113,7 @@ export default {
 	components: {
 		Slider,
 		StarsRating,
-		AnimatedShapes
+		AnimatedShapes		
 		// InfiniteSlider,
 		// Header,
 		// TabMenu,
@@ -267,7 +267,9 @@ export default {
 		}
 	},
 		
-	mounted() {		
+	mounted() {	
+		// this.$router.push(this.$route.path + '?page=1')
+		// console.log(this.$route.query)
 		// console.log(this.$options)
 		this.loadContent(true);   
 		window.addEventListener('scroll', e => {

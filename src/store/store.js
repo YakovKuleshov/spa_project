@@ -22,6 +22,10 @@ export default new Vuex.Store({
          {
             id: '/other',
             name: 'Разное'
+         },
+         {
+            id: '/pagination',
+            name: 'Пагинация'
          }
       ]
    },
@@ -39,9 +43,9 @@ export default new Vuex.Store({
       }
    },
    actions: {
-      async getNews(ctx) {
-         const response = await fetch("http://newsapi.org/v2/top-headlines?country=ru&apiKey=2c003695d0774374902a4c4e5cb8a27e");         
-         const res = await response.json();
+      async getNews(ctx, params = { category: 'top-headlines', page: 1, limit: 20 }) {
+         const response = await fetch(`http://newsapi.org/v2/${params.category}?${params.category == 'everything' ? 'q=all&' : 'country=ru&'}pageSize=${params.limit}&page=${params.page}&apiKey=2c003695d0774374902a4c4e5cb8a27e`);         
+         const res = await response.json();         
          ctx.commit('updateNews', res.articles);         
       }
    }

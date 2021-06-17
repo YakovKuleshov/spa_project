@@ -3,10 +3,11 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-import pageNews from "./elements/pages/page-news";
-import pageGallery from "./elements/pages/page-gallery";
-import pageFilms from "./elements/pages/page-films";
-import pageOther from "./elements/pages/page-other";
+import pageNews from './elements/pages/page-news';
+import pageGallery from './elements/pages/page-gallery';
+import pageFilms from './elements/pages/page-films';
+import pageOther from './elements/pages/page-other';
+import Pagination from './elements/pages/other-elements/Pagination';
 
 const routes = [
    {
@@ -29,6 +30,10 @@ const routes = [
    {
       path: '/other',
       component: pageOther
+   },
+   {
+      path: '/pagination',
+      component: Pagination
    }
 ]
 
