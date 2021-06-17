@@ -8,6 +8,7 @@ import pageGallery from './elements/pages/page-gallery';
 import pageFilms from './elements/pages/page-films';
 import pageOther from './elements/pages/page-other';
 import Pagination from './elements/pages/other-elements/Pagination';
+import InfoPage from './elements/pages/info-page'
 
 const routes = [
    {
@@ -33,8 +34,21 @@ const routes = [
    },
    {
       path: '/pagination',
-      component: Pagination
-   }
+      name: 'pag',
+      component: Pagination,
+      // children: [
+      //    {
+      //       path: '/pagination/info',
+      //       component: InfoPage
+      //    }           
+      // ]
+   },
+   {
+      path: '/info',
+      name: 'info',
+      props: true,
+      component: InfoPage
+   }    
 ]
 
 export const router = new VueRouter({

@@ -3,7 +3,7 @@
 		<div class="wallpaper" :style="{ background: 'url(' + mainBg.url + ') no-repeat center' }"></div>
 		<h1 class="title">{{ title }}</h1>
 		<div class="section">
-			<div class="menu">
+			<div v-if="getPath" class="menu">
 				<div class="shadow__line" :style="{ width: lineWidth + 'px', left: lineLeft + 'px' }"></div>
 				<template v-for="item in menuList">
 					<router-link
@@ -92,8 +92,10 @@ export default {
 	methods: {     
 		switchPage() {
 			let activeItem = document.querySelector(".menu__item__active");
-			this.lineWidth = activeItem.offsetWidth;
-			this.lineLeft = activeItem.offsetLeft;
+			if(activeItem) {
+				this.lineWidth = activeItem.offsetWidth;
+				this.lineLeft = activeItem.offsetLeft;
+			}
 		},
 
 		stopProp(e) {
@@ -148,7 +150,10 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(["menuList"])    
+		...mapGetters(["menuList"]),
+		getPath()  {
+			return this.$route.path != '/info';
+		}
 	},
 
 	beforeCreate() {},

@@ -10,14 +10,14 @@
             <div class="arrow" :style="{ top: arrowTop + 'px' }"></div>
          </div>
       </div>
-      <div class="value" title="Скопировать">
-         <input class="hex__input" type="text" v-bind:value="colorValue ? colorValue : color" maxlength="7" @input="writeColor">
+      <div class="value" ref="hex_block">
+         <input class="hex__input" type="text" v-bind:value="colorValue ? colorValue : color" maxlength="7" ref="hex_input" @input="writeColor">
          <div class="done__arrow"></div>      
-         <div class="final__color" :style="{ background: color[0] == '#' ? color : '#' + color }"></div>   
+         <div id="hex" class="final__color" :style="{ background: color[0] == '#' ? color : '#' + color }" title="Скопировать" @click="copy"></div>   
       </div> 
-      <div class="value" title="Скопировать" @click="copy">{{ this.rgbaColor }}
+      <div class="value" ref="rgba_block">{{ this.rgbaColor }}
          <div class="done__arrow"></div>      
-         <div class="final__color" :style="{ background: rgbaColor }"></div>   
+         <div id="rgba" class="final__color" :style="{ background: rgbaColor }"  title="Скопировать" @click="copy"></div>   
       </div>  
       <div class="opacity__range">Opacity
          <Range id="op__range" :rangeValue="alpha * 100" @onRange="setAlpha"/>   
@@ -80,8 +80,7 @@
    .value {
       display: flex;
       align-items: center;
-      position: relative;
-      cursor: pointer;
+      position: relative;      
       font-weight: bold;
       color: #333;
       margin-top: 5px;
@@ -116,6 +115,7 @@
       width: 100px;
       height: 30px;
       margin-left: auto;
+      cursor: pointer;
    }
 
    .opacity__range {
@@ -363,11 +363,12 @@ import Range from '../range/Range'
                this.rgbaColor = rgbColor
             }                        
          },
-         copy(e) {
-            let valueBlock = e.currentTarget
+         copy(e) {               
+            let id = e.currentTarget.id;     
+            let valueBlock = this.$refs[`${id}_block`];
             let tmp = document.createElement("textarea");
             document.querySelector("body").append(tmp);
-            tmp.value = valueBlock.innerText
+            tmp.value = id == 'hex' ? this.$refs.hex_input.value : this.rgbaColor;
             tmp.select()
             document.execCommand("copy");
             tmp.remove();

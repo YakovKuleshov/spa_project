@@ -2,7 +2,8 @@
    <div>      
       <div class="pagination">
          <h2 class="list__title">Страница {{ current + 1 }}</h2>
-         <div v-for="(item, index) in list" class="list__item" :key="index">
+         <div v-for="(item, index) in list" class="list__item" :key="index" @click="toInfoPage(item)">
+            <div class="list__item__img" :style="{ backgroundImage: `url(${item.urlToImage})` }"></div>
             <div class="list__item__text">{{ item.description }}</div>
          </div>
       </div>
@@ -13,7 +14,7 @@
          </template>
          <div class="list__button last__page" :class="{ disabled: current + 1 == buttonsLenght}" @click="toLastPage">{{ buttonsLenght }}</div>
          <div class="list__button" :class="{ disabled: getDisabledNextBtn }" @click="toNextPage">></div>
-      </div>          
+      </div>         
    </div>
 </template>
 <style scoped>
@@ -40,11 +41,23 @@
       align-items: center;      
       background: #baefd4;
       margin-bottom: 5px;
+      cursor: pointer;
       box-shadow: 1px 1px 4px rgba(0,0,0,.4);
    }
 
    .list__item:last-of-type {
       margin-bottom: 0;
+   }
+
+   .list__item__img {
+      width: 66px;
+      height: 35px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      flex-shrink: 0;
+      margin: 0 10px 0 0;
+      border-radius: 4px;
    }
 
    .list__item__text {
@@ -106,7 +119,7 @@
 
 <script>
 
-   import { mapGetters, mapActions } from 'vuex'
+   import { mapGetters, mapActions } from 'vuex'   
 
    export default {
       data() {
@@ -134,6 +147,11 @@
       },
       methods: {
          ...mapActions(['getNews']),
+         toInfoPage(item) {
+            // this.$router.push({name: 'info', params: { id: item }})
+            localStorage.setItem('info_data', JSON.stringify({...item, page: this.$route.query.page ? this.$route.query.page : 1}));
+            this.$router.push('/info');
+         },
          toNextPage() {            
             this.current = this.current + 1
             this.$router.push(this.$route.path + '?page=' + (this.current + 1));
@@ -179,8 +197,7 @@
          }                  
       },      
       async mounted() {                                                  
-         await this.getNews({ category: 'everything', page: 1, limit: 40 }); 
-         
+         await this.getNews({ category: 'everything', page: 1, limit: 100 });             
          this.buttonsLenght = Math.ceil(this.newsList.length / this.limit);         
          const buttonsArr = [];         
          for(let i = 1; i < this.buttonsLenght; i++) {
