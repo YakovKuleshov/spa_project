@@ -8,12 +8,12 @@
          </div>
       </div>
       <div class="list__buttons">
-         <div class="list__button" :class="{ disabled: getDisabledPrevBtn }" @click="toPrevPage"><</div>    
+         <div class="list__button prev__btn" :class="{ disabled: getDisabledPrevBtn }" @click="toPrevPage"></div>    
          <template v-for="(item, index) in buttonsLenght">
             <div v-if="getPageButtons(index)" class="list__button" :class="{ list__button__active: current == index }" :key="index" @click="selectPage(index)">{{ index + 1 }}</div>
          </template>
          <div class="list__button last__page" :class="{ disabled: current + 1 == buttonsLenght}" @click="toLastPage">{{ buttonsLenght }}</div>
-         <div class="list__button" :class="{ disabled: getDisabledNextBtn }" @click="toNextPage">></div>
+         <div class="list__button next__btn" :class="{ disabled: getDisabledNextBtn }" @click="toNextPage"></div>
       </div>         
    </div>
 </template>
@@ -74,6 +74,7 @@
    }
 
    .list__button {
+      position: relative;
       width: 40px;
       height: 40px;
       text-align: center;
@@ -85,6 +86,31 @@
       border-radius: 4px;
       font-weight: bold;
       font-size: 20px;
+      overflow: hidden;
+   }
+   
+   .prev__btn::before {      
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;      
+      background: #fff url('../../../../img/arrow.svg') no-repeat center;      
+      background-size: 30px;
+      transform: rotateZ(90deg);
+   }
+
+   .next__btn::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;      
+      background: #fff url('../../../../img/arrow.svg') no-repeat center;      
+      background-size: 30px;
+      transform: rotateZ(-90deg);
    }
 
    .list__button:last-of-type {
@@ -124,8 +150,7 @@
    export default {
       data() {
          return {
-            buttonsLenght: '',
-            page: '',
+            buttonsLenght: '',           
             list: [],
             current: '',
             limit: 7            
@@ -192,8 +217,7 @@
             return index == this.current + 2 || index == this.current + 1 || this.current == index || index == this.current - 1 || index == this.current - 2;            
          },
          getLimitedList(current) {            
-            this.page = current * this.limit; 
-            this.list = this.newsList.slice(this.page, this.page + this.limit);
+            this.list = this.newsList.slice(current * this.limit, current * this.limit + this.limit);
          }                  
       },      
       async mounted() {                                                  

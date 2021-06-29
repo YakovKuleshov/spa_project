@@ -96,13 +96,15 @@
 	}
 
 	.container {
-		display: flex;				
-		flex-wrap: wrap;
-		padding-bottom: 5px;
-		align-content: flex-start;
+		display: grid;				
+		grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+		grid-auto-rows: 250px;
+		grid-gap: 10px;
+		padding-bottom: 5px;		
 		scroll-behavior: smooth;		
-		max-width: 1920px;
+		max-width: 1800px;
 		margin: 0 auto;
+		padding: 0 10px;
 	}
 	
 	.list__item {
@@ -111,11 +113,7 @@
 		border-radius: 10px;
 		box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.6);
 		display: flex;
-		flex-direction: column;
-		width: 170px;
-		flex-grow: 1;
-		height: 260px;
-		margin: 10px;
+		flex-direction: column;		
 	}
 
 	.item__image {
