@@ -102,9 +102,8 @@
 		grid-gap: 10px;
 		padding-bottom: 5px;		
 		scroll-behavior: smooth;		
-		max-width: 1800px;
-		margin: 0 auto;
-		padding: 0 10px;
+		max-width: 1300px;
+		margin: 0 auto;		
 	}
 	
 	.list__item {
@@ -248,7 +247,7 @@ export default {
 			},
 			load(page, first_load) {
 				this.preloader = true
-				fetch('https://ctx.playfamily.ru/screenapi/v1/noauth/collection/web/1?elementAlias=novelty_web&elementType=COLLECTION&limit=20&offset='+ page +'&withInnerCollections=false')
+				fetch('https://ctx.playfamily.ru/screenapi/v1/noauth/collection/web/1?elementAlias=novelty_web&elementType=COLLECTION&limit=21&offset='+ page +'&withInnerCollections=false')
 					.then(response => response.json())
 					.then(res => {
 

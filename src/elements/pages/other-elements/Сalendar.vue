@@ -216,20 +216,19 @@ export default {
          date: new Date(),
          firstDayOfMonth: '',
          monthList: '',
-         prevLastDay: '',
-         firstDayIndex: new Date().getDay() - 2,
+         prevLastDay: '',         
          lastDayIndex: '',
          nextDays: 0,
-         current: 0,
+         current: null,
          currentYear: new Date().getFullYear(),
          yearsList: [],
          months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
-         update(current) {
-            this.monthList = 0;
-            this.monthList = new Date(this.currentYear, this.date.getMonth() + current, 0).getDate(); 
-            this.firstDayOfMonth = new Date(this.currentYear, this.date.getMonth() + current - 1, 1).getUTCDay();
-            this.prevLastDay = new Date(this.currentYear, this.date.getMonth() + current - 1, 0).getDate();
-            this.nextDays = 42 - (this.prevMonthDays.length + this.monthList);                          
+         update(current) {        
+            let year = this.currentYear.toString().split('').splice(2).join('');                
+            this.monthList = new Date(year, current + 1, 0).getDate();             
+            this.firstDayOfMonth = new Date(year, current, 0).getUTCDay();
+            this.prevLastDay = new Date(year, current, 0).getDate();
+            this.nextDays = 42 - (this.prevMonthDays.length + this.monthList);         
          }        
       };
    },  
@@ -241,7 +240,7 @@ export default {
    computed: {     
       prevMonthDays() {
          const days = [];
-         for (let i = this.firstDayOfMonth; i > 0 ; i--) {            
+         for (let i = this.firstDayOfMonth; i > 0 ; i--) {                
             days.push(this.prevLastDay - i + 1)
          }
          return days;
@@ -253,8 +252,8 @@ export default {
          }         
          return days;       
       },
-      selectedDate() {              
-         return this.months[new Date().getMonth() + this.current -1]
+      selectedDate() {        
+         return this.months[this.current]
       },
       getYear() {         
          return new Date(this.currentYear, 1, 1).toLocaleDateString([], {
@@ -277,14 +276,14 @@ export default {
       },
       nextMonth() {        
          this.current++;                   
-            if(this.current >= this.months.length - 3) {
-            this.current = -3;            
+            if(this.current > this.months.length - 1) {
+            this.current = 0;            
          }                  
       },
       prevMonth() {
          this.current--;
-         if(this.current < -3) {
-            this.current = this.months.length - 4;
+         if(this.current < 0) {
+            this.current = this.months.length - 1;
          }         
       },
       closeDropdown() {         
@@ -292,8 +291,7 @@ export default {
       }     
    },
    mounted() {            
-      this.current = 1    
-      
+      this.current = this.date.getMonth();    
       for(let i = 1970; i <= new Date().getFullYear(); i++) {
          this.yearsList.push(i);
       }      

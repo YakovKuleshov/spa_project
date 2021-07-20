@@ -220,8 +220,9 @@
             this.list = this.newsList.slice(current * this.limit, current * this.limit + this.limit);
          }                  
       },      
-      async mounted() {                                                  
+      async mounted() {            
          await this.getNews({ category: 'everything', page: 1, limit: 100 });             
+                 
          this.buttonsLenght = Math.ceil(this.newsList.length / this.limit);         
          const buttonsArr = [];         
          for(let i = 1; i < this.buttonsLenght; i++) {

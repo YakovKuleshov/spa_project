@@ -1,8 +1,8 @@
 <template>
 	<div id="main">
-		<div class="wallpaper" :style="{ background: 'url(' + mainBg.url + ') no-repeat center' }"></div>
-		<h1 class="title">{{ title }}</h1>
-		<div class="section">
+		<div class="wallpaper" :style="{ background: 'url(' + mainBg.url + ') no-repeat center' }"></div>		
+		<section>
+			<h1 class="title">{{ title }}</h1>
 			<div v-if="getPath" class="menu">
 				<div class="shadow__line" :style="{ width: lineWidth + 'px', left: lineLeft + 'px' }"></div>
 				<template v-for="item in menuList">
@@ -23,7 +23,7 @@
 					<!-- </keep-alive> -->
 				</div>
 			</div>
-		</div> 
+		</section> 
 		<template v-if="filmData">
 			<popup-info :filmData="filmData" @clearData="clearData"></popup-info>
 		</template>
@@ -34,8 +34,8 @@
 		<div class="color__picker" :class="{ color__picker__active: colorpicker }" @click="stopProp">
 			<Colorpicker @onRgbaColor="setRgba" @onInputColor="setHexColor" />
 		</div>
-		<div class="range">
-			<Range :rangeValue="20" @onRange="getRangeValue" />
+		<div class="clock">
+			<Clock />			
 		</div>
 		<resize-block :bgColor="blockColor"></resize-block>
 		<div class="up__down_buttons">
@@ -60,6 +60,7 @@
 	import Colorpicker from "./elements/colorpicker/Colorpicker";
 	import resizeBlock from "./elements/resize-block/Resize-block";
 	import popupInfo from "./popup-info";
+	import Clock from "./elements/clock/Clock";
 	import ImagePopup from "./ImagePopup";
 	import { mapGetters } from "vuex";
 	import "./style/style.css";
@@ -71,12 +72,13 @@ export default {
 		Range,
 		Colorpicker,
 		resizeBlock,
-		ImagePopup      
+		ImagePopup,
+		Clock 
 	},
 	data() {
 		return {                 
 			mainBg: {
-				url: "img/wallpaper_6.jpg",
+				url: "img/wallpaper_5.jpg",
 			},
 			galleryImgUrl: "",
 			colorpicker: false,
