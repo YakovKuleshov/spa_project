@@ -131,45 +131,6 @@
                'Четверг',
                'Пятница',
                'Суббота'
-            ],
-            month: 
-            [
-               {
-                  name: 'Января'
-               },
-               {
-                  name: 'Февраля'
-               },
-               {
-                  name: 'Марта'
-               },
-               {
-                  name: 'Апреля'
-               },
-               {
-                  name: 'Мая'
-               },
-               {
-                  name: 'Июня'
-               },
-               {
-                  name: 'Июля'
-               },
-               {
-                  name: 'Августа'
-               },
-               {
-                  name: 'Сентября'
-               },
-               {
-                  name: 'Октября'
-               },
-               {
-                  name: 'Ноября'
-               },
-               {
-                  name: 'Декабря'
-               }
             ]
          }
       },
@@ -186,14 +147,13 @@
       },
       computed: {
          getDate() {
-            let date = new Date().toLocaleString()
-            let dayNumber = date.split('.')[0]
-            let month = this.month[Number(date.split('.')[1]) - 1].name
-            let year = date.split('.')[2].replace(/\,\s\d{2}\:\d{2}\:\d{2}/g, '');
-
-            this.dayNow = this.days[new Date().getDay()];
-
-            return dayNumber + ' ' + month + ' ' + year
+            const date = new Date();
+            this.dayNow = this.days[date.getDay()];
+            return date.toLocaleString([], {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            })
          },
          getTimeFormat() {
             return this.timeFormat >= 12 ? 'PM' : 'AM';

@@ -243,14 +243,7 @@ export default {
 		});
 
 		// let number = 20500200
-		// console.log(new Intl.NumberFormat().format(number))
-
-		// fetch('https://api.wantenger.com/api/publications/get/publications/for/section/?feeds_ids=1234567,7324224,7324424,7324624,7324724,7324824,7324924,9323561,7327024,8196661,8188561&sort=recommended&limit=1-5&random=true')
-		// .then((response) => {
-		//    return response.json();
-		// }).then(res => {
-		//    console.log(res)
-		// });
+		// console.log(new Intl.NumberFormat().format(number))		
 	},
 
 	beforeUpdate() {},

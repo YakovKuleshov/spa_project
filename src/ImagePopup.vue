@@ -22,6 +22,7 @@
       background: rgba(0,0,0,.5);
       backdrop-filter: blur(10px);
       z-index: 1;
+      padding: 20px;
    }
 
    .content {
@@ -29,11 +30,14 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 1290px;
+      width: 100%;
+      height: 100%;
+      max-width: 1290px;
+      max-height: 730px;
       box-shadow: 10px 12px 20px rgba(0,0,0,.6);
       padding: 10px;
       transform-style: preserve-3d;
-      height: 730px;
+      
       box-sizing: border-box;
       background: #fff;
       border-radius: 10px;

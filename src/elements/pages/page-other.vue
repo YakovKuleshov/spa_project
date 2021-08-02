@@ -87,8 +87,10 @@
 	}
 
 	.infinite__slider {
-		max-width: 1300px;
+		max-width: 1400px;
 		margin: 0 auto 200px;
+		padding: 0 50px;
+		box-sizing: border-box;
 	}
 
 	.slider {
@@ -271,6 +273,10 @@ export default {
 		// this.$router.push(this.$route.path + '?page=1')
 		// console.log(this.$route.query)
 		// console.log(this.$options)
+
+
+		//332260061 - коммент
+		// Золкин Олег: 604825, Дмитрий Золкин: 709461, Золкин Дмитрий Олегович: 739361, Золкин Олег Анатольевич: (739661 740661), Золкина Катя: 785861
 		this.loadContent(true);   
 		window.addEventListener('scroll', e => {
 			this.loadContent();
@@ -286,7 +292,7 @@ export default {
 				this.fixList(this.folders, res);
 				this.selectedItem = { id: null };
 			});                  
-// https://webdevblog.ru/15-obyazatelnyh-direktiv-vue-kotorye-znachitelno-uvelichat-vashu-proizvoditelnost/
+			// https://webdevblog.ru/15-obyazatelnyh-direktiv-vue-kotorye-znachitelno-uvelichat-vashu-proizvoditelnost/
 			// let number = 3000500
 			// console.log(new Intl.NumberFormat().format(number))
 	}

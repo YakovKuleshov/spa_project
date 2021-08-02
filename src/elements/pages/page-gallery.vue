@@ -159,8 +159,7 @@ export default {
 				search = !search ? 'wallpapers' : search
 				fetch(`https://pixabay.com/api/?key=18385024-b47dd78b6166e0e0861cdd65c&q=${search}&image_type=all&page=${page}&per_page=15`).then((response) => {
 					return response.json();
-				}).then(res => {
-					// console.log(res)
+				}).then(res => {					
 					if(page === 1) {
 						this.gallery = res.hits
 						setTimeout(() => {							

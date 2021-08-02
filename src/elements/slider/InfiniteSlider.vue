@@ -1,7 +1,7 @@
 <template>
    <div id="infinite">
       <div class="wrapper" ref="wrap">
-         <div class="container" :style="{ left: `${left}%`, transition: `${transition}s` }" ref="container" @transitionend="resetLeft">
+         <div class="container" :style="{ transform: `translateX(${left}%)`, transition: `${transition}s` }" ref="container" @transitionend="resetLeft">
             <div class="slide__container" v-for="(item, index) in wallpapers" :key="index" :style="{ width: `${100 / toShow}%` }" ref="items">
                <div  class="slide__item" :style="{ backgroundImage: `url(img/${item.image}.jpg)` }"></div>
             </div>
@@ -148,8 +148,7 @@
    .container {
       height: 500px;
       display: flex;
-      align-items: center;
-      position: relative;
+      align-items: center;      
    }
 
    .slide__container {
@@ -179,7 +178,7 @@
    .next {
       width: 30px;
       height: 30px;
-      right: -70px;
+      right: -4%;
       border-bottom: 5px solid #07f;
       border-right: 5px solid #07f;
       transform: rotate(-45deg);
@@ -188,7 +187,7 @@
    .prev {
       width: 30px;
       height: 30px;
-      left: -70px;
+      left: -4%;
       border-bottom: 5px solid #07f;
       border-left: 5px solid #07f;
       transform: rotate(45deg);
@@ -224,6 +223,7 @@
       background: #0099ff;
        box-shadow: 0 0 0 rgba(0,0,0,.7);;
    }
+      
 </style>
 
 <script>
@@ -303,7 +303,7 @@
                let first =  this.wallpapers.slice(0, this.toShow);
                this.wallpapers.push(...first) 
                
-               let last =  this.wallpapers.slice(this.wallpapers.length - this.toShow - this.toShow, this.wallpapers.length - this.toShow);
+               let last =  this.wallpapers.slice(this.wallpapers.length - this.toShow - this.toShow, this.wallpapers.length - this.toShow);               
                this.wallpapers.unshift(...last);
             }
          }

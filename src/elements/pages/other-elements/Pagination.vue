@@ -162,7 +162,7 @@
          }
       },    
       computed: {
-         ...mapGetters(['newsList']),
+         ...mapGetters(['subList']),
          getDisabledNextBtn() {            
             return this.current + 1 == this.buttonsLenght;
          },
@@ -193,42 +193,43 @@
             this.$router.push(this.$route.path + '?page=' + (index + 1));
             this.current = +this.$route.query.page - 1;            
          },
-         getPageButtons(index) {               
-            if(this.current == 0) {               
-               return index == this.current + 4 || index == this.current + 3 || index == this.current + 2 || index == this.current + 1 || this.current == index;                        
-            }                   
+         getPageButtons(index) {     
+            if(this.current == 0) {            
+               return index == this.current || index == this.current + 1 || index == this.current + 2 || index == this.current + 3 || index == this.current + 4
+            }  
 
-            if(this.current - 1 <= 0) {               
-               return index == this.current + 3 || index == this.current + 2 || index == this.current + 1 || this.current == index || index == this.current - 1                        
+            if(this.current == 1) {            
+               return index == this.current - 1 || index == this.current || index == this.current + 1 || index == this.current + 2 || index == this.current + 3
+            }  
+            
+            if(this.current >= 1 && this.current <= this.buttonsLenght - 3) {            
+               return index == this.current - 1 || index == this.current - 2 || index == this.current || index == this.current + 1 || index == this.current + 2
+            }              
+            
+            if(this.current == this.buttonsLenght - 2) {            
+               return  index == this.current - 3 || index == this.current - 2 || index == this.current - 1 || index == this.current || index == this.current + 1 || index == this.current + 2
             }
 
-            if(this.current - 2 <= 0) {               
-               return index == this.current + 2 || index == this.current + 1 || this.current == index || index == this.current - 1 || index == this.current - 2                         
-            }                                   
-
-            if(this.current + 1 >= this.buttonsLenght) {               
-               return index == this.current - 4 || index == this.current - 3 || index == this.current - 2 || index == this.current - 1 || this.current == index                           
+            if(this.current == this.buttonsLenght - 1) {            
+               return index == this.current - 4 || index == this.current - 3 || index == this.current - 3 || index == this.current - 2 || index == this.current - 1 || index == this.current
             }
-
-            if(this.current + 2 >= this.buttonsLenght) {               
-               return index == this.current - 3 || index == this.current - 2 || index == this.current - 1 || this.current == index || index == this.current + 1
-            }
-
-            return index == this.current + 2 || index == this.current + 1 || this.current == index || index == this.current - 1 || index == this.current - 2;            
          },
          getLimitedList(current) {            
-            this.list = this.newsList.slice(current * this.limit, current * this.limit + this.limit);
+            this.list = this.subList.slice(current * this.limit, current * this.limit + this.limit);
          }                  
       },      
-      async mounted() {            
-         await this.getNews({ category: 'everything', page: 1, limit: 100 });             
-                 
-         this.buttonsLenght = Math.ceil(this.newsList.length / this.limit);         
-         const buttonsArr = [];         
+      async mounted() {      
+         if(!this.subList.length) {
+            await this.getNews({ category: 'everything', page: 1, limit: 100 });             
+         }      
+      
+         this.buttonsLenght = Math.ceil(this.subList.length / this.limit);                  
+         const buttonsArr = [];
+
          for(let i = 1; i < this.buttonsLenght; i++) {
             buttonsArr.push(i);
          }                
-
+        
          window.addEventListener('popstate', () => {              
             this.current = +this.$route.query.page - 1 || 0;
          })  

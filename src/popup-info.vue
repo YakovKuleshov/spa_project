@@ -204,8 +204,7 @@
          
          fetch('https://ctx.playfamily.ru/screenapi/v1/noauth/moviecard/web/1?elementAlias=' + this.filmData.filmName + '&elementType=' + this.filmData.type)
             .then((response) => response.json())
-            .then(res => {
-               // console.log(res)
+            .then(res => {               
                this.actorsList = res.element.actors.items
                this.directorsList = res.element.directors.items
          });

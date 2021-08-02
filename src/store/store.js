@@ -1309,6 +1309,7 @@ export default new Vuex.Store({
             }
          ],
       newsList: [],
+      subList: [],
       menu: [
          {
             id: '/home',
@@ -1335,6 +1336,9 @@ export default new Vuex.Store({
    mutations: {
       updateNews(state, news_list) {
          state.newsList = news_list;
+      },
+      updateSubList(state, sub_list) {
+         state.subList = sub_list;
       }
    },
    getters: {
@@ -1343,6 +1347,9 @@ export default new Vuex.Store({
       },
       newsList(state) {
          return state.newsList;
+      },
+      subList(state) {
+         return state.subList;
       }
    },
    actions: {
@@ -1352,7 +1359,7 @@ export default new Vuex.Store({
          if(response.status == 429) console.error('Слишком много запросов!');
          if (response.status == 200) {
             const res = await response.json();
-            ctx.commit('updateNews', res.articles);
+            params.category == 'top-headlines' ? ctx.commit('updateNews', res.articles) : ctx.commit('updateSubList', res.articles);            
          } else {
             ctx.commit('updateNews', params.category == 'top-headlines' ? ctx.state.localList.slice(20) : ctx.state.localList);
          }
