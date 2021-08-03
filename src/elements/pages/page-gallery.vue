@@ -1,10 +1,11 @@
 <template>
 	<div class="main">
-		<h2 class="title">Галерея
-			<input type="text" placeholder="Поиск" @input="searchWallpapers">
-			<div class="total__count">Всего:&nbsp&nbsp{{ count }}</div>
-		</h2>
+		<h2 class="page__title">Галерея</h2>		
 		<div class="content" ref="galleryContainer">
+			<div class="wrapper__row">
+				<input type="text" placeholder="Поиск" @input="searchWallpapers">
+				<div class="total__count">Всего:&nbsp&nbsp{{ count }}</div>				
+			</div>
 			<div class="container" ref="container">
 				<div v-for="(item, index) in gallery" class="card__container" :key="index">
 					<div class="image__item" :style="{ background: `url('${item.largeImageURL}') no-repeat center`, backgroundSize: 'cover' }" ref="galleryItem" @click="imgClick(item)"></div>
@@ -16,55 +17,47 @@
 </template>
 
 <style scoped>
+.wrapper__row {
+	display: flex;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
 input {
-	outline: none;
-	position: absolute;
+	outline: none;	
 	display: block;
 	border: 1px solid #ccc;
 	background: #fff;
 	border-radius: 5px;
 	padding: 0 10px;
-	width: 300px;
+	width: 250px;
 	color: #333;
-	font-size: 18px;
-	height: 100%;
-	top: 50%;
-	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-	left: 0;
-	box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5) inset;
-	transform: translateY(-50%);
+	font-size: 20px;
+	height: 45px;	
+	box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5) inset;	
 	letter-spacing: .4px;
 }
 
 input::placeholder {
-	color: #ccc;
-	font-size: 15px;
-	
+	color: #ccc;	
+	font-size: 17px;
 }
 
-.total__count {
-	position: absolute;
-	top: 50%;
-	right: 236px;
-	transform: translateY(-50%);
+.total__count {	
 	font-size: 20px;
-	background: #fff;
-	height: 100%;
-	line-height: 40px;
+	background: #fff;	
+	height: 45px;
+	line-height: 45px;
 	box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5) inset;
 	border-radius: 5px;
 	padding: 0 10px;
+	margin-left: 10px;
+	margin-right: 10px;	
 }
 
-.title {
-	position: relative;
-	max-width: 1600px;
+.page__title {
+	margin-bottom: 40px;
 	font-size: 40px;
-	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
-	font-weight: bold;
-	color: #333;
-	margin: 40px auto;
-	padding: 0;
 }
 
 .content {
@@ -190,10 +183,10 @@ export default {
 			}
 		}
 	},
-	methods: {
+	methods: {		
 		searchWallpapers(e) {
 			this.page = 1
-			this.search = e.target.value
+			this.search = e.target.value.trim();			
 			this.loadGallery(this.page, this.search)
 		},
 		imgClick(item) {

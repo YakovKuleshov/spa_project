@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
    state: {
+      mainBg: "img/wallpaper_5.jpg",
       localList:
          [
             {
@@ -1339,6 +1340,9 @@ export default new Vuex.Store({
       },
       updateSubList(state, sub_list) {
          state.subList = sub_list;
+      },
+      changeMainBg(state, new_url) {
+         state.mainBg = new_url;
       }
    },
    getters: {

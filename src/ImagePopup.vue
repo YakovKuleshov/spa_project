@@ -2,7 +2,7 @@
    <div>
    <div class="overlay" @click="clearImgUrl" @mousemove="resetCoords">
       <div class="content" :style="{ transform: `rotateX(${x}deg) rotateY(${y}deg)` }" @mousemove="rotateContent" ref="content">
-         <div class="image" :style="{ background: `url('${url}') no-repeat center`, backgroundSize: 'cover' }"></div>
+         <div class="image" :style="{ background: `url('${url}') no-repeat center`, backgroundSize: 'cover' }" @click="changeMainBg(url)"></div>
       </div>
    </div>
    </div>
@@ -45,6 +45,7 @@
    }
 
    .image {
+      cursor: pointer;
       transform: translateZ(176px);
       height: 73%;
       width: 75%;
@@ -53,6 +54,7 @@
 </style>
 
 <script>
+import { mapMutations } from 'vuex';
    export default {
       props: ['url'],
       data() {
@@ -62,6 +64,7 @@
          }
       },
       methods: {
+         ...mapMutations(['changeMainBg']),      
          clearImgUrl() {
             this.$emit('clearImgUrl')
          },

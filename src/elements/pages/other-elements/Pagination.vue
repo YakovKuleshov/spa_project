@@ -1,5 +1,6 @@
 <template>
    <div>      
+      <h2 class="page__title">Пагинация</h2>
       <div class="pagination">
          <h2 class="list__title">Страница {{ current + 1 }}</h2>
          <div v-for="(item, index) in list" class="list__item" :key="index" @click="toInfoPage(item)">
@@ -18,6 +19,11 @@
    </div>
 </template>
 <style scoped>
+
+   .page__title {
+      margin-bottom: 40px;
+      font-size: 40px;
+   }
 
    .list__title {
       margin-bottom: 20px;

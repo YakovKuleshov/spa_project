@@ -1,6 +1,6 @@
 <template>
 	<div id="main">
-		<div class="wallpaper" :style="{ background: 'url(' + mainBg.url + ') no-repeat center' }"></div>		
+		<div class="wallpaper" :style="{ background: 'url(' + mainBg + ') no-repeat center' }"></div>		
 		<section>
 			<h1 class="title">{{ title }}</h1>
 			<div v-if="getPath" class="menu">
@@ -42,14 +42,20 @@
 			<div id="up" class="scroll__buttons up__button" ref="upButton" @click="scrollPage"></div>
 			<div id="down" class="scroll__buttons down__button" ref="downButton" @click="scrollPage"></div>
 		</div>
-		<weather-now></weather-now>
+		<weather-now></weather-now>		
 		<div class="logo">
 			<div class="logo__icon"></div>
 		</div>
 		<div class="ultra">
 			<div class="ultra__logo"></div>
 			<audio autoplay controls src="https://nashe1.hostingradio.ru:18000/ultra-128.mp3" ref="audio"></audio>
-		</div>     
+		</div>  		
+		<div v-if="!mainBg.includes('wallpaper')" class="bg__button" :style="{ top: `${bgButton}px` }">
+			<div class="pulse__elem_1"></div>
+			<div class="pulse__elem_2"></div>
+			<div class="pulse__elem_3"></div>
+			<div class="button gallary__button" @click="changeMainBg('img/wallpaper_5.jpg')">Вернуть фон</div>
+		</div>
 	</div>
 </template>
 
@@ -62,7 +68,7 @@
 	import popupInfo from "./popup-info";
 	import Clock from "./elements/clock/Clock";
 	import ImagePopup from "./ImagePopup";
-	import { mapGetters } from "vuex";
+	import { mapGetters, mapState, mapMutations } from "vuex";
 	import "./style/style.css";
 
 export default {
@@ -76,10 +82,7 @@ export default {
 		Clock 
 	},
 	data() {
-		return {                 
-			mainBg: {
-				url: "img/wallpaper_5.jpg",
-			},
+		return {                 			
 			galleryImgUrl: "",
 			colorpicker: false,
 			blockColor: "",
@@ -89,9 +92,11 @@ export default {
 			title: "Vue",
 			lineWidth: "",
 			lineLeft: "",
+			bgButton: window.innerHeight - 300
 		};
 	},
 	methods: {     
+		...mapMutations(['changeMainBg']),
 		switchPage() {
 			let activeItem = document.querySelector(".menu__item__active");
 			if(activeItem) {
@@ -152,6 +157,7 @@ export default {
 		}
 	},
 	computed: {
+		...mapState(['mainBg']),
 		...mapGetters(["menuList"]),
 		getPath()  {
 			return this.$route.path != '/info';
@@ -184,8 +190,8 @@ export default {
 
 		let flagUp = true;
 		let flagDown = true;
-
-		window.addEventListener("scroll", () => {
+		
+		window.addEventListener("scroll", (e) => {
 			//PARALAX
 			// let elems = this.$el.querySelectorAll(".block");
 			// elems.forEach((el) => {
@@ -195,6 +201,8 @@ export default {
 			//       el.style.transform = "translateY(0)";
 			//    }
 			// });
+
+			this.bgButton = window.innerHeight - 300 + window.scrollY;
 
 			if (!flagUp) return false;
 			flagUp = false;
