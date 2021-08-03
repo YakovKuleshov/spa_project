@@ -35,7 +35,7 @@ h2 {
 	text-align: center;
 	color: aquamarine;
 	font-size: 80px;
-	text-shadow: 4px 0 4px rgba(0, 0, 0, 0.8);
+	text-shadow: 5px 6px 5px rgb(0,0,0,.5);
 }
 
 .logo {

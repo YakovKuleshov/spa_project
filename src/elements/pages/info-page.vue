@@ -4,7 +4,7 @@
          <h1 style="text-align: center">Информация</h1>
          <div class="image__block">
             <div class="image__container">
-               <img class="image" :src="dataInfo.urlToImage" alt="">   
+               <img class="image" :src="dataInfo.urlToImage" alt="image">   
             </div>      
          </div>
          <div class="text__block">{{ dataInfo.content }}</div>   

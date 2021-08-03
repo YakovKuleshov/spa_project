@@ -1334,7 +1334,7 @@ export default new Vuex.Store({
       ]
    },
    mutations: {
-      updateNews(state, news_list) {
+      updateNews(state, news_list) {         
          state.newsList = news_list;
       },
       updateSubList(state, sub_list) {
@@ -1356,12 +1356,13 @@ export default new Vuex.Store({
       async getNews(ctx, params = { category: 'top-headlines', page: 1, limit: 20 }) {
          // const KEY = '2c003695d0774374902a4c4e5cb8a27e'
          const response = await fetch(`http://newsapi.org/v2/${params.category}?${params.category == 'everything' ? 'q=all&' : 'country=ru&'}pageSize=${params.limit}&page=${params.page}&apiKey=2c003695d0774374902a4c4e5cb8a27e`);
-         if(response.status == 429) console.error('Слишком много запросов!');
+         if(response.status == 429) console.error('Слишком много запросов!');         
          if (response.status == 200) {
             const res = await response.json();
             params.category == 'top-headlines' ? ctx.commit('updateNews', res.articles) : ctx.commit('updateSubList', res.articles);            
-         } else {
-            ctx.commit('updateNews', params.category == 'top-headlines' ? ctx.state.localList.slice(20) : ctx.state.localList);
+         } else {   
+            let offset = Math.round(Math.random() * (ctx.state.localList.length - 20));            
+            ctx.commit('updateNews', params.category == 'top-headlines' ? ctx.state.localList.slice(offset, offset + 20) : ctx.state.localList);
          }
       }
    }

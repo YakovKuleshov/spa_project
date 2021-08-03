@@ -30,7 +30,7 @@
       max-width: 1300px;
       margin: 0 auto;
       box-sizing: border-box;
-      height: 460px;
+      min-height: 460px;
       box-shadow: 9px 15px 30px rgba(0,0,0,.4);
    }
 
