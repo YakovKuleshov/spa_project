@@ -62,12 +62,7 @@
 			return {		
 				volume: {
 					value: 35
-				},	
-				moveVolume(e) {							
-					const container = this.$refs.volumeContainer;
-					const dist = -(100 / container.offsetHeight * (e.clientY - container.getBoundingClientRect().top) - 100);					
-					this.volume.value = Math.min(Math.max(0, dist), 100);								
-				}
+				}				
 			}
 		},
 		methods: {		
@@ -76,14 +71,23 @@
 				const dist = -(100 / container.offsetHeight * (e.clientY - container.getBoundingClientRect().top) - 100);
 				this.volume.value = dist;	
 				window.addEventListener('mousemove', this.moveVolume);
-			}		
+			},
+			moveVolume(e) {							
+				const container = this.$refs.volumeContainer;
+				const dist = -(100 / container.offsetHeight * (e.clientY - container.getBoundingClientRect().top) - 100);					
+				this.volume.value = Math.min(Math.max(0, dist), 100);								
+			},
+			mouseUp() {
+				window.removeEventListener('mousemove', this.moveVolume);
+			}
 		},
 		mounted() {
 			this.moveVolume = this.moveVolume.bind(this);
 
-			window.addEventListener('mouseup', () => {			
-				window.removeEventListener('mousemove', this.moveVolume);
-			})		
+			window.addEventListener('mouseup', this.mouseUp);		
+		},
+		beforeDestroy() {
+			window.removeEventListener('mouseup', this.mouseUp);
 		}
 	}
 </script>
