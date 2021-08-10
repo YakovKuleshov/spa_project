@@ -194,24 +194,10 @@
 <script>
 export default {
 	data() {
-		return {			
-			scrollContent() {				
-				if(!this.flag) return false
-				if(window.scrollY >= (document.body.scrollHeight - window.innerHeight) - 200) {
-					this.page += 20
-					this.load(this.page)
-					this.flag = false
-				}
-			},
+		return {						
 			preloader: false,			
 			list: [],
-			page: 0,
-			hasItems(arr) {
-				return arr && arr.length ? true : false
-			},			
-			getImageUrl(arr) {
-				return arr[1] && arr[1].__ob__.value.url ? arr[1].__ob__.value.url : arr[0].__ob__.value.url
-			},
+			page: 0			
 			// getRate(rate) {
 			// 	return rate ? rate.toFixed(1) : ''
 			// },
@@ -227,57 +213,71 @@ export default {
 			// },
 			// getRateWidth(rate) {
 			// 	return 100 / 10 * rate
-			// },
-			getItemInfo(item) {				
-				fetch(`https://ctx.playfamily.ru/screenapi/v1/noauth/moviecard/web/1?elementAlias=${item.element.alias}&elementType=MOVIE`, {					
-				}).then((response) => {
-					return response.json();
-				}).then(res => {					
-					const filmData = {
-						url: res.element.basicCovers.items[0].url,
-						description: res.element.description,
-						trailer: res.element.trailers.items[1].url,
-						rating: res.element.kinopoiskRating,
-						filmName: res.element.alias,
-						type: res.element.type,
-						year: new Date(res.element.worldReleaseDate).toLocaleString({}, { year: 'numeric' })
-					}
-					this.$emit('onFilmClick', filmData)
-				});
-			},
-			load(page, first_load) {
-				this.preloader = true
-				fetch('https://ctx.playfamily.ru/screenapi/v1/noauth/collection/web/1?elementAlias=novelty_web&elementType=COLLECTION&limit=21&offset='+ page +'&withInnerCollections=false')
-					.then(response => response.json())
-					.then(res => {
-
-						if(this.hasItems(res.element.collectionItems.items)) {
-							if(first_load) {								
-								setTimeout(() => {							
-									if(this.$refs.filmsContainer.getBoundingClientRect().bottom < window.innerHeight) {
-										this.page += 20
-										this.load(this.page, first_load);
-									}		
-								})								
-							}
-
-							if(this.page == 0) {
-								this.list = res.element.collectionItems.items								
-							}else {
-								this.list = this.list.concat(res.element.collectionItems.items)
-							}
-							this.flag = true
-						}
-						
-						this.preloader = false
-					}).catch(err => console.log(err));
-			}
+			// },			
 		}
 	},
 	watch: {},
 	methods: {		
-		showInfo(item) {			
+		showInfo(item) {					
 			this.getItemInfo(item);
+		},
+		scrollContent() {				
+			if(!this.flag) return false
+			if(window.scrollY >= (document.body.scrollHeight - window.innerHeight) - 200) {
+				this.page += 20
+				this.load(this.page)
+				this.flag = false
+			}
+		},
+		getItemInfo(item) {				
+			fetch(`https://ctx.playfamily.ru/screenapi/v1/noauth/moviecard/web/1?elementAlias=${item.element.alias}&elementType=MOVIE`, {					
+			}).then((response) => {
+				return response.json();
+			}).then(res => {					
+				const filmData = {
+					url: res.element.basicCovers.items[0].url,
+					description: res.element.description,
+					trailer: res.element.trailers.items[1].url,
+					rating: res.element.kinopoiskRating,
+					filmName: res.element.alias,
+					type: res.element.type,
+					year: new Date(res.element.worldReleaseDate).toLocaleString({}, { year: 'numeric' })
+				}
+				this.$emit('onFilmClick', filmData)
+			});
+		},
+		load(page, first_load) {
+			this.preloader = true
+			fetch('https://ctx.playfamily.ru/screenapi/v1/noauth/collection/web/1?elementAlias=novelty_web&elementType=COLLECTION&limit=21&offset='+ page +'&withInnerCollections=false')
+				.then(response => response.json())
+				.then(res => {
+
+					if(this.hasItems(res.element.collectionItems.items)) {
+						if(first_load) {								
+							setTimeout(() => {							
+								if(this.$refs.filmsContainer.getBoundingClientRect().bottom < window.innerHeight) {
+									this.page += 20
+									this.load(this.page, first_load);
+								}		
+							})								
+						}
+
+						if(this.page == 0) {
+							this.list = res.element.collectionItems.items								
+						}else {
+							this.list = this.list.concat(res.element.collectionItems.items)
+						}
+						this.flag = true
+					}
+					
+					this.preloader = false
+				}).catch(err => console.log(err));
+		},
+		hasItems(arr) {
+			return arr && arr.length ? true : false
+		},			
+		getImageUrl(arr) {
+			return arr[1] && arr[1].__ob__.value.url ? arr[1].__ob__.value.url : arr[0].__ob__.value.url
 		}		
 	},	
 	mounted() {				
