@@ -7,8 +7,7 @@
 				<div class="shadow__line" :style="{ width: lineWidth + 'px', left: lineLeft + 'px' }"></div>
 				<template v-for="item in menuList">
 					<router-link
-						:to="item.id"
-						tag="div"
+						:to="item.id"						
 						class="menu__item"
 						active-class="menu__item__active"
 						:key="item.id"
@@ -50,7 +49,7 @@
 			<div class="ultra__logo"></div>
 			<audio autoplay controls src="https://nashe1.hostingradio.ru:18000/ultra-128.mp3" ref="audio"></audio>
 		</div>  		
-		<div v-if="!mainBg.includes('wallpaper')" class="bg__button" :style="{ top: `${bgButton}px` }">
+		<div v-if="!mainBg.includes('wallpaper')" class="bg__button" :style="{ top: `${bgButtonTop}px` }">
 			<div class="pulse__elem_1"></div>
 			<div class="pulse__elem_2"></div>
 			<div class="pulse__elem_3"></div>
@@ -92,12 +91,12 @@ export default {
 			title: "Vue",
 			lineWidth: "",
 			lineLeft: "",
-			bgButton: window.innerHeight - 300
+			bgButtonTop: window.innerHeight - 300
 		};
 	},
 	methods: {     
 		...mapMutations(['changeMainBg']),
-		switchPage() {
+		switchPage() {			
 			let activeItem = document.querySelector(".menu__item__active");
 			if(activeItem) {
 				this.lineWidth = activeItem.offsetWidth;
@@ -202,7 +201,7 @@ export default {
 			//    }
 			// });
 
-			this.bgButton = window.innerHeight - 300 + window.scrollY;
+			this.bgButtonTop = window.innerHeight - 300 + window.scrollY;
 
 			if (!flagUp) return false;
 			flagUp = false;

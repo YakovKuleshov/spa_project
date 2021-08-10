@@ -2,11 +2,13 @@
    <div>      
       <h2 class="page__title">Пагинация</h2>
       <div class="pagination">
-         <h2 class="list__title">Страница {{ current + 1 }}</h2>
-         <div v-for="(item, index) in list" class="list__item" :key="index" @click="toInfoPage(item)">
-            <div class="list__item__img" :style="{ backgroundImage: `url(${item.urlToImage})` }"></div>
-            <div class="list__item__text">{{ item.description }}</div>
-         </div>
+         <h2 class="list__title">Страница {{ current + 1 }}</h2>                  
+         <transition-group name="list">
+            <div v-for="item in list" class="list__item" :key="item.description" @click="toInfoPage(item)">
+               <div class="list__item__img" :style="{ backgroundImage: `url('${item.urlToImage}')` }"></div>
+               <div class="list__item__text">{{ item.description }}</div>
+            </div>
+         </transition-group>         
       </div>
       <div class="list__buttons">
          <div class="list__button prev__btn" :class="{ disabled: getDisabledPrevBtn }" @click="toPrevPage"></div>    
@@ -18,7 +20,16 @@
       </div>         
    </div>
 </template>
-<style scoped>
+<style scoped>      
+
+   .list-enter-active {
+      transition: 1s;       
+   }
+  
+   .list-enter {
+      opacity: 0;      
+      transform: translateY(30px);
+   }         
 
    .page__title {
       margin-bottom: 40px;
@@ -36,8 +47,9 @@
       max-width: 1300px;
       margin: 0 auto;
       box-sizing: border-box;
-      min-height: 460px;
+      height: 460px;
       box-shadow: 9px 15px 30px rgba(0,0,0,.4);
+      overflow: hidden;
    }
 
    .list__item {
@@ -48,7 +60,7 @@
       background: #baefd4;
       margin-bottom: 5px;
       cursor: pointer;
-      box-shadow: 1px 1px 4px rgba(0,0,0,.4);
+      box-shadow: 1px 1px 4px rgba(0,0,0,.4);      
    }
 
    .list__item:last-of-type {
@@ -184,11 +196,11 @@
             this.$router.push('/info');
          },
          toNextPage() {            
-            this.current = this.current + 1
+            this.current++
             this.$router.push(this.$route.path + '?page=' + (this.current + 1));
          },
          toPrevPage() {
-            this.current = this.current - 1
+            this.current--
             this.$router.push(this.$route.path + '?page=' + (this.current + 1));
          },
          toLastPage() {
@@ -221,7 +233,7 @@
             }
          },
          getLimitedList(current) {            
-            this.list = this.subList.slice(current * this.limit, current * this.limit + this.limit);
+            this.list = this.subList.slice(current * this.limit, current * this.limit + this.limit);            
          }                  
       },      
       async mounted() {      
