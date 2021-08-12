@@ -2,13 +2,12 @@
    <div>      
       <h2 class="page__title">Пагинация</h2>
       <div class="pagination">
-         <h2 class="list__title">Страница {{ current + 1 }}</h2>                  
-         <transition-group name="list">
-            <div v-for="item in list" class="list__item" :key="item.description" @click="toInfoPage(item)">
-               <div class="list__item__img" :style="{ backgroundImage: `url('${item.urlToImage}')` }"></div>
-               <div class="list__item__text">{{ item.description }}</div>
-            </div>
-         </transition-group>         
+         <h2 class="list__title">Страница {{ current + 1 }}</h2>                           
+         <div v-for="item in list" class="list__item" :key="item.description" @click="toInfoPage(item)">
+            <div class="list__item__img" :style="{ backgroundImage: `url('${item.urlToImage}')` }"></div>
+            <div class="list__item__text">{{ item.description }}</div>
+         </div>         
+         <div v-if="!list.length" class="preloader"></div>
       </div>
       <div class="list__buttons">
          <div class="list__button prev__btn" :class="{ disabled: getDisabledPrevBtn }" @click="toPrevPage"></div>    
@@ -22,15 +21,6 @@
 </template>
 <style scoped>      
 
-   .list-enter-active {
-      transition: 1s;       
-   }
-  
-   .list-enter {
-      opacity: 0;      
-      transform: translateY(30px);
-   }         
-
    .page__title {
       margin-bottom: 40px;
       font-size: 40px;
@@ -41,6 +31,7 @@
    }
 
    .pagination {
+      position: relative;
       border-radius: 10px;
       padding: 10px;
       background: #fff;
@@ -50,6 +41,26 @@
       height: 460px;
       box-shadow: 9px 15px 30px rgba(0,0,0,.4);
       overflow: hidden;
+   }
+
+   .preloader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 4px solid #0099ff;
+      border-right-color: transparent;
+      box-sizing: border-box;
+      animation: rotatePreloader .5s infinite linear;
+   }
+
+   @keyframes rotatePreloader {
+      100% {
+         transform: translate(-50%, -50%) rotateZ(360deg);
+      }
    }
 
    .list__item {

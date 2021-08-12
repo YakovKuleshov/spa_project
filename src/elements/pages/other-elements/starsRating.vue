@@ -8,7 +8,7 @@
 <style scoped>
    .stars__rating {
       position: fixed;
-      left: 100px;
+      left: 50px;
       top: 200px;
       font-size: 50px;
       text-shadow: 1px 1px 2px #333;
@@ -65,7 +65,7 @@
       },
       methods: {
          moveStarsRating(e) {
-            if(!this.rateFlag) return false
+            if(!this.rateFlag) return false            
             this.starsRate =  (5 / e.currentTarget.offsetWidth * e.offsetX).toFixed(1)
 
             if(e.target.classList.contains('empty')) {
