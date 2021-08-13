@@ -4,13 +4,14 @@
 		<div class="content" ref="galleryContainer">
 			<div class="wrapper__row">
 				<input type="text" placeholder="Поиск" @input="searchWallpapers">
-				<div class="total__count">Всего:&nbsp&nbsp{{ count }}</div>				
+				<div class="total__count">Всего:&nbsp&nbsp{{ count.toLocaleString() }}</div>				
 			</div>
 			<div class="container" ref="container">
 				<div v-for="(item, index) in gallery" class="card__container" :key="index">
 					<div class="image__item" :style="{ background: `url('${item.largeImageURL}') no-repeat center`, backgroundSize: 'cover' }" ref="galleryItem" @click="imgClick(item)"></div>
 				</div>
-				<div v-if="!gallery.length" class="preloader"></div>
+				<div v-if="!gallery.length && count != 0" class="preloader"></div>
+				<div v-if="count == 0" class="no__items">Ничего не найдено</div>
 			</div>
 		</div>
 	</div>
@@ -82,10 +83,12 @@ input::placeholder {
 } */
 
 .container {
+	position: relative;
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	grid-auto-rows: 200px;
 	grid-gap: 20px;
+	min-height: 200px;
 }
 
 .preloader {
@@ -108,6 +111,16 @@ input::placeholder {
   100% {
     transform: translateX(-50%) rotateZ(360deg);
   }
+}
+
+.no__items {
+	font-size: 35px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+	color: #333;
 }
 
 .card__container {

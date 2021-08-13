@@ -273,8 +273,7 @@ export default {
 		// this.$router.push(this.$route.path + '?page=1')
 		// console.log(this.$route.query)
 		// console.log(this.$options)
-
-
+		
 		//332260061 - коммент
 		// Золкин Олег: 604825, Дмитрий Золкин: 709461, Золкин Дмитрий Олегович: 739361, Золкин Олег Анатольевич: (739661 740661), Золкина Катя: 785861
 		this.loadContent(true);   

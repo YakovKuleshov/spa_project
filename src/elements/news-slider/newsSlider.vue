@@ -22,9 +22,9 @@
       top: 150%;
       color: var(--newsColor, #333);
       width: 100%;
-      letter-spacing: .5px;
+      letter-spacing: 1px;
       cursor: pointer;
-      text-shadow: 2px 2px 3px rgba(0,0,0,.9);
+      text-shadow: 1px 1px 2px rgba(0,0,0,.7);
       font-size: 20px;
    }
 
