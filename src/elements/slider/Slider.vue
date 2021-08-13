@@ -129,7 +129,7 @@ export default {
             {
                image: "camaro",
             },
-             {
+            {
                image: "lambo_concept",
             },      
             {

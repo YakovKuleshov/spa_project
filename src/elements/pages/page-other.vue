@@ -5,6 +5,9 @@
 			<div class="section slider">
 				<Slider />
 			</div>    			   
+			<div class="section galler__3d">
+				<Gallery3d />
+			</div>
 			<div class="section">
 				<AnimatedShapes />
 			</div>
@@ -82,6 +85,10 @@
 		z-index: 0;
 	}
 
+	.galler__3d {
+		padding: 50px 0 250px;
+	}
+
 	.section:last-of-type {
 		margin-bottom: 0;
 	}
@@ -103,7 +110,7 @@
 import Slider from "../slider/Slider";
 import StarsRating from './other-elements/starsRating';
 import AnimatedShapes from './other-elements/AnimatedShapes'
-
+import Gallery3d from './other-elements/Gallery3d'
 // import InfiniteSlider from "../slider/InfiniteSlider";
 // import Header from "../header/Header";
 // import TabMenu from "../tab-menu/TabMenu";
@@ -115,7 +122,8 @@ export default {
 	components: {
 		Slider,
 		StarsRating,
-		AnimatedShapes		
+		AnimatedShapes,
+		Gallery3d		
 		// InfiniteSlider,
 		// Header,
 		// TabMenu,
@@ -230,7 +238,7 @@ export default {
 		},
 	},
 	computed: {},
-	methods: {       
+	methods: {       		
 		updateSection() {
 			// ("https://api.wantenger.com/api/wantenger/work/update");
 			// id: '1572446048261'  
