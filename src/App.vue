@@ -67,7 +67,7 @@
 	import popupInfo from "./popup-info";
 	import Clock from "./elements/clock/Clock";
 	import ImagePopup from "./ImagePopup";
-	import { mapGetters, mapState, mapMutations } from "vuex";
+	import { mapState, mapMutations } from "vuex";
 	import "./style/style.css";
 
 export default {
@@ -95,7 +95,7 @@ export default {
 		};
 	},
 	methods: {     
-		...mapMutations(['changeMainBg']),
+		...mapMutations('mainStore', ['changeMainBg']),
 		switchPage() {			
 			let activeItem = document.querySelector(".menu__item__active");
 			if(activeItem) {
@@ -156,8 +156,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapState(['mainBg']),
-		...mapGetters(["menuList"]),
+		...mapState('mainStore', ['menuList', 'mainBg']),		
 		getPath()  {
 			return this.$route.path != '/info';
 		}
@@ -169,7 +168,7 @@ export default {
 
 	beforeMount() {},
 	
-	mounted() {
+	mounted() {				
 		this.switchPage();
 		
 		this.$refs.audio.volume = .1;

@@ -191,7 +191,7 @@
          }
       },    
       computed: {
-         ...mapGetters(['subList']),
+         ...mapGetters('mainStore', ['subList']),
          getDisabledNextBtn() {            
             return this.current + 1 == this.buttonsLenght;
          },
@@ -200,7 +200,7 @@
          }
       },
       methods: {
-         ...mapActions(['getNews']),
+         ...mapActions('mainStore', ['getNews']),
          toInfoPage(item) {
             // this.$router.push({name: 'info', params: { id: item }})
             localStorage.setItem('info_data', JSON.stringify({...item, page: this.$route.query.page ? this.$route.query.page : 1}));

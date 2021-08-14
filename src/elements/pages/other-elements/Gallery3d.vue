@@ -75,7 +75,6 @@
       height: 100%;            
       transform: scale(1, -1) translateX(-50%) rotateX(5deg);
       opacity: .3;      
-      filter: blur(1px);
    }
 </style>
 <script>

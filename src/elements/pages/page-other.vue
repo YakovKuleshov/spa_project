@@ -111,6 +111,7 @@ import Slider from "../slider/Slider";
 import StarsRating from './other-elements/starsRating';
 import AnimatedShapes from './other-elements/AnimatedShapes'
 import Gallery3d from './other-elements/Gallery3d'
+import { mapState } from 'vuex'
 // import InfiniteSlider from "../slider/InfiniteSlider";
 // import Header from "../header/Header";
 // import TabMenu from "../tab-menu/TabMenu";
@@ -237,7 +238,9 @@ export default {
 			deep: true,
 		},
 	},
-	computed: {},
+	computed: {
+		...mapState('moduleStore', ['productList'])
+	},
 	methods: {       		
 		updateSection() {
 			// ("https://api.wantenger.com/api/wantenger/work/update");
@@ -277,7 +280,8 @@ export default {
 		}
 	},
 		
-	mounted() {	
+	mounted() {			
+		// console.log(this.productList, this.$store.state.moduleStore)
 		// this.$router.push(this.$route.path + '?page=1')
 		// console.log(this.$route.query)
 		// console.log(this.$options)

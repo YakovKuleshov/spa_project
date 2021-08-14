@@ -64,7 +64,7 @@ import { mapMutations } from 'vuex';
          }
       },
       methods: {
-         ...mapMutations(['changeMainBg']),      
+         ...mapMutations('mainStore', ['changeMainBg']),      
          clearImgUrl() {
             this.$emit('clearImgUrl')
          },

@@ -123,9 +123,9 @@ export default {
 	components: {
 		NewsSlider
 	},
-	computed: mapGetters(['newsList']),
-	methods: mapActions(['getNews']),
-	mounted() {		
+	computed: mapGetters('mainStore', ['newsList']),
+	methods: mapActions('mainStore', ['getNews']),
+	mounted() {				
 		this.getNews()
 	}
 }
