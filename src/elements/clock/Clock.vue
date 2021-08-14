@@ -149,7 +149,7 @@
          getDate() {
             const date = new Date();
             this.dayNow = this.days[date.getDay()];
-            return date.toLocaleString([], {
+            return date.toLocaleDateString({}, {
                day: 'numeric',
                month: 'long',
                year: 'numeric'
@@ -159,9 +159,9 @@
             return this.timeFormat >= 12 ? 'PM' : 'AM';
          }
       },      
-      mounted() {           
-         this.startWatch()
-         if(this.timeFormat) {
+      mounted() {                    
+         this.startWatch()         
+         if(this.timeFormat.toString()) {
             setInterval(() => {
                this.startWatch();
             }, 1000)

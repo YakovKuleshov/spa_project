@@ -111,7 +111,7 @@ import Slider from "../slider/Slider";
 import StarsRating from './other-elements/starsRating';
 import AnimatedShapes from './other-elements/AnimatedShapes'
 import Gallery3d from './other-elements/Gallery3d'
-import { mapState } from 'vuex'
+
 // import InfiniteSlider from "../slider/InfiniteSlider";
 // import Header from "../header/Header";
 // import TabMenu from "../tab-menu/TabMenu";
@@ -238,9 +238,7 @@ export default {
 			deep: true,
 		},
 	},
-	computed: {
-		...mapState('moduleStore', ['productList'])
-	},
+	computed: {},
 	methods: {       		
 		updateSection() {
 			// ("https://api.wantenger.com/api/wantenger/work/update");

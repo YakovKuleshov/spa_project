@@ -9,6 +9,7 @@ import pageFilms from './elements/pages/page-films';
 import pageOther from './elements/pages/page-other';
 import Pagination from './elements/pages/other-elements/Pagination';
 import InfoPage from './elements/pages/info-page'
+import ShopApp from './elements/pages/shop/ShopApp'
 
 const routes = [
    {
@@ -16,8 +17,8 @@ const routes = [
       redirect: { name: 'home' }
    },
    {
-      name: 'home',
       path: '/home',
+      name: 'home',
       component: pageNews
    },
    {
@@ -34,7 +35,7 @@ const routes = [
    },
    {
       path: '/pagination',
-      name: 'pag',
+      // name: 'pag',
       component: Pagination,
       // children: [
       //    {
@@ -44,11 +45,14 @@ const routes = [
       // ]
    },
    {
-      path: '/info',
-      name: 'info',
+      path: '/info',      
       props: true,
       component: InfoPage
-   }    
+   },
+   {
+      path: '/shop',            
+      component: ShopApp      
+   }     
 ]
 
 export const router = new VueRouter({

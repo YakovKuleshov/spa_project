@@ -1338,6 +1338,10 @@ const store = new Vuex.Store({
                {
                   id: '/pagination',
                   name: 'Пагинация'
+               },
+               {
+                  id: '/shop',
+                  name: 'Магазин'
                }
             ]
          },
