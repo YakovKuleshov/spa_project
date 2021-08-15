@@ -1,7 +1,7 @@
 <template>
    <div class="product__list">           
       <div class="cards__container">
-         <ProductCard v-for="item in productList" :key="item.id" :item="item"/>
+         <ProductCard v-for="item in searchedList" :key="item.id" :item="item"/>
       </div>           
    </div>
 </template>
@@ -30,7 +30,7 @@
 
 <script>
 import ProductCard from './ProductCard.vue'
-import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 
    export default {
       components: { 
@@ -40,7 +40,7 @@ import { mapState } from 'vuex'
          return {}
       },
       computed: {
-         ...mapState('moduleStore', ['productList']),
+         ...mapGetters('moduleStore', ['searchedList']),
       }
    }
 </script>

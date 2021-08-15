@@ -1,6 +1,6 @@
 <template>
    <div class="shop">
-      <ShopToolbar :title="getTitle" @routing="routing"/>      
+      <ShopToolbar :title="getTitle" @routing="routing" :currentPage="currentPage"/>      
       <component :is="currentComponent" @routing="routing"></component>      
    </div>
 </template>
@@ -29,7 +29,8 @@ import Cart from './elements/Cart'
       },
       data() {
          return {
-            currentComponent: ShopList
+            currentComponent: ShopList,
+            currentPage: ''
          }
       },
       methods: {        
@@ -43,8 +44,8 @@ import Cart from './elements/Cart'
       },
       computed: {         
          getTitle() {
-            const currentPage =  this.currentComponent.__file.split('/')[5].replace(/\.vue/g, '');
-            switch(currentPage) {
+            this.currentPage =  this.currentComponent.__file.split('/')[5].replace(/\.vue/g, '');
+            switch(this.currentPage) {
                case 'ShopList': return 'Список товаров'
                case 'Cart': return 'Корзина'
             }
