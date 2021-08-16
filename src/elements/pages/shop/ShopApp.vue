@@ -1,7 +1,9 @@
 <template>
    <div class="shop">
       <ShopToolbar :title="getTitle" @routing="routing" :currentPage="currentPage"/>      
-      <component :is="currentComponent" @routing="routing"></component>      
+      <transition name="fade">
+         <component :is="currentComponent" @routing="routing"></component>      
+      </transition>
    </div>
 </template>
 <style scoped>
@@ -11,10 +13,28 @@
    }
 
    .shop {
+      position: relative;
       max-width: 1200px;
       margin: 0 auto;      
       color: #333;
    }
+   
+   .fade-enter {
+      transition: opacity .5s;
+      opacity: 0;           
+   }
+
+   .fade-enter-active {
+      transition: opacity .5s;      
+   }   
+
+   .fade-leave-active {      
+      opacity: 0;
+      transition: opacity .5s;
+      position: absolute; 
+      width: 100%; 
+   }
+
 </style>
 <script>
 import ShopToolbar from './elements/ShopToolbar'

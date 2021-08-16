@@ -1,7 +1,9 @@
 <template>
    <div class="cart">      
       <div class="list">
-         <CartItem class="cart__item" v-for="item in cartList"  :item="item" :key="item.id"/>
+         <transition-group name="animate">
+            <CartItem class="cart__item animate-item" v-for="item in cartList"  :item="item" :key="item.id"/>
+         </transition-group>
       </div>
       <div class="wrapper__row">
          <div class="back" @click="toList">Назад</div>
@@ -40,6 +42,10 @@
       margin-bottom: 5px;
    }
 
+   .cart__item:last-of-type {
+      margin-bottom: 0;
+   }
+
    .wrapper__row {
       display: flex;
       margin-top: auto;
@@ -58,6 +64,21 @@
       font-size: 18px;
       letter-spacing: 1px;
    }
+
+   .animate-item {      
+      transition: all .5s;      
+   }
+   .animate-enter, .animate-leave-to {
+      opacity: 0;
+      transform: translateX(-1000px);
+   }   
+
+   @media screen and (max-width: 860px) {
+      .cart__item {
+         margin-bottom: 10px;
+      }
+   }
+
 </style>
 
 <script>

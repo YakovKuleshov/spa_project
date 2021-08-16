@@ -10,6 +10,10 @@
 
 <style scoped>
 
+   * {
+      box-sizing: border-box;
+   }
+
    .cart__item {
       height: 50px;
       display: flex;
@@ -55,6 +59,32 @@
       background-size: cover;
       margin-left: 100px;
    }   
+
+   @media screen and (max-width: 860px) {
+      .cart__item {
+         display: block;
+         height: auto;
+         padding: 10px;         
+      }
+
+      .image {
+         width: auto;
+         height: 200px;
+         margin: 0 0 20px;
+      }
+
+      .counter {
+         margin: 20px 0;
+      }
+
+      .price {
+         margin: 0 0 20px;
+      }
+
+      .remove {
+         margin-left: auto;
+      }
+   }
 
 </style>
 

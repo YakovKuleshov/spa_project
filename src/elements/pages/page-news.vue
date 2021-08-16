@@ -9,7 +9,7 @@
 				<template v-for="(item, index) in newsList">
 					<div class="news__item" :key="index">
 						<a :href="item.url" rel="noopener" target="_blank">
-							<div class="item__image" :style="{ background: `url('${ item.urlToImage }') no-repeat center`, backgroundSize: 'cover' }"></div>
+							<div class="item__image" :style="{ background: `#ccc url('${ item.urlToImage }') no-repeat center`, backgroundSize: 'cover' }"></div>
 							<div class="text__container">
 								<div class="title__text">{{ item.title }}</div>
 								<div class="public__date">{{ new Date(item.publishedAt).toLocaleDateString() }}</div>

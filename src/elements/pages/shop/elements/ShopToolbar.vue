@@ -1,19 +1,27 @@
 <template>
-   <div class="toolbar">
-      <h3 class="sub__title">{{ title }}</h3>
-      <template v-if="currentPage == 'ShopList'">
-         <div class="autocomplite" @keydown.stop>
-            <input class="search" tabindex="0" type="text" v-model.trim="value" placeholder="Поиск..." @keydown="selectProduct" ref="searchInput" @focus="showDropdown" @click.stop="stopClick">
-            <div class="dropdown" ref="dropdown">
-               <div v-for="(item, index) in searchedList" class="dropdown__item" :key="item.id" tabindex="0" ref="items" @keydown.stop="selectInDropdownProduct($event, item, index)" @click="selectInDropdownProduct({ key: 'Enter' }, item)">{{ item.name }}</div>
+   <div class="toolbar" :class="currentPage">
+      <transition name="fade">         
+         <h3 v-if="title === 'Список товаров'" class="sub__title">{{ title }}</h3>         
+         <h3 v-else class="sub__title" key="2">{{ title }}</h3>         
+      </transition>      
+      <transition name="fade">
+         <div v-if="currentPage == 'ShopList'" class="filters__container">            
+            <div class="autocomplite">
+               <input class="search" type="text" v-model.trim="value" placeholder="Поиск..." @keydown="selectProduct" @focus="showDropdown" @click.stop>
+               <div class="dropdown" ref="dropdown">
+                  <div v-for="(item, index) in searchedList" class="dropdown__item" :class="{ dropdown__item__active: count == index }" :key="item.id" @click="selectInDropdownProduct(item)">{{ item.name }}</div>
+               </div>
             </div>
-         </div>
-         <select class="select" value="random" @change="sortList($event.target.value.trim())">
-            <option value="random">Случайный</option>
-            <option value="decreasing">Цена по убыванию</option>
-            <option value="ascending">Цена по возрастанию</option>         
-         </select>
-      </template>
+            <select class="select" :value="filter" @change="sortList($event.target.value.trim())">
+               <option value="random">Случайный</option>
+               <option value="decreasing">Цена по убыванию</option>
+               <option value="ascending">Цена по возрастанию</option>         
+            </select>
+            <div class="icons__container">
+               <div v-for="item in viewList" class="view__icon" :class="{ active__icon: item.id === view }" :key="item.id" @click="changeView(item.id)"></div>            
+            </div>            
+         </div>  
+      </transition>
       <div class="cart__container" @click="toList">
          <div class="cart"></div>
          <div class="cart__value">{{ totalCount }}</div>
@@ -33,16 +41,22 @@
       margin-bottom: 20px;
       display: flex;
       align-items: center;
-      padding: 20px;
+      padding: 0 20px;
       box-shadow: 2px 2px 4px rgba(0,0,0,.5) inset;
    }
 
    .sub__title {
       font-size: 20px;
+      position: absolute;
+      left: 20px;
    }
 
-   .autocomplite {
-      margin-left: 20px;
+   .filters__container {
+      display: flex;      
+      margin-left: 180px;
+   }
+
+   .autocomplite {      
       position: relative;
    }
 
@@ -71,6 +85,7 @@
       border-radius: 0 0 5px 5px;
       border-top: none;
       display: none;
+      z-index: 1;
    }
 
    .dropdown__item {
@@ -78,7 +93,12 @@
       cursor: pointer;
    }
 
-   .dropdown__item:hover, .dropdown__item:focus {
+   .dropdown__item:hover {
+      background: #d3d2d2;
+      outline: none;
+   }
+
+   .dropdown__item__active {
       background: #d3d2d2;
       outline: none;
    }
@@ -95,6 +115,32 @@
       background: #dfe5ec;
       padding: 0 5px;
       cursor: pointer;
+   }
+
+   .icons__container {
+      display: flex;
+      align-items: center;
+      margin-left: 20px;
+   }
+
+   .view__icon {
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      background: url('../../../../../img/list.png') no-repeat center;
+      background-size: 16px;
+      margin-right: 5px;
+   }
+
+   .view__icon:nth-child(2) {     
+      background: url('../../../../../img/tile.png') no-repeat center;
+      background-size: 16px;      
+      margin-right: 0;
+   }
+
+   .active__icon {
+      border: 2px solid #0099ff;
+      border-radius: 3px;
    }
 
    .cart__container {
@@ -118,6 +164,33 @@
 
    .active {
       display: block;
+   }   
+   
+   .fade-enter-active {
+      transition: opacity .5s;
+   }
+
+   .fade-enter,
+   .fade-leave-active {
+      opacity: 0;
+      transition: opacity .5s;
+   }
+
+   @media screen and (max-width: 810px) {
+      .ShopList {
+         height: auto;
+         flex-direction: column;
+         align-items: unset;
+      }
+
+      .ShopList .autocomplite {
+         margin-left: 0;
+      }
+
+      .ShopList .search, .ShopList .select, .ShopList .icons__container {
+         width: 100%;
+         margin: 0 0 10px;
+      }    
    }
 
 </style>
@@ -130,83 +203,83 @@
       data() {
          return {
             cloneList: [],
-            value: ''
+            value: '',
+            count: 0,
+            viewList: [
+               {
+                  id: 'list'
+               },
+               {
+                  id: 'tile'
+               }
+            ]
          }
       },
       watch: {
-         value(val) {
+         value(val) {            
+            this.count = 0;
             if(this.searchedList.length) {
-               this.$refs.dropdown.classList.add('active');
+               this.showDropdown();
             }else {
-               this.$refs.dropdown.classList.remove('active');
+               this.hideDropdown();
             }
             if(!val) {
-               this.$refs.dropdown.classList.remove('active');
-               this.searchList(val);
+               this.hideDropdown();               
             }
+            this.searchList(val);
          }  
       },
       computed: {      
-         ...mapState('moduleStore', ['productList']),
+         ...mapState('moduleStore', ['productList', 'filter', 'view']),
          ...mapGetters('moduleStore', ['totalCount']),
          searchedList() {            
             return this.value ? this.cloneList.filter(el => el.name.trim().toLowerCase().includes(this.value.toLowerCase())) : [];
          }
       },
       methods: {     
-         ...mapMutations('moduleStore', ['searchList', 'sortList']),
+         ...mapMutations('moduleStore', ['searchList', 'sortList', 'changeView']),
          toList() {              
+            this.value = '';
             this.sortList('random');
             this.$emit('routing', 'toolbar');
          },
          selectProduct(e) {            
-            if(e.key == 'ArrowDown') {
-               if(this.searchedList.length) {                  
-                  this.$refs.items[0].focus();
-                  document.querySelector('body').style.overflow = 'hidden';
-               }               
-            }            
+            if(this.searchedList.length) {
+               if(e.key == 'ArrowDown') {                 
+                  this.count++                                    
+               } 
+            
+               if(e.key == 'ArrowUp') {
+                  this.count--                  
+               }
+
+               if(e.key == 'Enter') {
+                  this.value = this.searchedList[this.count].name;
+                  this.searchList(this.value);
+               }
+
+               this.count = Math.min(Math.max(0, this.count), this.searchedList.length - 1);
+            } 
          },
-         selectInDropdownProduct({ key }, item, index) {            
-            if(key == 'ArrowDown') {               
-               if(index != this.searchedList.length - 1) {
-                  this.$refs.items[index + 1].focus();                  
-               }
-            }
-
-            if(key == 'ArrowUp') {
-               if(index == 0) {
-                  this.$refs.searchInput.focus();
-               }else {
-                  this.$refs.items[index - 1].focus();
-               }
-            }
-
-            if(key == 'Enter') {
-               this.value = item.name.trim();
-               this.searchList(this.value);                    
-               this.$refs.searchInput.focus();                         
-            }
-         },        
+         selectInDropdownProduct(item) {
+            this.value = item.name.trim();
+            this.searchList(this.value);            
+         }, 
          showDropdown() {
-            if(this.searchedList.length) this.$refs.dropdown.classList.add('active');
-         },
-         returnBodyOverflow() {            
-            document.querySelector('body').style.overflow = 'visible';
-            if(this.$refs.dropdown) this.$refs.dropdown.classList.remove('active');
-         },
-         stopClick() {
-            return false;
-         }
+            if(this.$refs.dropdown) {
+               if(this.searchedList.length) this.$refs.dropdown.classList.add('active');
+            }
+         },             
+         hideDropdown() {            
+            if(this.$refs.dropdown) this.$refs.dropdown.classList.remove('active');            
+         }        
       },
       mounted() {
          this.cloneList = [...this.productList];
-         window.addEventListener('click', this.returnBodyOverflow);      
-         window.addEventListener('wheel', this.returnBodyOverflow);        
+         window.addEventListener('click', this.hideDropdown);                     
       },
       destroyed() {
-         window.removeEventListener('click', this.returnBodyOverflow);
-         window.removeEventListener('wheel', this.returnBodyOverflow);        ;
+         window.removeEventListener('click', this.hideDropdown);              ;
       }
    }
 </script>

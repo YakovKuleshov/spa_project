@@ -3,8 +3,10 @@ import App from './App.vue'
 import store from './store/store'
 import { router } from './routes.js'
 
-new Vue({
-   store,
+Vue.prototype.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+new Vue({   
+   store,   
    router,
    el: '#app',
    render: h => h(App)

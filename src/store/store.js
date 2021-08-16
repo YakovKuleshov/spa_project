@@ -11,7 +11,7 @@ const store = new Vuex.Store({
       },
       mainStore: {     
          namespaced: true,    
-         state: {
+         state: {            
             mainBg: "img/wallpaper_5.jpg",
             localList:
                [
