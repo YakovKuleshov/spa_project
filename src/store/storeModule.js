@@ -93,9 +93,8 @@ const storeModule = {
       view: 'tile'
    }),
    getters: {
-      totalCount(state) {
-         state.cartCount = state.cartList.reduce((acc, item) => acc += Number(item.count), 0);
-         return state.cartCount;
+      totalCount(state) {         
+         return state.cartList.reduce((acc, item) => acc += Number(item.count), 0);
       },
       totalPrice(state) {
          return state.cartList.reduce((acc, item) => acc += Number(item.price) * Number(item.count), 0);
