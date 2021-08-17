@@ -29,14 +29,14 @@
 		<template v-if="galleryImgUrl">
 			<ImagePopup :url="galleryImgUrl" @clearImgUrl="clearImgUrl" />
 		</template>
-		<div v-if="!this.$root.isMobile" class="button" @click="colorpickerToggle">Цвет</div>
+		<div v-if="!this.$isMobile" class="button" @click="colorpickerToggle">Цвет</div>
 		<div class="color__picker" :class="{ color__picker__active: colorpicker }" @click="stopProp">
 			<Colorpicker @onRgbaColor="setRgba" @onInputColor="setHexColor" />
 		</div>
 		<div class="clock">
 			<Clock />			
 		</div>
-		<resize-block v-if="!this.$root.isMobile" :bgColor="blockColor"></resize-block>
+		<resize-block v-if="!this.$isMobile" :bgColor="blockColor"></resize-block>
 		<div class="up__down_buttons">
 			<div id="up" class="scroll__buttons up__button" ref="upButton" @click="scrollPage"></div>
 			<div id="down" class="scroll__buttons down__button" ref="downButton" @click="scrollPage"></div>
