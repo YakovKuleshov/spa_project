@@ -77,7 +77,7 @@
 
 	.title__text {
 		font-size: 19px;
-		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 	}
 
 	.public__date {

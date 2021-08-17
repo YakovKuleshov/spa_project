@@ -94,6 +94,11 @@ export default {
 			bgButtonTop: window.innerHeight - 300
 		};
 	},
+	watch: {
+    	$route({ meta }) {			
+        	document.title = meta;
+    	}
+	},
 	methods: {     
 		...mapMutations('mainStore', ['changeMainBg']),
 		switchPage() {			

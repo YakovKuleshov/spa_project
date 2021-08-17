@@ -1362,6 +1362,10 @@ const store = new Vuex.Store({
             },
             subList(state) {
                return state.subList;
+            },
+            documentTitle(state) {
+               console.log(location)
+               // document.title = 
             }
          },
          actions: {

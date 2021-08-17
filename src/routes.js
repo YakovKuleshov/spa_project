@@ -19,24 +19,29 @@ const routes = [
    {
       path: '/home',
       name: 'home',
-      component: pageNews
+      component: pageNews,
+      meta: 'Новости'
    },
    {
       path: '/gallery',
       component: pageGallery,
+      meta: 'Галерея'
    },
    {
       path: '/films',
-      component: pageFilms
+      component: pageFilms,
+      meta: 'Фильмы'
    },
    {
       path: '/other',
-      component: pageOther
+      component: pageOther,
+      meta: 'Разное'
    },
    {
       path: '/pagination',
       // name: 'pag',
       component: Pagination,
+      meta: 'Пагинация'
       // children: [
       //    {
       //       path: '/pagination/info',
@@ -47,13 +52,18 @@ const routes = [
    {
       path: '/info',      
       props: true,
-      component: InfoPage
+      component: InfoPage,
+      meta: 'Информация'
    },
    {
       path: '/shop',            
-      component: ShopApp      
+      component: ShopApp,
+      meta: 'Магазин'      
    }     
 ]
+
+const rout = routes.find(el => el.path === location.pathname);
+document.title = rout ? rout.meta : routes[1].meta;
 
 export const router = new VueRouter({
    routes,
