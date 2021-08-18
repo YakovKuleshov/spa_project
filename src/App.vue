@@ -36,7 +36,7 @@
 		<div class="clock">
 			<Clock />			
 		</div>
-		<resize-block v-if="!this.$isMobile" :bgColor="blockColor"></resize-block>
+		<resize-block class="resize__overlay" v-if="!this.$isMobile" :bgColor="blockColor"></resize-block>
 		<div class="up__down_buttons">
 			<div id="up" class="scroll__buttons up__button" ref="upButton" @click="scrollPage"></div>
 			<div id="down" class="scroll__buttons down__button" ref="downButton" @click="scrollPage"></div>

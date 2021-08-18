@@ -18,7 +18,7 @@
       min-height: 50px;
       min-width: 50px;
       position: fixed;	
-      backdrop-filter: invert(100%);
+      backdrop-filter: invert(100%);      
    }
 
    .resiz__block:active {

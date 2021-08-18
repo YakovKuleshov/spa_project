@@ -1,27 +1,23 @@
 <template>
-   <div class="toolbar" :class="currentPage">
-      <transition name="fade">         
-         <h3 v-if="title === 'Список товаров'" class="sub__title">{{ title }}</h3>         
-         <h3 v-else class="sub__title" key="2">{{ title }}</h3>         
-      </transition>      
-      <transition name="fade">
-         <div v-if="currentPage == 'ShopList'" class="filters__container">            
-            <div class="autocomplite">
-               <input class="search" type="text" v-model.trim="value" placeholder="Поиск..." @keydown="selectProduct" @focus="showDropdown" @click.stop>
-               <div class="dropdown" ref="dropdown">
-                  <div v-for="(item, index) in searchedList" class="dropdown__item" :class="{ dropdown__item__active: count == index }" :key="item.id" @click="selectInDropdownProduct(item)">{{ item.name }}</div>
-               </div>
+   <div class="toolbar" :class="currentPage">               
+      <h3 v-if="title === 'Список товаров'" class="sub__title">{{ title }}</h3>         
+      <h3 v-else class="sub__title">{{ title }}</h3>       
+      <div v-if="currentPage == 'ShopList'" class="filters__container">            
+         <div class="autocomplite">
+            <input class="search" type="text" v-model.trim="value" placeholder="Поиск..." @keydown="selectProduct" @focus="showDropdown" @click.stop>
+            <div class="dropdown" ref="dropdown">
+               <div v-for="(item, index) in searchedList" class="dropdown__item" :class="{ dropdown__item__active: count == index }" :key="item.id" @click="selectInDropdownProduct(item)">{{ item.name }}</div>
             </div>
-            <select class="select" :value="filter" @change="sortList($event.target.value.trim())">
-               <option value="random">Случайный</option>
-               <option value="decreasing">Цена по убыванию</option>
-               <option value="ascending">Цена по возрастанию</option>         
-            </select>
-            <div class="icons__container">
-               <div v-for="item in viewList" class="view__icon" :class="{ active__icon: item.id === view }" :key="item.id" @click="changeView(item.id)"></div>            
-            </div>            
-         </div>  
-      </transition>
+         </div>
+         <select class="select" :value="filter" @change="sortList($event.target.value.trim())">
+            <option value="random">Случайный</option>
+            <option value="decreasing">Цена по убыванию</option>
+            <option value="ascending">Цена по возрастанию</option>         
+         </select>
+         <div class="icons__container">
+            <div v-for="item in viewList" class="view__icon" :class="{ active__icon: item.id === view }" :key="item.id" @click="changeView(item.id)"></div>            
+         </div>            
+      </div>        
       <div class="cart__container" @click="toList">
          <div class="cart"></div>
          <div class="cart__value">{{ totalCount }}</div>
@@ -165,22 +161,26 @@
    .active {
       display: block;
    }   
-   
-   .fade-enter-active {
-      transition: opacity .5s;
+
+   @media screen and (max-width: 592px) {
+      .icons__container {
+         display: none;
+      }
    }
 
-   .fade-enter,
-   .fade-leave-active {
-      opacity: 0;
-      transition: opacity .5s;
-   }
+   @media screen and (max-width: 810px) {     
 
-   @media screen and (max-width: 810px) {
       .ShopList {
          height: auto;
          flex-direction: column;
          align-items: unset;
+         padding-bottom: 20px;
+      }
+
+      .ShopList .filters__container {
+         display: block;
+         margin-left: 0;
+         margin-top: 60px;
       }
 
       .ShopList .autocomplite {
@@ -234,10 +234,10 @@
          ...mapGetters('moduleStore', ['totalCount']),
          searchedList() {            
             return this.value ? this.cloneList.filter(el => el.name.trim().toLowerCase().includes(this.value.toLowerCase())) : [];
-         }
+         }         
       },
       methods: {     
-         ...mapMutations('moduleStore', ['searchList', 'sortList', 'changeView']),
+         ...mapMutations('moduleStore', ['searchList', 'sortList', 'changeView']),        
          toList() {              
             this.value = '';
             this.sortList('random');
@@ -276,7 +276,8 @@
       },
       mounted() {
          this.cloneList = [...this.productList];
-         window.addEventListener('click', this.hideDropdown);                     
+         window.addEventListener('click', this.hideDropdown);   
+         window.onresize = () =>  window.innerWidth < 590 ? this.changeView('list') : null;                         
       },
       destroyed() {
          window.removeEventListener('click', this.hideDropdown);              ;

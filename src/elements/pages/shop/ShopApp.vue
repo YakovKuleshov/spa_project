@@ -1,8 +1,8 @@
 <template>
    <div class="shop">
-      <ShopToolbar :title="getTitle" @routing="routing" :currentPage="currentPage"/>      
+      <ShopToolbar class="toolbar" :title="getTitle" @routing="routing" :currentPage="currentPage"/>      
       <transition name="fade">
-         <component :is="currentComponent" @routing="routing"></component>      
+         <component class="comp" :is="currentComponent" @routing="routing"></component>      
       </transition>
    </div>
 </template>
@@ -10,6 +10,16 @@
 
    * {
       box-sizing: border-box;
+   }
+
+   .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+   }
+
+   .comp {
+      z-index: 1;
    }
 
    .shop {

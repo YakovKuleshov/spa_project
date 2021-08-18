@@ -219,7 +219,13 @@ section {
 	line-height: 40px;
 	color: #fff;
 	letter-spacing: 1px;
-	cursor: pointer;
+	cursor: pointer;	
+}
+
+@media screen and (max-width: 992px) {
+	.button, .color__picker, .resize__overlay {
+		display: none;
+	}
 }
 
 .bg__button {	
@@ -318,6 +324,7 @@ section {
 	padding: 5px;
 	box-shadow: 5px 5px 15px rgba(0, 0, 0, .7);
 	border-radius: 5px;
+	z-index: 2;
 }
 
 .color__picker__active {

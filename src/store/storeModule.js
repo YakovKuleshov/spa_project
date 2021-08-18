@@ -90,7 +90,7 @@ const storeModule = {
       cartCount: 0,
       search: '',
       filter: 'random',
-      view: 'tile'
+      view: window.innerWidth > 590 ? 'tile' : 'list'
    }),
    getters: {
       totalCount(state) {         
@@ -105,7 +105,7 @@ const storeModule = {
          }else if(state.filter == 'ascending') {
             return [...state.productList].sort((a, b) => Number(a.price) - Number(b.price));
          }else {
-            return state.productList
+            return state.productList;
          }         
       },
       searchedList(state, { sortedList }) {         
