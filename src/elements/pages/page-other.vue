@@ -4,42 +4,42 @@
 		<div class="other__content">         
 			<div class="section slider">
 				<Slider />
-			</div>    			   
-			<div class="section galler__3d">
-				<Gallery3d />
-			</div>
+			</div>    			   						
 			<div class="section">
-				<AnimatedShapes />
+				<component :is="componentsList[0].instance"></component>				
+			</div>
+			<div class="section shapes">
+				<component :is="componentsList[1].instance"></component>				
 			</div>
 			<div class="section infinite__slider">         
-				<component :is="componentsList[0].instance"></component>
+				<component :is="componentsList[2].instance"></component>
 				<!-- <InfiniteSlider /> -->
 			</div>
 			<div class="section">
-				<component :is="componentsList[1].instance"></component>
+				<component :is="componentsList[3].instance"></component>
 				<!-- <Header /> -->
 			</div>
 			<div class="section">
-				<component :is="componentsList[2].instance"></component>
+				<component :is="componentsList[4].instance"></component>
 				<!-- <TabMenu /> -->
 			</div>
 			<div class="section">
-				<div v-if="componentsList[3].instance" class="folders__container">
+				<div v-if="componentsList[5].instance" class="folders__container">
 					{{ name }}
-					<component :is="componentsList[3].instance" :selected="selectedItem" :list="fixedList"></component>
+					<component :is="componentsList[5].instance" :selected="selectedItem" :list="fixedList"></component>
 					<!-- <FolderList :selected="selectedItem" :list="fixedList" /> -->
 				</div>
 			</div>
 			<div class="section">
-				<component :is="componentsList[4].instance"></component>
+				<component :is="componentsList[6].instance"></component>
 				<!-- <DragDrop /> -->
 			</div>
 			<div class="section">
-				<component :is="componentsList[5].instance"></component>
+				<component :is="componentsList[7].instance"></component>
 				<!-- <Volume /> -->
 			</div>         
 			<div class="section">
-				<component :is="componentsList[6].instance"></component>
+				<component :is="componentsList[8].instance"></component>
 			</div>
 		</div>
 		<StarsRating />      
@@ -83,11 +83,7 @@
 		position: relative;
 		margin-bottom: 100px;
 		z-index: 0;
-	}
-
-	.galler__3d {
-		padding: 50px 0 250px;
-	}
+	}	
 
 	.section:last-of-type {
 		margin-bottom: 0;
@@ -109,8 +105,6 @@
 <script>
 import Slider from "../slider/Slider";
 import StarsRating from './other-elements/starsRating';
-import AnimatedShapes from './other-elements/AnimatedShapes'
-import Gallery3d from './other-elements/Gallery3d'
 
 // import InfiniteSlider from "../slider/InfiniteSlider";
 // import Header from "../header/Header";
@@ -122,9 +116,7 @@ import Gallery3d from './other-elements/Gallery3d'
 export default {
 	components: {
 		Slider,
-		StarsRating,
-		AnimatedShapes,
-		Gallery3d		
+		StarsRating		
 		// InfiniteSlider,
 		// Header,
 		// TabMenu,
@@ -136,7 +128,15 @@ export default {
 		return {
 			scrollFlag: true,
 			counter: -1,       
-			componentsList: [
+			componentsList: [				
+				{
+					instance: '',
+					component: () => import('./other-elements/Gallery3d'),
+				},
+				{
+					instance: '',
+					component: () => import('./other-elements/AnimatedShapes'),
+				},
 				{
 					instance: '',
 					component: () => import('../slider/InfiniteSlider'),
@@ -210,7 +210,7 @@ export default {
 				if(this.counter < this.componentsList.length - 1) {
 					if(!this.scrollFlag) return false
 					if(window.scrollY >= document.body.scrollHeight - window.innerHeight - 200) {						
-						this.counter++            
+						this.counter++
 						this.componentsList[this.counter].instance = this.componentsList[this.counter].component;
 						this.scrollFlag = false            
 						if(this.componentsList[this.counter].instance) {

@@ -25,9 +25,9 @@
          </div>
          <div class="rating__wrapper">
             <div class="rating">
-               <div class="rating__width" :style="{ background: 'url(img/' + getRateColor(filmData.rating) + ') repeat-x',width: getRateWidth(filmData.rating) + '%' }"></div>
+               <div class="rating__active" :class="getRateColor" :style="{ width: getRateWidth + '%' }"></div>
             </div>
-            <div class="rating__value">{{ getRate(filmData.rating) }}<span class="rate__from">Кино Поиск</span></div>
+            <div class="rating__value">{{ getRate }}<span class="rate__from">Кино Поиск</span></div>
          </div>
          <div class="btn" @click="switchTrailer">Треллер</div>
       </div>
@@ -61,6 +61,7 @@
       padding: 15px;
       box-sizing: border-box;
       background: #fff;
+      box-shadow: 30px 30px 70px rgb(0,0,0,.6);
       border-radius: 10px;
    }
 
@@ -102,11 +103,11 @@
       font-weight: normal;
       font-size: 15px;
       margin-left: 5px;
-   }
+   }   
 
-   /* .description {
-      
-   } */
+   .description {
+      line-height: 20px;
+   }
 
    .rating__wrapper {
       display: flex;
@@ -116,22 +117,57 @@
 
    .rating {
       position: relative;
-      width: 140px;
+      width: 146px;
       height: 28px;
-      margin-right: 20px;
-      background: url('/img/grey_star.svg') repeat-x;
+      font-size: 35px;
+      margin-right: 20px;    
+      text-shadow: 1px 1px 2px rgba(0,0,0,.5);  
    }
 
-   .rating__width {
+   .rating:before {
+      content: '★★★★★';
+      color: #ccc;
+      position: absolute;
+      height: 100%;
+      top: 0;
+      left: 0;
+      line-height: 28px;
+   }
+
+   .rating__active {
       position: absolute;
       top: 0;
       height: 100%;
       left: 0;
    }
+
+   .rating__active::before {
+      content: '★★★★★';      
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+      line-height: 28px;
+      overflow: hidden;
+   }
+
+   .red:before {
+      color: #ff3c3c;
+   }
+
+   .yellow:before {
+      color: #ffcc3c;
+   }
+
+   .green:before {
+      color: #35bb68;
+   }
    
    .rating__value {
       font-weight: bold;
       font-size: 27px;
+      color: #333;
       text-shadow: 1px 1px 3px rgba(0,0,0,.8);
    }
 
@@ -170,23 +206,25 @@
             directorsList: [],
             getComma(actors, index) {
                return index == actors.length - 1 ? '' : ','
-            },
-            getRate(rate) {
-               return rate ? rate.toFixed(1) : ''
-            },
-            getRateColor(rate) {
-               if(rate <= 4) {
-                  return 'red_star.svg' 	
-               }else if(rate > 4 && rate <= 7) {
-                  return 'yellow_star.svg'
-               }else {
-                  return 'green_star.svg'
-               }
-			   },
-			   getRateWidth(rate) {
-				   return 100 / 10 * rate
-			   }
+            }                        
          }
+      },
+      computed: {
+         getRateWidth() {
+            return 100 / 10 * this.filmData.rating
+         },
+         getRateColor() {            
+            if(this.filmData.rating < 5) {
+               return 'red';
+            }else if(this.filmData.rating >= 5 && this.filmData.rating < 7 ) {
+               return 'yellow';
+            }else {
+               return 'green';
+            }
+         },
+         getRate() {
+            return this.filmData.rating ? this.filmData.rating.toFixed(1) : '';
+         }			  
       },
       methods: {
          clearData() {

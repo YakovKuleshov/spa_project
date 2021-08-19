@@ -1,19 +1,24 @@
 <template>
-   <div class="gallery__container">
-      <div class="gallery__title">Gallery
-         <div class="gallery__title__clone">Gallery</div>
-      </div>               
-      <div v-for="item in images" class="image" :style="{ background: `url(img/${item.image}.jpg)`, backgroundSize: 'cover', transform: `rotateY(calc(${item.id} * 45deg)) translateZ(400px)` }" :key="item.id">
-         <div class="image image__clone" :style="{ background: `url(img/${item.image}.jpg)`, backgroundSize: 'cover'}"></div>   
+   <div class="gallery__wrapper">
+      <div class="gallery__container">
+         <div class="gallery__title">Gallery
+            <div class="gallery__title__clone">Gallery</div>
+         </div>               
+         <div v-for="item in images" class="image" :style="{ background: `url(img/${item.image}.jpg)`, backgroundSize: 'cover', transform: `rotateY(calc(${item.id} * 45deg)) translateZ(400px)` }" :key="item.id">
+            <div class="image image__clone" :style="{ background: `url(img/${item.image}.jpg)`, backgroundSize: 'cover'}"></div>   
+         </div>
       </div>
    </div>
 </template>
 <style scoped>
 
+   .gallery__wrapper {
+      padding: 50px 0 250px;
+   }
+
    .gallery__container {
       position: relative;      
-      transform-style: preserve-3d;      
-      transform: rotate3d(-15deg, 0, 0, 0);           
+      transform-style: preserve-3d;                
       width: 250px;
       height: 150px;
       margin: 0 auto;                   

@@ -17,7 +17,7 @@
       position: relative;
       background: #fff;
       border-radius: 10px;
-      min-height: 500px;
+      min-height: 300px;
       box-shadow: 2px 2px 4px rgba(0,0,0,.5) inset;       
       padding: 20px;                      
    }     

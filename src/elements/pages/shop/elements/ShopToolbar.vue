@@ -62,7 +62,7 @@
       border-radius: 5px;
       padding: 0 10px;
       border: 1px solid #ccc;
-      width: 200px;
+      width: 210px;
       outline: none;      
       font-size: 15px;
       background: #dfe5ec;      
@@ -82,11 +82,26 @@
       border-top: none;
       display: none;
       z-index: 1;
+      max-height: 250px;
+      overflow-y: auto;
+   }
+
+   .dropdown::-webkit-scrollbar {
+      background: #dfe5ec;
+      width: 6px;
+   }
+
+   .dropdown::-webkit-scrollbar-thumb {
+      background: #b8b8b8;
+      border-radius: 5px;
    }
 
    .dropdown__item {
       padding: 0 10px;
       cursor: pointer;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
    }
 
    .dropdown__item:hover {
@@ -97,6 +112,9 @@
    .dropdown__item__active {
       background: #d3d2d2;
       outline: none;
+      text-shadow: 1px 1px 2px rgba(0,0,0,.3);
+      color: #4b4b4b;
+      font-weight: bold;
    }
 
    .select {
@@ -104,7 +122,7 @@
       box-sizing: border-box;
       border-radius: 5px;
       outline: none;
-      width: 200px;
+      width: 210px;
       border: 1px solid #ccc;
       margin-left: 10px;
       font-size: 15px;
@@ -246,11 +264,13 @@
          selectProduct(e) {            
             if(this.searchedList.length) {
                if(e.key == 'ArrowDown') {                 
-                  this.count++                                    
+                  this.count++         
+                  this.scrollDropdown();                  
                } 
             
                if(e.key == 'ArrowUp') {
-                  this.count--                  
+                  this.count--          
+                  this.scrollDropdown();        
                }
 
                if(e.key == 'Enter') {
@@ -272,7 +292,13 @@
          },             
          hideDropdown() {            
             if(this.$refs.dropdown) this.$refs.dropdown.classList.remove('active');            
-         }        
+         },
+         scrollDropdown()  {
+            const dropdown = this.$refs.dropdown;
+            const activeItem = document.querySelector('.dropdown__item__active');
+            this.count
+            dropdown.scrollTop = activeItem.offsetHeight * this.count - dropdown.offsetHeight / 2 + activeItem.offsetHeight;            
+         }
       },
       mounted() {
          this.cloneList = [...this.productList];
