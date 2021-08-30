@@ -32,6 +32,18 @@
 		margin: 0 auto;
 	}
 
+	@media screen and (max-width: 1160px) {
+		.shapes {
+			max-width: 800px;
+		}
+	}
+
+	@media screen and (max-width: 1080px) {
+		.shapes {
+			max-width: 700px;
+		}
+	}
+
 	.round__block {
 		position: relative;     
 		display: block;

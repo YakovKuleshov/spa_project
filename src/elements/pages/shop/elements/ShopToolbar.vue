@@ -10,7 +10,7 @@
             </div>
          </div>
          <select class="select" :value="filter" @change="sortList($event.target.value.trim())">
-            <option value="random">Случайный</option>
+            <option value="random">По-умолчанию</option>
             <option value="decreasing">Цена по убыванию</option>
             <option value="ascending">Цена по возрастанию</option>         
          </select>

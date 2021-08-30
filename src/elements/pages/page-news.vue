@@ -105,7 +105,7 @@
 	}
 
 	.infinte__news {
-		--newsColor:#9bb2f4;
+		--newsColor:#ffc94e;
 	}
 
 	@keyframes rotatePreloader {

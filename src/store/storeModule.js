@@ -114,7 +114,7 @@ const storeModule = {
    },
    mutations: {     
       addToCart(state, product) {
-         state.cartList.push(product);
+         state.cartList.push({...product});
          localStorage.setItem('storage_cart_list', JSON.stringify(state.cartList));
       },
       removeFromCart(state, product_id) {

@@ -29,7 +29,7 @@
 		<template v-if="galleryImgUrl">
 			<ImagePopup :url="galleryImgUrl" @clearImgUrl="clearImgUrl" />
 		</template>
-		<div v-if="!this.$isMobile" class="button" @click="colorpickerToggle">Цвет</div>
+		<div v-if="!this.$isMobile" class="button color__button" @click="colorpickerToggle">Цвет</div>
 		<div class="color__picker" :class="{ color__picker__active: colorpicker }" @click="stopProp">
 			<Colorpicker @onRgbaColor="setRgba" @onInputColor="setHexColor" />
 		</div>
@@ -47,7 +47,7 @@
 		</div>
 		<div class="ultra">
 			<div class="ultra__logo"></div>
-			<audio autoplay controls src="https://nashe1.hostingradio.ru:18000/ultra-128.mp3" ref="audio"></audio>
+			<audio controls src="https://nashe1.hostingradio.ru:18000/ultra-128.mp3" ref="audio"></audio>
 		</div>  		
 		<div v-if="!mainBg.includes('wallpaper')" class="bg__button" :style="{ top: `${bgButtonTop}px` }">
 			<div class="pulse__elem_1"></div>

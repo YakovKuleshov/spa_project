@@ -1,8 +1,10 @@
 <template>
    <div id="slider">
-      <div class="image" :style="{ backgroundImage: `url(img/${wallpapers[current].image}.jpg)`}">
-         <div class="buttons next" @click="toNextSlide"></div>
-         <div class="buttons prev" @click="toPrevSlide"></div>
+      <div class="image__conrainer">
+         <div class="image" :style="{ backgroundImage: `url(img/${wallpapers[current].image}.jpg)`}">
+            <div class="buttons next" @click="toNextSlide"></div>
+            <div class="buttons prev" @click="toPrevSlide"></div>
+         </div>
       </div>
       <div class="dots__container" ref="dotsContainer">
          <div class="dots">
@@ -18,16 +20,22 @@
 
 #slider {
    position: relative;   
+   max-width: 1300px;
+   margin: 0 auto;
+}
+
+.image__conrainer {
+   margin: 0 auto 30px;
+   max-width: 800px;
 }
 
 .image {
    position: relative;
-   padding-top: 56%;
-   margin-bottom: 30px;
+   padding-top: 56%;   
    transition: 0.3s;
    background-repeat: no-repeat;
    background-position: center;
-   background-size: cover;
+   background-size: cover;        
    box-shadow: 12px 20px 33px rgba(0, 0, 0, 0.7);
 }
 
@@ -58,11 +66,9 @@
 }
 
 .dots__container {
-   overflow: hidden;
-   width: 1300px;
+   overflow: hidden;  
    padding: 30px 0;
-   scroll-behavior: smooth;
-   margin-left: -250px;
+   scroll-behavior: smooth;   
 }
 
 .dots__container::-webkit-scrollbar {

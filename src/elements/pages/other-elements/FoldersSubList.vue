@@ -2,7 +2,7 @@
    <div style="padding-left: 30px">
       <template v-for="(item, index) in subList">
          <div class="folder__item" :class="{ folder__item__active: item.id == selected.id }" :key="index" @click="selectItem(item)">
-            <div v-if="item.sub_list.length" class="folder__icon" :class="{ folder__icon__active: item.opened }" @click.stop="openList($event, item)"></div>
+            <div v-if="item.sub_list.length" class="folder__icon" :class="{ folder__icon__active: item.opened }" @click.stop="openList(item)"></div>
             <div class="folder__name">{{ item.name }}</div>
          </div>
          <FoldersSubList class="folders__sub__list" 
@@ -64,15 +64,13 @@
          return {}
       },      
       methods: {
-         openList(e, item) {           
+         openList(item) {           
             item.opened = !item.opened;                        
          },
          selectItem(item) {
             this.selected.id = item.id           
          }         
       },
-      mounted() {
-         
-      }
+      mounted() {}
    }
 </script>

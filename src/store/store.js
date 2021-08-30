@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import storeModule from './storeModule'   
+import storeModule from './storeModule'
 
 Vue.use(Vuex)
 const store = new Vuex.Store({
@@ -9,9 +9,9 @@ const store = new Vuex.Store({
          namespaced: true,
          ...storeModule
       },
-      mainStore: {     
-         namespaced: true,    
-         state: {            
+      mainStore: {
+         namespaced: true,
+         state: {
             mainBg: "img/wallpaper_5.jpg",
             localList:
                [
@@ -919,7 +919,7 @@ const store = new Vuex.Store({
                      },
                      "author": "Kirsten Korosec",
                      "title": "The Station: Rivian rolls towards an IPO and Quantumscape makes a big battery hire",
-                     "description": "The Station is a weekly newsletter dedicated to all things transportation. Sign up here — just click The Station — to receive it every weekend in your inbox. Hello and welcome back to The Station, a weekly newsletter dedicated to all the ways people and packa…",
+                     "description": "Sign up here — just click The Station — to receive it every weekend in your inbox. Hello and welcome back to The Station, a weekly newsletter dedicated to all the ways people and packa…",
                      "url": "http://techcrunch.com/2021/05/31/the-station-rivian-rolls-towards-an-ipo-and-quantumscape-makes-a-big-battery-hire/",
                      "urlToImage": "https://techcrunch.com/wp-content/uploads/2021/03/rivian-image-social.jpg?w=764",
                      "publishedAt": "2021-05-31T16:25:55Z",
@@ -1356,7 +1356,7 @@ const store = new Vuex.Store({
                state.mainBg = new_url;
             }
          },
-         getters: {           
+         getters: {
             newsList(state) {
                return state.newsList;
             },
@@ -1366,15 +1366,16 @@ const store = new Vuex.Store({
          },
          actions: {
             async getNews(ctx, params = { category: 'top-headlines', page: 1, limit: 20 }) {
-               // const KEY = '2c003695d0774374902a4c4e5cb8a27e'
-               const response = await fetch(`http://newsapi.org/v2/${params.category}?${params.category == 'everything' ? 'q=all&' : 'country=ru&'}pageSize=${params.limit}&page=${params.page}&apiKey=2c003695d0774374902a4c4e5cb8a27e`);
-               if (response.status == 429) console.error('Слишком много запросов!');
-               if (response.status == 200) {
+               // const KEY = '2c003695d0774374902a4c4e5cb8a27e'                            
+               try {
+                  const response = await fetch(`http://newsapi.org/v2/${params.category}?${params.category == 'everything' ? 'q=all&' : 'country=ru&'}pageSize=${params.limit}&page=${params.page}&apiKey=2c003695d0774374902a4c4e5cb8a27e`);
+                  if (response.status == 429) console.error('Слишком много запросов!');
                   const res = await response.json();
                   params.category == 'top-headlines' ? ctx.commit('updateNews', res.articles) : ctx.commit('updateSubList', res.articles);
-               } else {
+               } catch (err) {
                   let offset = Math.round(Math.random() * (ctx.state.localList.length - 20));
-                  ctx.commit('updateNews', params.category == 'top-headlines' ? ctx.state.localList.slice(offset, offset + 20) : ctx.state.localList);
+                  params.category == 'top-headlines' ? ctx.commit('updateNews', ctx.state.localList.slice(offset, offset + 20)) : ctx.commit('updateSubList', ctx.state.localList)
+                  console.log(err);
                }
             }
          }
