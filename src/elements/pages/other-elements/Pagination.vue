@@ -3,7 +3,7 @@
       <h2 class="page__title">Пагинация</h2>
       <div class="pagination">
          <h2 class="list__title">Страница {{ current + 1 }}</h2>                           
-         <div v-for="item in list" class="list__item" :key="item.description" @click="toInfoPage(item)">
+         <div v-for="(item, index) in list" class="list__item" :key="index" @click="toInfoPage(item)">
             <div class="list__item__img" :style="{ backgroundImage: `url('${item.urlToImage}')` }"></div>
             <div class="list__item__text">{{ item.description }}</div>
          </div>         
