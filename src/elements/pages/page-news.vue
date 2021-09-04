@@ -2,7 +2,7 @@
 	<div class="main">
 		<h2 class="page__title">Новости</h2>
 		<div class="news__slider">
-			<NewsSlider class="infinte__news" :list="newsList"/>
+			<NewsSlider v-if="newsList.length" class="infinte__news" :list="newsList"/>
 		</div>
 		<div class="content__wrapper">
 			<div class="container" ref="container">
@@ -125,8 +125,9 @@ export default {
 	},
 	computed: mapGetters('mainStore', ['newsList']),
 	methods: mapActions('mainStore', ['getNews']),
-	mounted() {				
+	created() {		
 		this.getNews()
-	}
+	},
+	mounted() {}
 }
 </script>

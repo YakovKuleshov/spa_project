@@ -280,13 +280,22 @@ export default {
 			return arr[1] && arr[1].__ob__.value.url ? arr[1].__ob__.value.url : arr[0].__ob__.value.url
 		}		
 	},	
-	mounted() {				
-		this.scrollContent = this.scrollContent.bind(this)
-		window.addEventListener('scroll', this.scrollContent);
+	created() {
 		this.load(this.page, true);
 	},
-	destroyed() {
+	activated() {
+		this.scrollContent = this.scrollContent.bind(this);
+		window.addEventListener('scroll', this.scrollContent);
+	},
+	deactivated() {
 		window.removeEventListener('scroll', this.scrollContent);
-	}
+	},
+	// mounted() {				
+	// 	this.scrollContent = this.scrollContent.bind(this)
+	// 	window.addEventListener('scroll', this.scrollContent);		
+	// },
+	// destroyed() {
+	// 	window.removeEventListener('scroll', this.scrollContent);
+	// }
 }
 </script>

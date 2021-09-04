@@ -2,7 +2,7 @@
    <div>      
       <h2 class="page__title">Пагинация</h2>
       <div class="pagination">
-         <h2 class="list__title">Страница {{ current + 1 }}</h2>                           
+         <h2 class="list__title">Страница {{ $route.query.page }}</h2>                           
          <div v-for="(item, index) in list" class="list__item" :key="index" @click="toInfoPage(item)">
             <div class="list__item__img" :style="{ backgroundImage: `url('${item.urlToImage}')` }"></div>
             <div class="list__item__text">{{ item.description }}</div>
@@ -12,9 +12,9 @@
       <div class="list__buttons">
          <div class="list__button prev__btn" :class="{ disabled: getDisabledPrevBtn }" @click="toPrevPage"></div>    
          <template v-for="(item, index) in buttonsLenght">
-            <div v-if="getPageButtons(index)" class="list__button" :class="{ list__button__active: current == index }" :key="index" @click="selectPage(index)">{{ index + 1 }}</div>
+            <div v-if="getPageButtons(index)" class="list__button" :class="{ list__button__active: (+$route.query.page - 1) == index }" :key="index" @click="selectPage(index)">{{ index + 1 }}</div>
          </template>
-         <div class="list__button last__page" :class="{ disabled: current + 1 == buttonsLenght}" @click="toLastPage">{{ buttonsLenght }}</div>
+         <div class="list__button last__page" :class="{ disabled: +$route.query.page == buttonsLenght}" @click="selectPage(buttonsLenght - 1)">{{ buttonsLenght }}</div>
          <div class="list__button next__btn" :class="{ disabled: getDisabledNextBtn }" @click="toNextPage"></div>
       </div>         
    </div>
@@ -182,21 +182,26 @@
             buttonsLenght: '',           
             list: [],
             current: '',
+            currentPage: '',
             limit: 7            
          }
-      },  
-      watch: {
-         current(current) {            
-            this.getLimitedList(current);
+      },
+      // beforeRouteUpdate(to, from, next) {
+      //   console.log(to, from, next)
+      // },
+      watch: {        
+         $route({ query }) {   
+            if(query.page) this.currentPage = +query.page;            
+            this.getLimitedList(+query.page - 1);
          }
       },    
       computed: {
          ...mapGetters('mainStore', ['subList']),
          getDisabledNextBtn() {            
-            return this.current + 1 == this.buttonsLenght;
+            return +this.$route.query.page == this.buttonsLenght;
          },
          getDisabledPrevBtn() {
-            return this.current == 0;
+            return +this.$route.query.page == 1;
          }
       },
       methods: {
@@ -207,64 +212,54 @@
             this.$router.push('/info');
          },
          toNextPage() {            
-            this.current++
-            this.$router.push(this.$route.path + '?page=' + (this.current + 1));
+            // this.current++
+            this.$router.push('?page=' + (+this.$route.query.page + 1));             
          },
          toPrevPage() {
-            this.current--
-            this.$router.push(this.$route.path + '?page=' + (this.current + 1));
-         },
-         toLastPage() {
-            this.$router.push(this.$route.path + '?page=' + this.buttonsLenght);
-            this.current = +this.$route.query.page - 1;
-         },
-         selectPage(index) {            
-            this.$router.push(this.$route.path + '?page=' + (index + 1));
-            this.current = +this.$route.query.page - 1;            
+            this.$router.push('?page=' + (+this.$route.query.page - 1));             
+         },         
+         selectPage(index) {                        
+            this.$router.push('?page=' + (index + 1));            
          },
          getPageButtons(index) {     
-            if(this.current == 0) {            
-               return index == this.current || index == this.current + 1 || index == this.current + 2 || index == this.current + 3 || index == this.current + 4
+            if((+this.$route.query.page - 1) == 0) {            
+               return index == (+this.$route.query.page - 1) || index == (+this.$route.query.page - 1) + 1 || index == (+this.$route.query.page - 1) + 2 || index == (+this.$route.query.page - 1) + 3 || index == (+this.$route.query.page - 1) + 4
             }  
 
-            if(this.current == 1) {            
-               return index == this.current - 1 || index == this.current || index == this.current + 1 || index == this.current + 2 || index == this.current + 3
+            if((+this.$route.query.page - 1) == 1) {            
+               return index == (+this.$route.query.page - 1) - 1 || index == (+this.$route.query.page - 1) || index == (+this.$route.query.page - 1) + 1 || index == (+this.$route.query.page - 1) + 2 || index == (+this.$route.query.page - 1) + 3
             }  
             
-            if(this.current >= 1 && this.current <= this.buttonsLenght - 3) {            
-               return index == this.current - 1 || index == this.current - 2 || index == this.current || index == this.current + 1 || index == this.current + 2
+            if((+this.$route.query.page - 1) >= 1 && (+this.$route.query.page - 1) <= this.buttonsLenght - 3) {            
+               return index == (+this.$route.query.page - 1) - 1 || index == (+this.$route.query.page - 1) - 2 || index == (+this.$route.query.page - 1) || index == (+this.$route.query.page - 1) + 1 || index == (+this.$route.query.page - 1) + 2
             }              
             
-            if(this.current == this.buttonsLenght - 2) {            
-               return  index == this.current - 3 || index == this.current - 2 || index == this.current - 1 || index == this.current || index == this.current + 1 || index == this.current + 2
+            if((+this.$route.query.page - 1) == this.buttonsLenght - 2) {            
+               return  index == (+this.$route.query.page - 1) - 3 || index == (+this.$route.query.page - 1) - 2 || index == (+this.$route.query.page - 1) - 1 || index == (+this.$route.query.page - 1) || index == (+this.$route.query.page - 1) + 1 || index == (+this.$route.query.page - 1) + 2
             }
 
-            if(this.current == this.buttonsLenght - 1) {            
-               return index == this.current - 4 || index == this.current - 3 || index == this.current - 3 || index == this.current - 2 || index == this.current - 1 || index == this.current
+            if((+this.$route.query.page - 1) == this.buttonsLenght - 1) {            
+               return index == (+this.$route.query.page - 1) - 4 || index == (+this.$route.query.page - 1) - 3 || index == (+this.$route.query.page - 1) - 3 || index == (+this.$route.query.page - 1) - 2 || index == (+this.$route.query.page - 1) - 1 || index == (+this.$route.query.page - 1)
             }
          },
-         getLimitedList(current) {            
-            this.list = this.subList.slice(current * this.limit, current * this.limit + this.limit);            
-         }                  
+         getLimitedList(current) {                             
+            this.list = this.subList.slice(current * this.limit, current * this.limit + this.limit);             
+         }         
       },      
-      async mounted() {      
+      async activated() {         
          if(!this.subList.length) {
             await this.getNews({ category: 'everything', page: 1, limit: 100 });             
-         }      
+         }        
       
          this.buttonsLenght = Math.ceil(this.subList.length / this.limit);                  
          const buttonsArr = [];
 
          for(let i = 1; i < this.buttonsLenght; i++) {
             buttonsArr.push(i);
-         }                
-        
-         window.addEventListener('popstate', () => {              
-            this.current = +this.$route.query.page - 1 || 0;
-         })  
-                     
-         if(!buttonsArr.includes(+this.$route.query.page - 1)) this.$router.push(this.$route.path + '?page=1').catch(err => {});         
-         this.current = +this.$route.query.page - 1;                        
-      }
+         }
+
+         if(!this.$route.query.page || !buttonsArr.includes(+this.$route.query.page - 1)) this.$router.push(`?page=${this.currentPage || 1}`);
+         this.getLimitedList(+this.$route.query.page - 1);         
+      }      
    }
 </script>

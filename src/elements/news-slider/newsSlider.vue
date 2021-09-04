@@ -45,37 +45,57 @@
       props: ['list'],
       data() {
          return {
-            scrollNews() {
-               let elems = this.$refs.listItem;
-               elems[0].style.top = '50%'
-               elems[0].style.opacity = 1
-               setInterval(() => {
-                  elems.forEach((el, k) => {
-                     if(el.style.top == '50%') {
-                        el.style.opacity = 0
-                        el.style.top = '-50%'
-                                                                              
-                        setTimeout(() => {
-                           if(el.nextElementSibling) {
-                              el.nextElementSibling.style.opacity = 1
-                              el.nextElementSibling.style.top = '50%'
-                           }else {
-                              elems[0].style.opacity = 1
-                              elems[0].style.top = '50%'
-                           }
-                        })
-
-                     }else if(el.style.top == '-50%') {
-                        el.style.top = '150%'
-                     }
-                  });
-               }, 7000)    
-            }
+            interval: null,
+            timeout: null,
+            count: 0            
          }         
       }, 
-      mounted() {},
-      updated() {        
-         this.scrollNews();
+      methods: {
+         scrollNews() { 
+            let elems = this.$refs.listItem;
+            this.count++           
+            if(this.count > this.list.length - 1) {
+               this.count = 0;
+               elems[this.list.length - 1].style.opacity = 0;
+               elems[this.list.length - 1].style.top = '-50%';
+               if(elems[this.list.length - 1].style.top == '-50%') {
+                  setTimeout(() => {                        
+                     elems[this.list.length - 1].style.top = '150%'
+                  }, 1000);
+               }
+            }            
+
+            elems[this.count].style.top = '50%'
+            elems[this.count].style.opacity = 1;          
+
+            if(elems[this.count - 1]) {
+               if(elems[this.count - 1].style.top == '50%') {               
+                  elems[this.count - 1].style.opacity = 0
+                  elems[this.count - 1].style.top = '-50%'                  
+               }
+
+               if(elems[this.count - 1].style.top == '-50%') {                  
+                  setTimeout(() => {                        
+                     elems[this.count - 1].style.top = '150%'
+                  }, 1000);
+               }
+            }                             
+         }
+      },     
+      mounted() {         
+         this.scrollNews()   
+         this.interval = setInterval(() => {
+            this.scrollNews()
+         }, 7000);        
+      },
+      activated() {                
+         this.interval = setInterval(() => {
+            this.scrollNews()
+         }, 7000);
+      },     
+      deactivated() {             
+         clearTimeout(this.timeout);
+         clearInterval(this.interval);
       }
    }
 </script>

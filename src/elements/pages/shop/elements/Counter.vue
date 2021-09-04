@@ -53,20 +53,7 @@
          }
       },
       methods: {
-         ...mapMutations('moduleStore', ['minus', 'plus']),
-         // reduce() {
-         //    this.count--
-         //    this.count = Math.min(Math.max(1, this.count), 10);
-         //    this.minus(this.count);
-         // },
-         // increase() {
-         //    this.count++
-         //    this.count = Math.min(Math.max(1, this.count), 10);
-         //    this.plus(this.count);
-         // }
-      },
-      mounted() {
-         // this.count = this.item.count;
+         ...mapMutations('moduleStore', ['minus', 'plus'])         
       }
    }
 </script>

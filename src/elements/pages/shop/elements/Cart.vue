@@ -100,6 +100,9 @@
       computed: {
          ...mapState('moduleStore', ['cartList']),
          ...mapGetters('moduleStore', ['totalPrice'])
+      },
+      deactivated() {
+         this.toList();
       }
    }
 </script>

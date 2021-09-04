@@ -66,10 +66,12 @@
       },
       methods: {
          toBackPage() {            
-            this.$router.push(`/pagination?page=${this.dataInfo.page}`);
+            // this.$router.go(-1)
+            // this.$router.push({name: '/pagination', query: `?page=${this.dataInfo.page}`, params: {from: 'from-info'}});
+            this.$router.push(`/pagination?page=${this.dataInfo.page}`)
          }
       },
-      mounted() {
+      activated() {
          this.dataInfo = localStorage.getItem('info_data') ? JSON.parse(localStorage.getItem('info_data')) : '';
          if(!this.dataInfo) this.$router.push('/pagination?page=1');
       }     

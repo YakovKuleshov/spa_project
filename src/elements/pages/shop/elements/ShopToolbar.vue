@@ -18,7 +18,7 @@
             <div v-for="item in viewList" class="view__icon" :class="{ active__icon: item.id === view }" :key="item.id" @click="changeView(item.id)"></div>            
          </div>            
       </div>        
-      <div class="cart__container" @click="toList">
+      <div class="cart__container" @click="toCart">
          <div class="cart"></div>
          <div class="cart__value">{{ totalCount }}</div>
       </div>
@@ -256,7 +256,7 @@
       },
       methods: {     
          ...mapMutations('moduleStore', ['searchList', 'sortList', 'changeView']),        
-         toList() {              
+         toCart() {             
             this.value = '';
             this.sortList('random');
             this.$emit('routing', 'toolbar');
@@ -300,13 +300,16 @@
             dropdown.scrollTop = activeItem.offsetHeight * this.count - dropdown.offsetHeight / 2 + activeItem.offsetHeight;            
          }
       },
-      mounted() {
+      mounted() {         
          this.cloneList = [...this.productList];
-         window.addEventListener('click', this.hideDropdown);   
-         window.onresize = () =>  window.innerWidth < 590 ? this.changeView('list') : null;                         
       },
-      destroyed() {
-         window.removeEventListener('click', this.hideDropdown);              ;
+      activated() {     
+         this.value = '';                   
+         window.addEventListener('click', this.hideDropdown);   
+         window.onresize = () =>  window.innerWidth < 590 ? this.changeView('list') : null;
+      },
+      deactivated() {         
+         window.removeEventListener('click', this.hideDropdown);
       }
    }
 </script>

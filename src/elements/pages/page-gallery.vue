@@ -206,14 +206,23 @@ export default {
 			this.$emit('onImageClick', item.largeImageURL)
 		}
 	},
-	mounted() {
-		this.gallertScroll = this.gallertScroll.bind(this);
+	created() {
 		this.loadGallery(this.page, this.search);
-		
+	},
+	activated() {
+		this.gallertScroll = this.gallertScroll.bind(this);		
 		window.addEventListener('scroll', this.gallertScroll);
 	},
-	destroyed() {
+	deactivated() {
 		window.removeEventListener('scroll', this.gallertScroll);
-	}
+	},
+	// mounted() {
+	// 	this.gallertScroll = this.gallertScroll.bind(this);	
+	// 	window.addEventListener('scroll', this.gallertScroll);
+	// },
+	
+	// destroyed() {
+	// 	window.removeEventListener('scroll', this.gallertScroll);
+	// }
 }
 </script>
