@@ -285,7 +285,7 @@ export default {
 			this.loadContent();
 		})      
 		
-		fetch("img/data.json")
+		fetch("src/elements/pages/other-elements/data.json")
 			.then((response) => {
 				return response.json();
 			})
