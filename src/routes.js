@@ -14,11 +14,11 @@ import ShopApp from './elements/pages/shop/ShopApp'
 const routes = [
    {
       path: '*',
-      redirect: { name: 'home' }
+      redirect: { name: 'news' }
    },
    {
-      path: '/home',
-      name: 'home',
+      path: '/news',
+      name: 'news',
       component: pageNews,
       meta: 'Новости'
    },
@@ -70,8 +70,12 @@ const routes = [
    }     
 ]
 
-window.onunload = () => {
-   routes.forEach(el => localStorage.removeItem(`${el.name}_scroll`));
+window.onload = () => {
+   routes.slice(1).forEach(el => {
+      if(el.name) {
+         localStorage.setItem(`${el.name}_scroll`, '0')
+      }
+   });
 }
 
 const rout = routes.find(el => el.path === location.pathname);

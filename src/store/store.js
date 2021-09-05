@@ -1320,7 +1320,7 @@ const store = new Vuex.Store({
             subList: [],
             menuList: [
                {
-                  id: '/home',
+                  id: '/news',
                   name: 'Новости',
                   exact: false
                },
