@@ -1321,27 +1321,33 @@ const store = new Vuex.Store({
             menuList: [
                {
                   id: '/home',
-                  name: 'Новости'
+                  name: 'Новости',
+                  exact: false
                },
                {
                   id: '/gallery',
-                  name: 'Галерея'
+                  name: 'Галерея',
+                  exact: false
                },
                {
                   id: '/films',
-                  name: 'Фильмы'
+                  name: 'Фильмы',
+                  exact: false
                },
                {
                   id: '/other',
-                  name: 'Разное'
+                  name: 'Разное',
+                  exact: false
                },
                {
                   id: '/pagination',
-                  name: 'Пагинация'
+                  name: 'Пагинация',
+                  exact: false
                },
                {
                   id: '/shop',
-                  name: 'Магазин'
+                  name: 'Магазин',
+                  exact: false
                }
             ]
          },

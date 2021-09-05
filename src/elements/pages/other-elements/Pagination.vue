@@ -175,6 +175,7 @@
 <script>
 
    import { mapGetters, mapActions } from 'vuex'   
+   import saveScroll from '@/mixins/saveScroll'
 
    export default {
       data() {
@@ -186,12 +187,22 @@
             limit: 7            
          }
       },
-      // beforeRouteUpdate(to, from, next) {
-      //   console.log(to, from, next)
+      mixins: [ saveScroll ],
+      beforeRouteLeave(to, { query }, next) {
+         this.currentPage = +query.page; 
+         next();
+      },
+      // beforeRouteEnter(to, from, next ) {
+      //    console.log(1)
+      //    next('/shop')
       // },
+      // beforeRouteUpdate(to, from, next) {
+      //    console.log(to, from)
+      //    // next();
+      // },     
       watch: {        
-         $route({ query }) {   
-            if(query.page) this.currentPage = +query.page;            
+         $route({ query }) {                       
+            if(query.page) this.currentPage = +query.page;
             this.getLimitedList(+query.page - 1);
          }
       },    
@@ -211,8 +222,7 @@
             localStorage.setItem('info_data', JSON.stringify({...item, page: this.$route.query.page ? this.$route.query.page : 1}));
             this.$router.push('/info');
          },
-         toNextPage() {            
-            // this.current++
+         toNextPage() {                        
             this.$router.push('?page=' + (+this.$route.query.page + 1));             
          },
          toPrevPage() {
@@ -257,8 +267,10 @@
          for(let i = 1; i < this.buttonsLenght; i++) {
             buttonsArr.push(i);
          }
-
-         if(!this.$route.query.page || !buttonsArr.includes(+this.$route.query.page - 1)) this.$router.push(`?page=${this.currentPage || 1}`);
+         
+         if(!this.$route.query.page && !buttonsArr.includes(+this.$route.query.page - 1)) {            
+            this.$router.replace(`/pagination?page=${this.currentPage || 1}`); 
+         };
          this.getLimitedList(+this.$route.query.page - 1);         
       }      
    }

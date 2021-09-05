@@ -3,10 +3,11 @@
 		<div class="wallpaper" :style="{ background: 'url(' + mainBg + ') no-repeat center' }"></div>		
 		<section>
 			<h1 class="title">{{ title }}</h1>
-			<div v-if="getPath" class="menu">
+			<div v-if="getPath" class="menu" ref="menu">
 				<div class="shadow__line" :style="{ width: lineWidth + 'px', left: lineLeft + 'px' }"></div>
 				<template v-for="item in menuList">
 					<router-link
+						:exact="item.exact"
 						:to="item.id"						
 						class="menu__item"
 						active-class="menu__item__active"
@@ -47,7 +48,7 @@
 		</div>
 		<div class="ultra">
 			<div class="ultra__logo"></div>
-			<audio autoplay controls src="https://nashe1.hostingradio.ru:18000/ultra-128.mp3" ref="audio"></audio>
+			<audio controls src="https://nashe1.hostingradio.ru:18000/ultra-128.mp3" ref="audio"></audio>
 		</div>  		
 		<div v-if="!mainBg.includes('wallpaper')" class="bg__button" :style="{ top: `${bgButtonTop}px` }">
 			<div class="pulse__elem_1"></div>
@@ -164,7 +165,7 @@ export default {
 		...mapState('mainStore', ['menuList', 'mainBg']),		
 		getPath()  {
 			return this.$route.path != '/info';
-		}
+		}		
 	},
 
 	beforeCreate() {},
@@ -194,7 +195,24 @@ export default {
 		let flagUp = true;
 		let flagDown = true;
 		
-		window.addEventListener("scroll", (e) => {
+		window.addEventListener("scroll", (e) => {			
+
+			let  options = {
+				// root: this.$refs.menu,
+				rootMargin: '0px',
+				threshold: 1
+			}
+
+			let  callback = (entries, observer) => {								
+				if(!entries[0].isIntersecting && this.$route.path != '/shop') {
+					entries[0].target.classList.add('sticked')
+				} else {
+					if(entries[0].boundingClientRect.top != 0) entries[0].target.classList.remove('sticked');					
+				}
+			};
+
+			let  observer = new IntersectionObserver(callback, options);
+			if(this.$refs.menu) observer.observe(this.$refs.menu);
 			//PARALAX
 			// let elems = this.$el.querySelectorAll(".block");
 			// elems.forEach((el) => {

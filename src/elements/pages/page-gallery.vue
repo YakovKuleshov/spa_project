@@ -152,6 +152,8 @@ input::placeholder {
 </style>
 
 <script>
+import saveScroll from '@/mixins/saveScroll'
+
 export default {
 	data() {
 		return {
@@ -196,6 +198,7 @@ export default {
 			}
 		}
 	},
+	mixins: [ saveScroll ],
 	methods: {		
 		searchWallpapers(e) {
 			this.page = 1

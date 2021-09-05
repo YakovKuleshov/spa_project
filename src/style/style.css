@@ -114,6 +114,16 @@ section {
 	align-items: center;
 	margin: 0 auto 50px;
 	z-index: 1;
+	transition: box-shadow .5s, background .5s;
+	padding: 10px;
+}
+
+.sticked {
+	position: sticky;
+	top: 0;
+	background: #fff;
+	border-radius: 5px;	
+	box-shadow: 7px 9px 25px rgba(0,0,0,.6);
 }
 
 .shadow__line {
@@ -233,6 +243,7 @@ section {
 	transition: 1s;	
 	left: 20px;	
 	position: absolute;
+	z-index: 1;
 }
 
 .gallary__button {	

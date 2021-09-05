@@ -100,7 +100,7 @@
 <script>
 import Slider from "../slider/Slider";
 import StarsRating from './other-elements/starsRating';
-
+import saveScroll from '@/mixins/saveScroll'
 // import InfiniteSlider from "../slider/InfiniteSlider";
 // import Header from "../header/Header";
 // import TabMenu from "../tab-menu/TabMenu";
@@ -225,6 +225,7 @@ export default {
 			}        
 		};
 	},
+	mixins: [ saveScroll ],
 	watch: {
 		selectedItem: {
 			handler: function (val) {

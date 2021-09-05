@@ -118,16 +118,17 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import NewsSlider from "../news-slider/newsSlider"
+import saveScroll from '@/mixins/saveScroll'
 
 export default {	
 	components: {
 		NewsSlider
 	},
+	mixins: [ saveScroll ],
 	computed: mapGetters('mainStore', ['newsList']),
 	methods: mapActions('mainStore', ['getNews']),
 	created() {		
 		this.getNews()
-	},
-	mounted() {}
+	}
 }
 </script>

@@ -192,6 +192,8 @@
 </style>
 
 <script>
+import saveScroll from '@/mixins/saveScroll'
+
 export default {
 	data() {
 		return {						
@@ -216,6 +218,7 @@ export default {
 			// },			
 		}
 	},
+	mixins: [ saveScroll ],
 	watch: {},
 	methods: {		
 		showInfo(item) {					

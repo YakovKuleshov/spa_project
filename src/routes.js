@@ -24,24 +24,31 @@ const routes = [
    },
    {
       path: '/gallery',
+      name: 'gallery',
       component: pageGallery,
       meta: 'Галерея'
    },
    {
       path: '/films',
+      name: 'films',
       component: pageFilms,
       meta: 'Фильмы'
    },
    {
       path: '/other',
+      name: 'other',
       component: pageOther,
       meta: 'Разное'
    },
    {
       path: '/pagination',
       // name: 'pag',
+      name: 'pagination',
       component: Pagination,
-      meta: 'Пагинация'
+      meta: 'Пагинация',
+      // beforeEnter: (to, from, next) => {         
+      //    next('/pagination?page=1')
+      // },
       // children: [
       //    {
       //       path: '/pagination/info',
@@ -56,11 +63,16 @@ const routes = [
       meta: 'Информация'
    },
    {
-      path: '/shop',            
+      path: '/shop',     
+      name: 'shop',
       component: ShopApp,
       meta: 'Магазин'      
    }     
 ]
+
+window.onunload = () => {
+   routes.forEach(el => localStorage.removeItem(`${el.name}_scroll`));
+}
 
 const rout = routes.find(el => el.path === location.pathname);
 document.title = rout ? rout.meta : routes[1].meta;

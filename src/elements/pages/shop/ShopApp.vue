@@ -50,6 +50,7 @@
 import ShopToolbar from './elements/ShopToolbar'
 import ShopList from './elements/ShopList'
 import Cart from './elements/Cart'
+import saveScroll from '@/mixins/saveScroll'
 
    export default {
       components: {
@@ -63,6 +64,7 @@ import Cart from './elements/Cart'
             currentPage: ''
          }
       },
+      mixins: [ saveScroll ],
       methods: {        
          routing(action) {            
             switch(action) {
