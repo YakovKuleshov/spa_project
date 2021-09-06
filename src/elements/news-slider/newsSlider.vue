@@ -1,6 +1,6 @@
 <template>
    <div class="news__list">
-      <div v-for="(item, index) in list" class="list__item" :key="index" ref="listItem">
+      <div v-for="(item, index) in fixedList" class="list__item" :key="index" ref="listItem">
          <a class="news__link" :href="item.url" rel="noopener" target="_blank">{{ item.description }}</a>   
       </div>
    </div>
@@ -45,26 +45,25 @@
       props: ['list'],
       data() {
          return {
-            interval: null,
-            timeout: null,
-            count: 0            
+            interval: null,            
+            count: -1                      
          }         
       }, 
       methods: {
-         scrollNews() { 
-            let elems = this.$refs.listItem;
+         scrollNews(list) { 
+            let elems = this.$refs.listItem;            
             this.count++           
-            if(this.count > this.list.length - 1) {
+            if(this.count > list.length - 1) {
                this.count = 0;
-               elems[this.list.length - 1].style.opacity = 0;
-               elems[this.list.length - 1].style.top = '-50%';
-               if(elems[this.list.length - 1].style.top == '-50%') {
+               elems[list.length - 1].style.opacity = 0;
+               elems[list.length - 1].style.top = '-50%';
+               if(elems[list.length - 1].style.top == '-50%') {
                   setTimeout(() => {                        
-                     elems[this.list.length - 1].style.top = '150%'
+                     elems[list.length - 1].style.top = '150%'
                   }, 1000);
                }
             }            
-
+            
             elems[this.count].style.top = '50%'
             elems[this.count].style.opacity = 1;          
 
@@ -79,22 +78,26 @@
                      elems[this.count - 1].style.top = '150%'
                   }, 1000);
                }
-            }                             
+            }                               
          }
-      },     
-      mounted() {         
-         this.scrollNews()   
+      },  
+      computed: {
+         fixedList() {
+            return this.list.filter(el => el.description);
+         }
+      }, 
+      mounted() {        
+         this.scrollNews(this.fixedList)
          this.interval = setInterval(() => {
-            this.scrollNews()
+            this.scrollNews(this.fixedList)
          }, 7000);        
       },
       activated() {                
          this.interval = setInterval(() => {
-            this.scrollNews()
+            this.scrollNews(this.fixedList)
          }, 7000);
       },     
-      deactivated() {             
-         clearTimeout(this.timeout);
+      deactivated() {                      
          clearInterval(this.interval);
       }
    }
