@@ -2,7 +2,7 @@
    <div>      
       <h2 class="page__title">Пагинация</h2>
       <div class="pagination">
-         <h2 class="list__title">Страница {{ $route.query.page }}</h2>                           
+         <h2 class="list__title">Страница {{ getPageNumber }}</h2>                           
          <div v-for="(item, index) in list" class="list__item" :key="index" @click="toInfoPage(item)">
             <div class="list__item__img" :style="{ backgroundImage: `url('${item.urlToImage}')` }"></div>
             <div class="list__item__text">{{ item.description }}</div>
@@ -213,6 +213,10 @@
          },
          getDisabledPrevBtn() {
             return +this.$route.query.page == 1;
+         },
+         getPageNumber() {             
+            let val = this.$route.query.page && this.$route.query.page.replace(/[^\d]/g, '');                  
+            return +val > this.buttonsLenght ? '' : val;
          }
       },
       methods: {
@@ -266,11 +270,14 @@
 
          for(let i = 1; i < this.buttonsLenght; i++) {
             buttonsArr.push(i);
+         }                 
+         
+         let rex = /page=\d{1,2}/g.test(this.$route.fullPath);         
+         
+         if(!rex || this.$route.query.page != 1 && !buttonsArr.includes(+this.$route.query.page - 1)) {
+            this.$router.replace(`/pagination?page=${this.currentPage || 1}`);
          }
          
-         if(!this.$route.query.page && !buttonsArr.includes(+this.$route.query.page - 1)) {            
-            this.$router.replace(`/pagination?page=${this.currentPage || 1}`); 
-         };
          this.getLimitedList(+this.$route.query.page - 1);         
       }      
    }
