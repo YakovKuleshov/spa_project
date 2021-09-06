@@ -97,7 +97,7 @@
 
 	.container {
 		display: grid;				
-		grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
 		grid-auto-rows: 250px;
 		grid-gap: 10px;
 		padding-bottom: 5px;		
@@ -120,6 +120,7 @@
 		background-repeat: no-repeat;
 		background-size: cover;
 		background-position: center;
+		background-color: #ccc;
 	}
 
 	.text__container {
@@ -133,7 +134,7 @@
 	}
 
 	.title__text {
-		font-size: 14px;
+		font-size: 16px;
 		letter-spacing: .4px;
 		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 	}
@@ -227,7 +228,7 @@ export default {
 		scrollContent() {				
 			if(!this.flag) return false
 			if(window.scrollY >= (document.body.scrollHeight - window.innerHeight) - 200) {
-				this.page += 20
+				this.page += 8
 				this.load(this.page)
 				this.flag = false
 			}
@@ -251,10 +252,9 @@ export default {
 		},
 		load(page, first_load) {
 			this.preloader = true
-			fetch('https://ctx.playfamily.ru/screenapi/v1/noauth/collection/web/1?elementAlias=novelty_web&elementType=COLLECTION&limit=21&offset='+ page +'&withInnerCollections=false')
+			fetch('https://ctx.playfamily.ru/screenapi/v1/noauth/collection/web/1?elementAlias=novelty_web&elementType=COLLECTION&limit=8&offset='+ page +'&withInnerCollections=false')
 				.then(response => response.json())
-				.then(res => {
-
+				.then(res => {					
 					if(this.hasItems(res.element.collectionItems.items)) {
 						if(first_load) {								
 							setTimeout(() => {							
@@ -279,8 +279,8 @@ export default {
 		hasItems(arr) {
 			return arr && arr.length ? true : false
 		},			
-		getImageUrl(arr) {
-			return arr[1] && arr[1].__ob__.value.url ? arr[1].__ob__.value.url : arr[0].__ob__.value.url
+		getImageUrl(arr) {			
+			return arr[0] && arr[0].url;
 		}		
 	},	
 	created() {
