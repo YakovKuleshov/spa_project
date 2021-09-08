@@ -2,9 +2,9 @@
    <div id="clock">
       <div class="round__clock">
          <div class="time__format">{{ getTimeFormat }}</div>
-         <div class="hour__arrow" :style="{ transform: `rotate(${hourArrow}deg)` }"></div>
-         <div class="minute__arrow" :style="{ transform: `rotate(${minuteArrow}deg)` }"></div>
-         <div class="second__arrow" :style="{transform: `rotate(${secondArrow}deg)` }"></div>
+         <div class="hour__arrow" :style="{transform: `rotate(${hourArrow}deg)`}"></div>
+         <div class="minute__arrow" :style="{transform: `rotate(${minuteArrow}deg)`}"></div>
+         <div class="second__arrow" :style="{transform: `rotate(${secondArrow}deg)`}"></div>
       </div>               
       <div class="date__now">{{ getDate }}</div>
       <div class="day__now">{{ dayNow }}</div>      
@@ -15,7 +15,7 @@
    .round__clock {
       position: relative;
       width: 250px;
-      aspect-ratio: 1 / 1;
+      height: 250px;
       border-radius: 50%;
       box-sizing: border-box;
       background: url('../../../img/clock_bg.svg') no-repeat center;

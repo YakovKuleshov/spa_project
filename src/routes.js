@@ -71,8 +71,8 @@ const routes = [
 ]
 
 window.onload = () => {
-   routes.slice(1).forEach(el => {
-      if(el.name) {
+   routes.slice(1).forEach(el => {      
+      if(el.name) {         
          localStorage.setItem(`${el.name}_scroll`, '0')
       }
    });
