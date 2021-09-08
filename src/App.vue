@@ -48,7 +48,7 @@
 		</div>
 		<div class="ultra">
 			<div class="ultra__logo"></div>
-			<audio autoplay controls src="https://nashe1.hostingradio.ru:18000/ultra-128.mp3" ref="audio"></audio>
+			<audio controls src="https://nashe1.hostingradio.ru:18000/ultra-128.mp3" ref="audio"></audio>
 		</div>  		
 		<div v-if="!mainBg.includes('wallpaper')" class="bg__button" :style="{ top: `${bgButtonTop}px` }">
 			<div class="pulse__elem_1"></div>
