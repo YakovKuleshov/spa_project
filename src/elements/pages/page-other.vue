@@ -293,8 +293,7 @@ export default {
 				res.forEach((el) => (el.opened = false));
 
 				this.fixList(this.folders, res);
-				this.selectedItem = { id: null };
-				console.log(1)
+				this.selectedItem = { id: null };				
 			});                  
 			// https://webdevblog.ru/15-obyazatelnyh-direktiv-vue-kotorye-znachitelno-uvelichat-vashu-proizvoditelnost/
 			// let number = 3000500
