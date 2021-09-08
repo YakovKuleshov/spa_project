@@ -295,8 +295,7 @@
          },
          scrollDropdown()  {
             const dropdown = this.$refs.dropdown;
-            const activeItem = document.querySelector('.dropdown__item__active');
-            this.count
+            const activeItem = document.querySelector('.dropdown__item__active');            
             dropdown.scrollTop = activeItem.offsetHeight * this.count - dropdown.offsetHeight / 2 + activeItem.offsetHeight;            
          }
       },
