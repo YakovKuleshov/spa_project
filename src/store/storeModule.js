@@ -94,16 +94,16 @@ const storeModule = {
    }),
    getters: {
       totalCount(state) {         
-         return state.cartList.reduce((acc, item) => acc += Number(item.count), 0);
+         return state.cartList.reduce((acc, item) => acc += +item.count, 0);
       },
       totalPrice(state) {
-         return state.cartList.reduce((acc, item) => acc += Number(item.price) * Number(item.count), 0);
+         return state.cartList.reduce((acc, item) => acc += +item.price * +item.count, 0);
       },
       sortedList(state) {         
          if(state.filter == 'decreasing') {
-            return [...state.productList].sort((a, b) => Number(b.price) - Number(a.price));
+            return [...state.productList].sort((a, b) => +b.price - +a.price);
          }else if(state.filter == 'ascending') {
-            return [...state.productList].sort((a, b) => Number(a.price) - Number(b.price));
+            return [...state.productList].sort((a, b) => +a.price - +b.price);
          }else {
             return state.productList;
          }         
@@ -123,14 +123,14 @@ const storeModule = {
       },
       minus(state, product_id) {      
          const elem = state.cartList.find(el => el.id === product_id);
-         elem.count = Number(elem.count)
+         elem.count = +elem.count
          elem.count--
          elem.count = Math.min(Math.max(1, elem.count), 10);    
          localStorage.setItem('storage_cart_list', JSON.stringify(state.cartList));      
       },
       plus(state, product_id) {         
          const elem = state.cartList.find(el => el.id === product_id);
-         elem.count = Number(elem.count)
+         elem.count = +elem.count
          elem.count++
          elem.count = Math.min(Math.max(1, elem.count), 10);             
          localStorage.setItem('storage_cart_list', JSON.stringify(state.cartList));
@@ -144,8 +144,7 @@ const storeModule = {
       changeView(state, view_param) {         
          state.view = view_param;
       }
-   },
-   actions: {}
+   }
 }
 
 export default storeModule

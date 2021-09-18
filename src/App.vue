@@ -2,19 +2,19 @@
 	<div id="main">
 		<div class="wallpaper" :style="{ background: 'url(' + mainBg + ') no-repeat center' }"></div>		
 		<section>
-			<h1 class="title">{{ title }}</h1>
+			<h1 class="title" :style="{color: mainSettings.title_color}">{{ mainSettings.title }}</h1>
 			<div v-if="getPath" class="menu" ref="menu">
 				<div class="shadow__line" :style="{ width: lineWidth + 'px', left: lineLeft + 'px' }"></div>
-				<template v-for="item in menuList">
+				<template v-for="item in menuList">					
 					<router-link
 						:exact="item.exact"
 						:to="item.id"						
 						class="menu__item"
 						active-class="menu__item__active"
 						:key="item.id"
-						@click.native="switchPage">{{ item.name }}
+						>{{ item.name }}
 					</router-link>
-				</template>
+				</template>						
 			</div>
 			<div class="import__components">
 				<div class="content">
@@ -27,10 +27,11 @@
 		<template v-if="filmData">
 			<popup-info :filmData="filmData" @clearData="clearData"></popup-info>
 		</template>
+		<RegistrationPopup v-if="showRegistration" @closeRegistrationModal="closeRegistration"/>
 		<template v-if="galleryImgUrl">
 			<ImagePopup :url="galleryImgUrl" @clearImgUrl="clearImgUrl" />
 		</template>
-		<div v-if="!this.$isMobile" class="button color__button" @click="colorpickerToggle">Цвет</div>
+		<div v-if="!this.$isMobile" class="button color__button" @click="colorpickerToggle">Цвет</div>		
 		<div class="color__picker" :class="{ color__picker__active: colorpicker }" @click="stopProp">
 			<Colorpicker @onRgbaColor="setRgba" @onInputColor="setHexColor" />
 		</div>
@@ -56,6 +57,7 @@
 			<div class="pulse__elem_3"></div>
 			<div class="button gallary__button" @click="changeMainBg('img/wallpaper_5.jpg')">Вернуть фон</div>
 		</div>
+		<div class="login" @click="registrationAction">{{ is_Admin ? 'Выйти' : 'Войти' }}</div>
 	</div>
 </template>
 
@@ -66,15 +68,17 @@
 	import Colorpicker from "./elements/colorpicker/Colorpicker";
 	import resizeBlock from "./elements/resize-block/Resize-block";
 	import popupInfo from "./popup-info";
+	import RegistrationPopup from './RegistrationPopup'
 	import Clock from "./elements/clock/Clock";
 	import ImagePopup from "./ImagePopup";
-	import { mapState, mapMutations } from "vuex";
+	import { mapState, mapMutations, mapGetters } from "vuex";
 	import "./style/style.css";
 
 export default {
 	components: {
 		weatherNow,           
 		popupInfo,
+		RegistrationPopup,
 		Range,
 		Colorpicker,
 		resizeBlock,
@@ -82,42 +86,56 @@ export default {
 		Clock 
 	},
 	data() {
-		return {                 			
+		return {    
+			showRegistration: false,             			
 			galleryImgUrl: "",
 			colorpicker: false,
 			blockColor: "",
 			hexColor: "",
 			rangeValue: "",
-			filmData: "",
-			title: "Vue",
+			filmData: "",			
 			lineWidth: "",
 			lineLeft: "",
 			bgButtonTop: window.innerHeight - 300
 		};
 	},
 	watch: {
-    	$route({ meta }) {			
+    	$route({ meta }) {	
+			setTimeout(() => {this.switchPage()});		 						
         	document.title = meta;
     	}
 	},
 	methods: {     
-		...mapMutations('mainStore', ['changeMainBg']),
-		switchPage() {			
-			let activeItem = document.querySelector(".menu__item__active");
-			if(activeItem) {
+		...mapMutations('mainStore', ['changeMainBg', 'setAdmin']),
+		registrationAction() {
+			if(!this.is_Admin) {
+				this.showRegistration = true;
+			} else {
+				localStorage.removeItem('is_admin');
+				this.setAdmin(false);		
+				if(this.$route.path === '/admin_panel') this.$router.push('/news');
+			}
+		},
+		switchPage() {						
+			let activeItem = document.querySelector(".menu__item__active");				
+			if(activeItem) {				
 				this.lineWidth = activeItem.offsetWidth;
 				this.lineLeft = activeItem.offsetLeft;
 			}
 		},
 
+		closeRegistration() {
+			this.showRegistration = false;
+		},
+
 		stopProp(e) {
 			e.stopPropagation();
 		},
-
-		colorpickerToggle(e) {
+		
+		colorpickerToggle(e) {			
 			this.colorpicker = !this.colorpicker;
 			e.stopPropagation();
-		},
+		},		
 
 		getRangeValue(value) {
 			this.rangeValue = value;
@@ -162,9 +180,10 @@ export default {
 		}
 	},
 	computed: {
-		...mapState('mainStore', ['menuList', 'mainBg']),		
-		getPath()  {
-			return this.$route.path != '/info';
+		...mapState('mainStore', ['mainBg', 'mainSettings']),	
+		...mapGetters('mainStore', ['menuList', 'is_Admin']),	
+		getPath()  {			
+			return !['/info', '/admin_panel'].some(path => path == this.$route.path);
 		}		
 	},
 
@@ -265,11 +284,7 @@ export default {
 
 		window.addEventListener("click", () => {
 			this.colorpicker = false;
-		});
-
-		window.addEventListener('popstate', () => {
-			this.switchPage();
-		});
+		});		
 
 		// let number = 20500200
 		// console.log(new Intl.NumberFormat().format(number))		

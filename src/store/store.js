@@ -12,6 +12,15 @@ const store = new Vuex.Store({
       mainStore: {
          namespaced: true,
          state: {
+            mainSettings: localStorage.getItem('settings') && JSON.parse(localStorage.getItem('settings')) || {
+               title: 'Vue',
+               title_color: '#7fffd4'
+            },
+            loginData: {
+               login: 'admin',
+               password: 'nomaster'
+            },
+            isAdmin: Boolean(localStorage.getItem('is_admin')) || false,
             mainBg: "img/wallpaper_5.jpg",
             localList:
                [
@@ -1318,6 +1327,43 @@ const store = new Vuex.Store({
                ],
             newsList: [],
             subList: [],
+            adminMenu: [
+               {
+                  id: '/news',
+                  name: 'Новости',
+                  exact: false
+               },
+               {
+                  id: '/gallery',
+                  name: 'Галерея',
+                  exact: false
+               },
+               {
+                  id: '/films',
+                  name: 'Фильмы',
+                  exact: false
+               },
+               {
+                  id: '/other',
+                  name: 'Разное',
+                  exact: false
+               },
+               {
+                  id: '/pagination',
+                  name: 'Пагинация',
+                  exact: false
+               },
+               {
+                  id: '/shop',
+                  name: 'Магазин',
+                  exact: false
+               },
+               {
+                  id: '/admin_panel',
+                  name: 'Админ панель',
+                  exact: false
+               }
+            ],
             menuList: [
                {
                   id: '/news',
@@ -1352,14 +1398,23 @@ const store = new Vuex.Store({
             ]
          },
          mutations: {
+            changeTitle(state, title) {
+               state.mainSettings.title = title;
+            },
+            setTitleColor(state, color) {               
+               state.mainSettings.title_color = color;
+            },
             updateNews(state, news_list) {
                state.newsList = news_list;
             },
             updateSubList(state, sub_list) {
                state.subList = sub_list;
             },
-            changeMainBg(state, new_url) {
+            changeMainBg(state, new_url) {   
                state.mainBg = new_url;
+            },
+            setAdmin(state, value) {
+               state.isAdmin = value;
             }
          },
          getters: {
@@ -1368,6 +1423,12 @@ const store = new Vuex.Store({
             },
             subList(state) {
                return state.subList;
+            },
+            menuList(state, { is_Admin }) {                         
+               return is_Admin ? state.adminMenu : state.menuList;
+            },
+            is_Admin(state) {
+               return state.isAdmin;
             }
          },
          actions: {
@@ -1383,8 +1444,11 @@ const store = new Vuex.Store({
                   params.category == 'top-headlines' ? ctx.commit('updateNews', ctx.state.localList.slice(offset, offset + 20)) : ctx.commit('updateSubList', ctx.state.localList)
                   console.log(err);
                }
-            }
-         }
+            },
+            // testAction({ commit }) {               
+            //    commit('moduleStore/changeView', {name: 'list'}, { root: true });
+            // }
+         }                
       }
    }
 })

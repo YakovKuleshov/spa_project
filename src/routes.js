@@ -10,11 +10,18 @@ import pageOther from './elements/pages/page-other';
 import Pagination from './elements/pages/other-elements/Pagination';
 import InfoPage from './elements/pages/info-page'
 import ShopApp from './elements/pages/shop/ShopApp'
+import AdminPanel from './elements/pages/AdminPanel'
 
 const routes = [
    {
       path: '*',
       redirect: { name: 'news' }
+   },
+   {
+      path: '/admin_panel',
+      name: 'admin_panel',
+      component: AdminPanel,
+      meta: 'Админ панель'     
    },
    {
       path: '/news',
@@ -71,15 +78,15 @@ const routes = [
 ]
 
 window.onload = () => {
-   routes.slice(1).forEach(el => {      
-      if(el.name) {         
-         localStorage.setItem(`${el.name}_scroll`, '0')
+   routes.slice(1).forEach(route => {      
+      if(route.name) {         
+         localStorage.setItem(`${route.name}_scroll`, '0')
       }
    });
-}
 
-const rout = routes.find(el => el.path === location.pathname);
-document.title = rout ? rout.meta : routes[1].meta;
+   const rout = routes.find(route => route.path === location.pathname);
+   document.title = rout ? rout.meta : routes[1].meta;
+}
 
 export const router = new VueRouter({
    routes,

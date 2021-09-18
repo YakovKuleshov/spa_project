@@ -4,7 +4,10 @@
 		<div class="other__content">         
 			<div class="section">
 				<Slider />
-			</div>    			   						
+			</div>    		
+			<div class="section">
+				<DateMenu />
+			</div>	   						
 			<div class="section">
 				<component :is="componentsList[0].instance"></component>				
 			</div>
@@ -101,6 +104,7 @@
 import Slider from "../slider/Slider";
 import StarsRating from './other-elements/starsRating';
 import saveScroll from '@/mixins/saveScroll'
+import DateMenu from './other-elements/DateMenu.vue';
 // import InfiniteSlider from "../slider/InfiniteSlider";
 // import Header from "../header/Header";
 // import TabMenu from "../tab-menu/TabMenu";
@@ -111,7 +115,8 @@ import saveScroll from '@/mixins/saveScroll'
 export default {
 	components: {
 		Slider,
-		StarsRating		
+		StarsRating,
+		DateMenu		
 		// InfiniteSlider,
 		// Header,
 		// TabMenu,

@@ -9,6 +9,10 @@ body {
 	font-family: sans-serif;		
 }
 
+a {
+	text-decoration: none;
+}
+
 html::-webkit-scrollbar {
 	width: 12px;
 	background: #f5f5f5;
@@ -244,6 +248,14 @@ section {
 	left: 20px;	
 	position: absolute;
 	z-index: 1;
+}
+
+.login {
+	position: fixed;
+	top: 10px;
+	right: 50px;
+	font-weight: bold;
+	cursor: pointer;
 }
 
 .gallary__button {	

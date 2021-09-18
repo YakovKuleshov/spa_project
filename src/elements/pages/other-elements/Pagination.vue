@@ -190,7 +190,7 @@
       mixins: [ saveScroll ],
       beforeRouteLeave(to, { query }, next) {
          this.currentPage = +query.page; 
-         next();
+         if(this.list.length) next();
       },
       // beforeRouteEnter(to, from, next ) {
       //    console.log(1)
