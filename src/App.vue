@@ -3,7 +3,7 @@
 		<div class="wallpaper" :style="{ background: 'url(' + mainBg + ') no-repeat center' }"></div>		
 		<section>
 			<h1 class="title" :style="{color: mainSettings.title_color}">{{ mainSettings.title }}</h1>
-			<div v-if="getPath" class="menu" ref="menu">
+			<div v-if="validPath" class="menu" ref="menu">
 				<div class="shadow__line" :style="{ width: lineWidth + 'px', left: lineLeft + 'px' }"></div>
 				<template v-for="item in menuList">					
 					<router-link
@@ -182,7 +182,7 @@ export default {
 	computed: {
 		...mapState('mainStore', ['mainBg', 'mainSettings']),	
 		...mapGetters('mainStore', ['menuList', 'is_Admin']),	
-		getPath() {			
+		validPath() {			
 			return !['/info', '/admin_panel'].some(path => path === this.$route.path);
 		}		
 	},
