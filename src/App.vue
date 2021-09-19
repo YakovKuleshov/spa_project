@@ -182,8 +182,8 @@ export default {
 	computed: {
 		...mapState('mainStore', ['mainBg', 'mainSettings']),	
 		...mapGetters('mainStore', ['menuList', 'is_Admin']),	
-		getPath()  {			
-			return !['/info', '/admin_panel'].some(path => path == this.$route.path);
+		getPath() {			
+			return !['/info', '/admin_panel'].some(path => path === this.$route.path);
 		}		
 	},
 
