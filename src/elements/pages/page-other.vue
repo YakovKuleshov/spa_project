@@ -7,7 +7,19 @@
 			</div>    		
 			<div class="section">
 				<DateMenu />
-			</div>	   						
+			</div>
+			<div class="section">
+				<TestPag />	
+			</div>	  
+			<div class="section">				
+				<!-- <Calendar /> -->
+				<DatePicker
+				style="margin: 0 auto; display: block;" 
+				v-model="date"
+				:value="null"
+  				color="red"  				
+  				is-range/>
+			</div>				
 			<div class="section">
 				<component :is="componentsList[0].instance"></component>				
 			</div>
@@ -105,6 +117,9 @@ import Slider from "../slider/Slider";
 import StarsRating from './other-elements/starsRating';
 import saveScroll from '@/mixins/saveScroll'
 import DateMenu from './other-elements/DateMenu.vue';
+import Calendar from 'v-calendar/lib/components/calendar.umd'
+import DatePicker from 'v-calendar/lib/components/date-picker.umd'
+import TestPag from './other-elements/TestPag.vue';
 // import InfiniteSlider from "../slider/InfiniteSlider";
 // import Header from "../header/Header";
 // import TabMenu from "../tab-menu/TabMenu";
@@ -116,7 +131,10 @@ export default {
 	components: {
 		Slider,
 		StarsRating,
-		DateMenu		
+		DateMenu,
+		Calendar,
+		DatePicker,
+		TestPag
 		// InfiniteSlider,
 		// Header,
 		// TabMenu,
@@ -126,6 +144,7 @@ export default {
 	},
 	data() {
 		return {
+			date: new Date(),
 			scrollFlag: true,
 			counter: -1,       
 			componentsList: [				
@@ -238,6 +257,9 @@ export default {
 			},
 			deep: true,
 		},
+		date(val) {			
+			console.log(val.start.toLocaleString() + ' - ' +  val.end.toLocaleString())
+		}
 	},
 	computed: {},
 	methods: {       		

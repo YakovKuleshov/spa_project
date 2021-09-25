@@ -13,17 +13,3 @@
       margin: 20px 0 0;
    }
 </style>
-
-<script>
-   export default {
-      data() {
-         return {}
-      },
-      computed: {
-        
-      },
-      mounted() {
-         
-      }
-   }
-</script>
