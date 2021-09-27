@@ -1,32 +1,26 @@
 <template>
 	<div class="other" ref="container">
 		<h2 class="page__title">Разное</h2>
-		<div class="other__content">         
+		<div class="other__content">
 			<div class="section">
 				<Slider />
-			</div>    		
+			</div>
+			<div class="section">
+				<RangeDataPicker style="margin: 0 auto;" />
+			</div>
 			<div class="section">
 				<DateMenu />
 			</div>
 			<div class="section">
-				<TestPag />	
-			</div>	  
-			<div class="section">				
-				<!-- <Calendar /> -->
-				<DatePicker
-				style="margin: 0 auto; display: block;" 
-				v-model="date"
-				:value="null"
-  				color="red"  				
-  				is-range/>
-			</div>				
+				<TestPag />
+			</div>
 			<div class="section">
-				<component :is="componentsList[0].instance"></component>				
+				<component :is="componentsList[0].instance"></component>
 			</div>
 			<div class="section shapes">
-				<component :is="componentsList[1].instance"></component>				
+				<component :is="componentsList[1].instance"></component>
 			</div>
-			<div class="section infinite__slider">         
+			<div class="section infinite__slider">
 				<component :is="componentsList[2].instance"></component>
 				<!-- <InfiniteSlider /> -->
 			</div>
@@ -52,12 +46,13 @@
 			<div class="section">
 				<component :is="componentsList[7].instance"></component>
 				<!-- <Volume /> -->
-			</div>         
+			</div>
 			<div class="section">
 				<component :is="componentsList[8].instance"></component>
+				<!-- <Calendar /> -->
 			</div>
 		</div>
-		<StarsRating v-if="!this.$isMobile" />      
+		<StarsRating v-if="!this.$isMobile" />
 		<!-- <div class="button" @click="updateSection">Send</div> -->
 	</div>
 </template>
@@ -98,7 +93,7 @@
 		position: relative;
 		margin-bottom: 100px;
 		z-index: 0;
-	}	
+	}
 
 	.section:last-of-type {
 		margin-bottom: 0;
@@ -109,7 +104,7 @@
 		margin: 0 auto 200px;
 		padding: 0 50px;
 		box-sizing: border-box;
-	}	
+	}
 </style>
 
 <script>
@@ -117,9 +112,8 @@ import Slider from "../slider/Slider";
 import StarsRating from './other-elements/starsRating';
 import saveScroll from '@/mixins/saveScroll'
 import DateMenu from './other-elements/DateMenu.vue';
-import Calendar from 'v-calendar/lib/components/calendar.umd'
-import DatePicker from 'v-calendar/lib/components/date-picker.umd'
 import TestPag from './other-elements/TestPag.vue';
+import RangeDataPicker from './other-elements/RangeDataPicker.vue';
 // import InfiniteSlider from "../slider/InfiniteSlider";
 // import Header from "../header/Header";
 // import TabMenu from "../tab-menu/TabMenu";
@@ -132,9 +126,8 @@ export default {
 		Slider,
 		StarsRating,
 		DateMenu,
-		Calendar,
-		DatePicker,
-		TestPag
+		TestPag,
+		RangeDataPicker
 		// InfiniteSlider,
 		// Header,
 		// TabMenu,
@@ -144,10 +137,10 @@ export default {
 	},
 	data() {
 		return {
-			date: new Date(),
+			date: '2016-10-16',
 			scrollFlag: true,
-			counter: -1,       
-			componentsList: [				
+			counter: -1,
+			componentsList: [
 				{
 					instance: '',
 					component: () => import('./other-elements/Gallery3d'),
@@ -183,8 +176,8 @@ export default {
 				{
 					instance: '',
 					component: () => import('./other-elements/Сalendar')
-				}                     
-			],         
+				}
+			],
 			name: "",
 			selectedItem: {
 				id: null,
@@ -228,25 +221,25 @@ export default {
 				const container = this.$refs.container;
 				if(this.counter < this.componentsList.length - 1) {
 					if(!this.scrollFlag) return false
-					if(window.scrollY >= document.body.scrollHeight - window.innerHeight - 200) {						
+					if(window.scrollY >= document.body.scrollHeight - window.innerHeight - 200) {
 						this.counter++
 						this.componentsList[this.counter].instance = this.componentsList[this.counter].component;
-						this.scrollFlag = false            
+						this.scrollFlag = false
 						if(this.componentsList[this.counter].instance) {
-							this.scrollFlag = true                     
-							if(first_load) {                        
-								this.componentsList[this.counter].instance().then(x => {                        
+							this.scrollFlag = true
+							if(first_load) {
+								this.componentsList[this.counter].instance().then(x => {
 									setTimeout(() => {
 										if(container.getBoundingClientRect().bottom < window.innerHeight) {
 											this.loadContent(first_load);
-										}                           
-									}, 10)                
-								})              
-							}                                
+										}
+									}, 10)
+								})
+							}
 						}
-					}              
+					}
 				}
-			}        
+			}
 		};
 	},
 	mixins: [ saveScroll ],
@@ -257,27 +250,27 @@ export default {
 			},
 			deep: true,
 		},
-		date(val) {			
-			console.log(val.start.toLocaleString() + ' - ' +  val.end.toLocaleString())
+		date(val) {
+			console.log(val)
 		}
 	},
 	computed: {},
-	methods: {       		
+	methods: {
 		updateSection() {
 			// ("https://api.wantenger.com/api/wantenger/work/update");
-			// id: '1572446048261'  			
-			
+			// id: '1572446048261'
+
 			fetch('https://api.wantenger.com/api/wantenger/sections/page/list/?profile=601825', {
 				method: 'GET',
 				headers: new Headers({
 					'Accept': 'application/json',
-					'Content-Type': 'application/json; charset=utf-8',						
-				})										
+					'Content-Type': 'application/json; charset=utf-8',
+				})
 			}).then((response) => {
 				return response.json();
-			}).then(res => {           
+			}).then(res => {
 				let data = res
-				data[0].slides[0].custom_text = '<p><span style="font-size: 36px; color: #270043;"><strong>В Wantenger есть все, что вам нужно</strong></span></p>'               
+				data[0].slides[0].custom_text = '<p><span style="font-size: 36px; color: #270043;"><strong>В Wantenger есть все, что вам нужно</strong></span></p>'
 				console.log(data)
 				// https://api.wantenger.com/api/wantenger/work/update
 				// https://api.wantenger.com/api/wantenger/sections/page/save
@@ -285,33 +278,33 @@ export default {
 				//    method: 'POST',
 				//    headers: new Headers({
 				//       'Accept': 'application/json',
-				
-				//       'Content-Type': 'application/json; charset=utf-8'						
+
+				//       'Content-Type': 'application/json; charset=utf-8'
 				//       // session: '10b19f61-0e1a-4b24-a214-2c43d6231638'
-				//    }),		                  
+				//    }),
 				//    body: JSON.stringify({id: data[0].id, vacancy_id: JSON.stringify(data[0])})
 				// }).then((response) => {
 				//    return response.json();
-				// }).then(res => {                  
+				// }).then(res => {
 				//    console.log(res);
 				// });
-			});			
+			});
 		}
 	},
-		
-	mounted() {			
+
+	mounted() {
 		// console.log(this.productList, this.$store.state.moduleStore)
 		// this.$router.push(this.$route.path + '?page=1')
 		// console.log(this.$route.query)
 		// console.log(this.$options)
-		
+
 		//332260061 - коммент
 		// Золкин Олег: 604825, Дмитрий Золкин: 709461, Золкин Дмитрий Олегович: 739361, Золкин Олег Анатольевич: (739661 740661), Золкина Катя: 785861
-		this.loadContent(true);   
+		this.loadContent(true);
 		window.addEventListener('scroll', e => {
 			this.loadContent();
-		})      
-		
+		})
+
 		fetch("src/elements/pages/other-elements/data.json")
 			.then((response) => {
 				return response.json();
@@ -320,8 +313,8 @@ export default {
 				res.forEach((el) => (el.opened = false));
 
 				this.fixList(this.folders, res);
-				this.selectedItem = { id: null };				
-			});                  
+				this.selectedItem = { id: null };
+			});
 			// https://webdevblog.ru/15-obyazatelnyh-direktiv-vue-kotorye-znachitelno-uvelichat-vashu-proizvoditelnost/
 			// let number = 3000500
 			// console.log(new Intl.NumberFormat().format(number))
